@@ -51,6 +51,7 @@ Route::get('/pushevidence', [PushevidenceController::class, 'index'])->name('pus
 Route::get('/pushevidence2', [PushevidenceController::class, 'index2'])->name('pushevidence2.index');
 // Route::get('/pushevidence', [PushevidenceController::class, 'index'])->name('pushevidence.index');
 Route::post('/pushevidencetouser', [PushevidenceController::class, 'pushevidencetouser'])->name('pushevidencetouser');
+Route::post('/pushevidencetouser2', [PushevidenceController::class, 'pushevidencetouser2'])->name('pushevidencetouser2');
 Route::get('/pin', [PinController::class, 'showForm'])->name('pin.form');
 Route::post('/pin', [PinController::class, 'verifyPin'])->name('pin.verify');
 

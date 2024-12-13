@@ -37,7 +37,7 @@
                     @endforeach
                 </div>
             </div>
-            <form id="uploadForm" action="{{ Route('pushevidencetouser') }}" method="POST"
+            <form id="uploadForm" action="{{ Route('pushevidencetouser2') }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 <div class="mt-3">
