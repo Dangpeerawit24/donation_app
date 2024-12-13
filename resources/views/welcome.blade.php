@@ -7,9 +7,9 @@
     <title>ระบบกองบุญออนไลน์</title>
     <link rel="icon" type="" href="{{ asset('img/AdminLogo.png') }}" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="{{asset('asset/all.min.css')}}">
+    <link rel="stylesheet" href="{{asset('asset/sweetalert2.min.css')}}">
+    <script src="{{asset('asset/sweetalert2@11.js')}}"></script>
     <style>
         .spinner {
             width: 200px;
