@@ -289,26 +289,26 @@
         }
 
         function toggleFaithPrice2() {
-            const priceInput = document.getElementById('price2');
-            const stockInput = document.getElementById('stock2');
-            const faithCheckbox = document.getElementById('faithPrice2');
-            const hiddenPrice = document.getElementById('hiddenPrice2');
-            const hiddenStock = document.getElementById('hiddenStock2');
+            const priceInput2 = document.getElementById('price2');
+            const stockInput2 = document.getElementById('stock2');
+            const faithCheckbox2 = document.getElementById('faithPrice2');
+            const hiddenPrice2 = document.getElementById('hiddenPrice2');
+            const hiddenStock2 = document.getElementById('hiddenStock2');
 
             if (faithCheckbox.checked) {
                 // ตั้งค่า price เป็น 999999 และทำให้แก้ไขไม่ได้
-                priceInput.value = "ตามศรัทธา";
-                stockInput.value = "ตามศรัทธา";
-                priceInput.disabled = true; // ใช้ disabled ได้
-                stockInput.disabled = true; // ใช้ disabled ได้
-                hiddenPrice.value = 1; // อัปเดตค่า hidden input
-                hiddenStock.value = 999999; // อัปเดตค่า hidden input
+                priceInput2.value = "ตามศรัทธา";
+                stockInput2.value = "ตามศรัทธา";
+                priceInput2.disabled = true; // ใช้ disabled ได้
+                stockInput2.disabled = true; // ใช้ disabled ได้
+                hiddenPrice2.value = 1; // อัปเดตค่า hidden input
+                hiddenStock2.value = 999999; // อัปเดตค่า hidden input
             } else {
                 // เปิดให้แก้ไขและเคลียร์ค่า
-                priceInput.value = '';
-                priceInput.disabled = false;
-                stockInput.value = '';
-                stockInput.disabled = false;
+                priceInput2.value = '';
+                priceInput2.disabled = false;
+                stockInput2.value = '';
+                stockInput2.disabled = false;
             }
         }
     </script>
@@ -363,8 +363,9 @@
             // เปิด Modal
             const modal = document.getElementById('editModal');
             modal.classList.remove('hidden');
+            const decodedDescription = decodeURIComponent(description);
 
-            
+
             // เติมข้อมูลในฟอร์ม
             const form = document.getElementById('usersForm2');
             form.action = `/admin/campaigns/update/${id}`; // เปลี่ยน action ของฟอร์ม
@@ -447,10 +448,10 @@
                                         ดูรายการกองบุญ
                                 </a>
                                 <button 
-                                   class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-600"
-                                   onclick="openEditModal('${Results.id}', '${Results.name}', '${Results.description}', '${Results.price}', '${Results.stock}')">
+                                    class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-600"
+                                    onclick="openEditModal('${Results.id}', '${Results.name}', encodeURIComponent('${Results.description}'), '${Results.price}', '${Results.stock}')">
                                     Edit
-                               </button>
+                                </button>
                                <form id="deleteForm-${Results.id}" action="/admin/campaigns/destroy/${Results.id}" method="POST">
                                    <input type="hidden" name="_method" value="DELETE">
                                    <input type="hidden" name="_token" value="${csrfToken}">
