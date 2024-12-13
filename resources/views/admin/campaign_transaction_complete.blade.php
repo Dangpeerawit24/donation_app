@@ -32,8 +32,7 @@
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">สลิป</th>
-                        <th class="px-6 py-3 text-center text-nowrap w-[500px] text-md font-semibold text-white">
-                            ข้อมูลผู้ร่วมบุญ</th>
+                        <th class="px-6 py-3 text-center text-nowrap w-[500px] text-md font-semibold text-white">ข้อมูลผู้ร่วมบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวน</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">QR Url</th>
@@ -306,41 +305,38 @@
         });
 
         document.getElementById('copy-table').addEventListener('click', () => {
-            const table = document.querySelector('table');
-            const rows = Array.from(table.rows);
+    const table = document.querySelector('table');
+    const rows = Array.from(table.rows);
 
-            // ระบุคอลัมน์ที่ต้องการคัดลอก
-            const columnsToCopy = [0, 1, 2, 3, 4, 5, 6]; // ดึงคอลัมน์ตั้งแต่ลำดับที่ 0 ถึง 6
+    const columnsToCopy = [0, 1, 2, 3, 4, 5, 6];
 
-            // Map ข้อมูลแต่ละแถวและดึงเฉพาะคอลัมน์ที่ต้องการ
-            const text = rows.map((row, rowIndex) => {
-                return Array.from(row.cells)
-                    .filter((_, index) => columnsToCopy.includes(index)) // เลือกเฉพาะคอลัมน์ที่ต้องการ
-                    .map(cell => cell.innerText.trim()) // ใช้ trim() เพื่อลบช่องว่างที่ไม่จำเป็น
-                    .join('\t'); // ใช้ tab แยกคอลัมน์
-            }).join('\n'); // ใช้ newline แยกแถว
+    const text = rows.map(row => {
+        return Array.from(row.cells)
+            .filter((_, index) => columnsToCopy.includes(index))
+            .map(cell => cell.textContent.trim().split(',').join('\n')) // แยกข้อมูลในแต่ละเซลล์
+            .join('\t'); // ใช้ tab แยกคอลัมน์
+    }).join('\n'); // ใช้ newline แยกแถว
 
-            // คัดลอกข้อความไปยังคลิปบอร์ด
-            navigator.clipboard.writeText(text).then(() => {
+    navigator.clipboard.writeText(text).then(() => {
 
-        Swal.fire({
-            title: 'สำเร็จ!',
-            text: 'ข้อมูลในตารางถูกคัดลอกไปยังคลิปบอร์ดแล้ว!',
-            icon: 'success',
-            confirmButtonText: 'ตกลง',
-            timer: 3000,
-            timerProgressBar: true
-        });
-        }).catch(err => {
+                Swal.fire({
+                    title: 'สำเร็จ!',
+                    text: 'ข้อมูลในตารางถูกคัดลอกไปยังคลิปบอร์ดแล้ว!',
+                    icon: 'success',
+                    confirmButtonText: 'ตกลง',
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            }).catch(err => {
 
-        Swal.fire({
-            title: 'เกิดข้อผิดพลาด!',
-            text: 'ไม่สามารถคัดลอกข้อมูลในตารางได้!',
-            icon: 'error',
-            confirmButtonText: 'ลองใหม่'
-        });
-        console.error('ไม่สามารถคัดลอกข้อมูลในตาราง:', err);
-        });
+                Swal.fire({
+                    title: 'เกิดข้อผิดพลาด!',
+                    text: 'ไม่สามารถคัดลอกข้อมูลในตารางได้!',
+                    icon: 'error',
+                    confirmButtonText: 'ลองใหม่'
+                });
+                console.error('ไม่สามารถคัดลอกข้อมูลในตาราง:', err);
+            });
         });
     </script>
 @endsection
