@@ -247,10 +247,10 @@
                             <img src="${baseUrl}/${transactions.evidence}" alt="หลักฐานการโอน" width="100px" class="inline-block">
                         </a>
                     </td>
-                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.details ? transactions.details : ''}${transactions.details2 ? transactions.details2 : ''}${transactions.detailsbirthday ? transactions.detailsbirthday : ''}${transactions.detailstext ? transactions.detailstext : ''}</td>
+                   <td class="px-6 py-2 text-wrap  text-center text-md text-gray-700">${transactions.details ? transactions.details : ''}${transactions.details2 ? transactions.details2 : ''}${transactions.detailsbirthday ? transactions.detailsbirthday : ''}${transactions.detailstext ? transactions.detailstext : ''}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.value}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.lineName}</td>
-                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.qr_url}</td>
+                   <td class="px-6 py-2 text-wrap  text-center text-md text-gray-700">${transactions.qr_url}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.form}</td>
                </tr>
            `;
