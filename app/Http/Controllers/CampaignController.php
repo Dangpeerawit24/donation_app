@@ -16,7 +16,9 @@ class CampaignController extends Controller
         $Results = DB::table('campaigns')
             ->join('categories', 'campaigns.categoriesID', '=', 'categories.id')
             ->select('campaigns.*', 'categories.name as category_name')
+            ->orderByDesc('campaigns.created_at')
             ->get();
+
 
         if (Auth::user()->type === 'admin') {
             return view('admin.campaigns', compact('categories', 'Results'));
@@ -132,7 +134,7 @@ class CampaignController extends Controller
             if ($Campaign->campaign_img && file_exists(public_path('img/campaign/' . $Campaign->campaign_img))) {
                 unlink(public_path('img/campaign/' . $Campaign->campaign_img));
             }
-            
+
             // อัปโหลดรูปภาพใหม่
             $fileName = time() . '.' . $request->campaign_img->extension();
             $request->campaign_img->move(public_path('img/campaign/'), $fileName);
