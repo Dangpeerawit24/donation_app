@@ -3,11 +3,11 @@
 <title>ระบบกองบุญออนไลน์</title>
 <link rel="icon" type="" href="{{ asset('img/AdminLogo.png') }}" />
 <script src="{{ asset('style.js') }}"></script>
-<link rel="stylesheet" href="{{asset('all.min.css')}}">
-<link rel="stylesheet" href="{{asset('sweetalert2.min.css')}}">
-<script src="{{asset('sweetalert2@11.js')}}"></script>
-<script src="{{asset('xlsx.full.min.js')}}"></script>
-<script src="{{asset('jquery-3.7.1.js')}}"></script>
+<link rel="stylesheet" href="{{ asset('all.min.css') }}">
+<link rel="stylesheet" href="{{ asset('sweetalert2.min.css') }}">
+<script src="{{ asset('sweetalert2@11.js') }}"></script>
+<script src="{{ asset('xlsx.full.min.js') }}"></script>
+<script src="{{ asset('jquery-3.7.1.js') }}"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     h1.line-clamp-2 {
@@ -19,16 +19,44 @@
         white-space: normal;
     }
 
-    /* ซ่อน scrollbar */
     .scrollbar-hide {
+        /* ซ่อน Scrollbar */
         -ms-overflow-style: none;
-        /* IE and Edge */
+        /* สำหรับ IE และ Edge */
         scrollbar-width: none;
-        /* Firefox */
+        /* สำหรับ Firefox */
+        overflow-y: scroll;
+        /* เพื่อให้สามารถเลื่อนดูเนื้อหาได้ */
     }
 
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
-        /* Chrome, Safari, Opera */
+        /* สำหรับ Chrome, Safari และ Opera */
+    }
+
+    .scrollbar-custom {
+        scrollbar-width: thin;
+        /* สำหรับ Firefox */
+        scrollbar-color: #888 #f5f5f5;
+        /* สีของ Scrollbar */
+    }
+
+    .scrollbar-custom::-webkit-scrollbar {
+        width: 8px;
+        /* ความกว้างของ Scrollbar */
+    }
+
+    .scrollbar-custom::-webkit-scrollbar-track {
+        background: #f5f5f5;
+        /* สีพื้นหลังของ Scrollbar */
+    }
+
+    .scrollbar-custom::-webkit-scrollbar-thumb {
+        background-color: #888;
+        /* สี Scrollbar */
+        border-radius: 8px;
+        /* มุมมน */
+        border: 2px solid #f5f5f5;
+        /* ขอบ Scrollbar */
     }
 </style>

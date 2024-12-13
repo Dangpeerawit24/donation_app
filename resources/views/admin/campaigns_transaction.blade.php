@@ -33,7 +33,7 @@
         </div>
 
         <!-- Table -->
-        <div class="overflow-hidden rounded-lg shadow-lg overflow-x-auto">
+        <div class="overflow-hidden rounded-lg shadow-lg overflow-x-auto scrollbar-custom">
             <table class="min-w-full border-collapse bg-white">
                 <thead>
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
