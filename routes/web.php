@@ -85,6 +85,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/campaigns', [CampaignController::class, 'index'])->name('campaigns');
     Route::post('/admin/campaigns/store', [CampaignController::class, 'store'])->name('campaigns.store');
     Route::put('/admin/campaigns/update/{id}', [CampaignController::class, 'update'])->name('campaigns.update');
+    Route::put('/admin/campaigns/close/{id}', [CampaignController::class, 'Closed'])->name('campaigns.close');
     Route::delete('/admin/campaigns/destroy/{id}', [CampaignController::class, 'destroy'])->name('campaigns.destroy');
     Route::resource('/admin/categoriesdetails', CategoriesdetailsController::class);
     Route::resource('/admin/campaigns_transaction', CampaignTransactionController::class);

@@ -392,6 +392,45 @@
         });
     </script>
     <script>
+        function confirmCloseCampaign(campaignId) {
+            Swal.fire({
+                title: 'ยืนยันการปิดกองบุญ?',
+                text: 'คุณต้องการปิดกองบุญนี้หรือไม่?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ปิดเลย!',
+                cancelButtonText: 'ยกเลิก',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/admin/campaigns/close/${campaignId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
+                            },
+                        })
+                        .then((response) => {
+                            if (response.ok) {
+                                return response.json();
+                            } else {
+                                throw new Error('Failed to close campaign');
+                            }
+                        })
+                        .then((data) => {
+                            Swal.fire('สำเร็จ!', data.message, 'success').then(() => location.reload());
+                        })
+                        .catch((error) => {
+                            Swal.fire('เกิดข้อผิดพลาด!', 'ไม่สามารถปิดกองบุญได้ กรุณาลองอีกครั้ง.', 'error');
+                            console.error(error);
+                        });
+                }
+            });
+        }
+    </script>
+    <script>
         function confirmDelete(Resultsid) {
             Swal.fire({
                 title: 'คุณแน่ใจหรือไม่?',
@@ -447,26 +486,30 @@
                                     class="px-4 py-2 bg-sky-300 text-black rounded hover:bg-sky-600">
                                         ดูรายการกองบุญ
                                 </a>
-                                <button 
-                                    class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-600"
-                                    onclick="openEditModal('${Results.id}', '${Results.name.replace(/'/g, "\\'")}', '${encodeURIComponent(Results.description)}', '${Results.price}', '${Results.stock}')">
-                                    Edit
-                                </button>
-                               <form id="deleteForm-${Results.id}" action="/admin/campaigns/destroy/${Results.id}" method="POST">
-                                   <input type="hidden" name="_method" value="DELETE">
-                                   <input type="hidden" name="_token" value="${csrfToken}">
-                                   <button type="button" onclick="confirmDelete(${Results.id})" 
-                                       class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-900">
-                                       Delete
-                                   </button>
-                               </form>
+                                            ${
+                                    Results.status !== "ปิดกองบุญแล้ว"
+                                        ? `<button 
+                                            class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
+                                            onclick="confirmCloseCampaign(${Results.id})">
+                                            ปิดกองบุญ
+                                        </button>`
+                                        : ''
+                                }
+                               
                            </div>
                        </td>
                    </tr>
                `;
                 tableBody.insertAdjacentHTML('beforeend', row);
+                // <form id="deleteForm-${Results.id}" action="/admin/campaigns/destroy/${Results.id}" method="POST">
+                //                    <input type="hidden" name="_method" value="DELETE">
+                //                    <input type="hidden" name="_token" value="${csrfToken}">
+                //                    <button type="button" onclick="confirmDelete(${Results.id})" 
+                //                        class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-900">
+                //                        Delete
+                //                    </button>
+                //                </form>
             });
-
             // อัปเดต Pagination Info
             const totalPages = Math.ceil(filteredData.length / rowsPerPage);
             pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;

@@ -146,6 +146,18 @@ class CampaignController extends Controller
         return redirect()->back()->with('success', 'แก้ไขข้อมูลกองบุญ เรียบร้อยแล้ว.');
     }
 
+    public function Closed($id)
+    {
+        $campaign = Campaign::findOrFail($id);
+
+        $campaign->update([
+            'status' => "ปิดกองบุญแล้ว"
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'ปิดกองบุญเรียบร้อยแล้ว.']);
+    }
+
+
     public function destroy($id)
     {
         $campaign = Campaign::findOrFail($id);
