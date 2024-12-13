@@ -245,9 +245,13 @@
             tableBody.innerHTML = '';
             currentData.forEach((transactions, index) => {
                 const row = `
-               <tr>
-                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${startIndex + index + 1}</td>
-                   <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
+                <tr>
+                    <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
+                        <a href="https://donation.kuanimtungpichai.com/pushevidence2?transactionID=${transaction.transactionID}">
+                            ${transaction.transactionID}
+                        </a>
+                    </td>
+                    <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
                         <a href="#" data-toggle="modal" data-target="#imageModal"
                          onclick="openImageModal('${baseUrl}/${transactions.evidence}')">
                             <img src="${baseUrl}/${transactions.evidence}" alt="หลักฐานการโอน" width="100px" class="inline-block">
