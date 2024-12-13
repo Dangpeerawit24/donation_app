@@ -149,13 +149,8 @@
             }
         });
     </script>
-<script>
-    function showImage(src) {
-        console.log(src);
-        document.getElementById('modalImage').src = src;
-    }
-</script>
-<div id="imageModal"
+
+    <div id="imageModal"
         class="fixed inset-0 text-center bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
         <div class="bg-white text-center rounded-xl shadow-lg max-w-4xl w-auto">
             <!-- Modal Header -->
@@ -191,6 +186,36 @@
             document.getElementById('loader').classList.add('hidden');
         });
     </script>
+
+    <script>
+        const modal = document.getElementById('modal');
+        const openModal = document.getElementById('openModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeModalFooter = document.getElementById('closeModalFooter');
+
+        // เปิด Modal
+        openModal.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
+
+        // ปิด Modal
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        closeModalFooter.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        // ปิด Modal เมื่อคลิกนอก Modal
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+    </script>
+
+
     <script>
         const transactions = @json($transactions); // ดึงข้อมูลจาก Controller
         const rowsPerPage = 12;
@@ -217,7 +242,8 @@
                <tr>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${startIndex + index + 1}</td>
                    <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
-                        <a href="#" onclick="showImage('${baseUrl}/${transactions.evidence}')">
+                        <a href="#" data-toggle="modal" data-target="#imageModal"
+                         onclick="openImageModal('${baseUrl}/${transactions.evidence}')">
                             <img src="${baseUrl}/${transactions.evidence}" alt="หลักฐานการโอน" width="100px" class="inline-block">
                         </a>
                     </td>
