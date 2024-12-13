@@ -82,7 +82,7 @@
                                 <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">คงเหลือร่วมบุญได้</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="divide-y divide-gray-200">
 
                         </tbody>
                     </table>
@@ -107,7 +107,7 @@
                                 <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ยอดรวม</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="divide-y divide-gray-200">
                                 
                             </tbody>
                         </table>
