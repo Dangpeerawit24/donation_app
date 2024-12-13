@@ -247,8 +247,8 @@
                 const row = `
                 <tr>
                     <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
-                        <a href="https://donation.kuanimtungpichai.com/pushevidence2?transactionID=${transaction.transactionID}">
-                            ${transaction.transactionID}
+                        <a href="https://donation.kuanimtungpichai.com/pushevidence2?transactionID=${transactions.transactionID}">
+                            ${transactions.transactionID}
                         </a>
                     </td>
                     <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
