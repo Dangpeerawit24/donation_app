@@ -371,7 +371,7 @@
             form.action = `/admin/campaigns/update/${id}`; // เปลี่ยน action ของฟอร์ม
 
             document.getElementById('name2').value = name;
-            document.getElementById('description3').value = description;
+            document.getElementById('description3').value = decodedDescription;
             document.getElementById('price2').value = price;
             document.getElementById('stock2').value = stock;
 
