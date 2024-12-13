@@ -71,8 +71,8 @@
     <div
         class="row h-20 flex fixed inset-x-0 bottom-0 px-20 rounded-t-xl  bg-red-950 items-center justify-center text-white">
         <div class=" items-center justify-items-center text-center">
-            <a href="/"><i class="fa-solid fa-house fa-xl"></i></a>
-            <a href="/">
+            <a href="/line"><i class="fa-solid fa-house fa-xl"></i></a>
+            <a href="/line">
                 <h3 class="mt-1">หน้าหลัก</h3>
             </a>
         </div>
