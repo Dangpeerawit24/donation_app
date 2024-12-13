@@ -160,7 +160,7 @@
             </div>
             <!-- Modal Body -->
             <div class="px-6 py-4 text-center">
-                <img id="modalImage" src="" class=" max-w-80 md:max-w-xl h-auto rounded-lg" alt="หลักฐานการโอน">
+                <img id="modalImage" src="" class=" max-w-80 md:max-w-md h-auto rounded-lg" alt="หลักฐานการโอน">
             </div>
         </div>
     </div>
@@ -247,7 +247,12 @@
                             <img src="${baseUrl}/${transactions.evidence}" alt="หลักฐานการโอน" width="100px" class="inline-block">
                         </a>
                     </td>
-                   <td class="px-6 py-2 text-wrap  text-center text-md text-gray-700">${transactions.details ? transactions.details : ''}${transactions.details2 ? transactions.details2 : ''}${transactions.detailsbirthday ? transactions.detailsbirthday : ''}${transactions.detailstext ? transactions.detailstext : ''}</td>
+                   <td class="px-6 py-2 text-wrap text-center w-50 text-md text-gray-700">
+                        ${transactions.details ? transactions.details.split(',').join('<br>') : ''}
+                        ${transactions.details2 ? '<br>' + transactions.details2.split(',').join('<br>') : ''}
+                        ${transactions.detailsbirthday ? '<br>' + transactions.detailsbirthday.split(',').join('<br>') : ''}
+                        ${transactions.detailstext ? '<br>' + transactions.detailstext.split(',').join('<br>') : ''}
+                    </td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.value}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.lineName}</td>
                    <td class="px-6 py-2 text-wrap  text-center text-md text-gray-700">${transactions.qr_url}</td>
