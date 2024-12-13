@@ -11,7 +11,6 @@ use App\Http\Controllers\CategoriesdetailsController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CampaignTransactionController;
 use App\Http\Controllers\CampaignTransactionComplete;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\LineLoginController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\CampaignstatusController;
@@ -34,13 +33,11 @@ use App\Http\Controllers\PushevidenceController;
 Route::post('/webhook', [WebhookController::class, 'handle']);
 Route::get('/line/login', [LineLoginController::class, 'redirectToLine'])->name('line.login');
 Route::get('/line/callback', [LineLoginController::class, 'handleLineCallback'])->name('line.callback');
-Route::get('/', [LineLoginController::class, 'showDashboard'])->name('welcome');
+Route::get('/line', [LineLoginController::class, 'showDashboard'])->name('welcome');
 Route::get('/campaignstatus', [CampaignstatusController::class, 'campaignstatus'])->name('campaignstatus');
 Route::get('/campaignstatusimg', [CampaignstatusImgController::class, 'campaignstatusimg'])->name('campaignstatusimg');
 // Line Form
-Route::resource('/formcampaigh', FormcampaignController::class)->names([
-    'store' => 'formcampaigh.store',
-]);
+Route::resource('/formcampaigh', FormcampaignController::class);
 Route::get('/fetch_formcampaigh_details', [FormcampaignController::class, 'fetchformcampaighDetails'])->name('fetch.formcampaigh.details');
 Route::resource('/formcampaighbirthday', FormcampaighbirthdayController::class);
 Route::get('/fetch_formcampaighbirthday_details', [FormcampaighbirthdayController::class, 'fetchformcampaighbirthdayDetails'])->name('fetch.formcampaighbirthday.details');
@@ -57,7 +54,7 @@ Route::post('/pushevidencetouser', [PushevidenceController::class, 'pushevidence
 Route::get('/pin', [PinController::class, 'showForm'])->name('pin.form');
 Route::post('/pin', [PinController::class, 'verifyPin'])->name('pin.verify');
 
-Route::get('/login', function () {
+Route::get('/', function () {
     return view('auth.login');
 });
 
@@ -68,7 +65,7 @@ All Normal Users Routes List
 --------------------------------------------*/
 Route::middleware(['auth', 'user-access:user'])->group(function () {
   
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'index'])->name('user.home');
 });
   
 /*------------------------------------------

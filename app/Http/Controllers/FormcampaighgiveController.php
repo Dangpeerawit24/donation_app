@@ -42,7 +42,7 @@ class FormcampaighgiveController extends Controller
             'lineName' => 'required|string',
             'name' => 'required|string',
             'transactionID' => 'required|string',
-            'evidence' => 'required|file|mimes:jpeg,png,jpg|max:2048',
+            'evidence' => 'required|file|mimes:jpeg,png,jpg|max:5048',
         ]);
 
         // อัปโหลดไฟล์หลักฐานการโอนเงิน

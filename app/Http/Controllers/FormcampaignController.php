@@ -68,7 +68,7 @@ class FormcampaignController extends Controller
 
     public function store(Request $request)
     {
-        Log::info('Form data:', $request->all());
+        // Log::info('Form data:', $request->all());
 
         // Validate ข้อมูลที่ได้รับจากฟอร์ม
         $validated = $request->validate([
@@ -78,7 +78,7 @@ class FormcampaignController extends Controller
             'lineName' => 'required|string',
             'value' => 'required|integer|min:1',
             'transactionID' => 'required|string',
-            'evidence' => 'required|file|mimes:jpeg,png,jpg|max:2048',
+            'evidence' => 'required|file|mimes:jpeg,png,jpg|max:5048',
         ]);
         
         // อัปโหลดไฟล์หลักฐานการโอนเงิน
