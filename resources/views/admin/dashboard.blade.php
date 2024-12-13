@@ -158,7 +158,7 @@
                         data.forEach(campaign => {
                             tableBody += `
                         <tr class="h-16">
-                            <td class="px-6 py-2 text-wrap text-xl text-start text-md text-blue-700">
+                            <td class="px-6 py-2 text-nowrap md:text-wrap text-xl text-start text-md text-blue-700">
                                 <a href="/admin/campaigns_transaction?campaign_id=${campaign.id}&name=${campaign.name}">
                                     ${campaign.name}
                                 </a>
