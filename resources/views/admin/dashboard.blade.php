@@ -76,7 +76,7 @@
                     <table class="min-w-full border-collapse bg-white"  id="campaignsTable">
                         <thead>
                             <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
-                                <th class="px-6 py-3 text-center text-wrap text-md font-semibold text-white">ชื่อกองบุญ</th>
+                                <th class="px-6 py-3 text-center text-nowrap md:text-wrap text-md font-semibold text-white">ชื่อกองบุญ</th>
                                 <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวนที่เปิดรับ</th>
                                 <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ร่วมบุญแล้ว</th>
                                 <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">คงเหลือร่วมบุญได้</th>

@@ -157,6 +157,60 @@
         });
     </script>
 
+    {{-- Modal รายชื่อ --}}
+    <div id="detailsModal" class="hidden px-2 fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+            <h2 class="text-xl font-semibold mb-4">รายละเอียดข้อมูลผู้ร่วมบุญ</h2>
+            <div id="modalContent" class="mb-4">
+                <!-- แสดงข้อมูลจากแถว -->
+            </div>
+            <div class="flex justify-end gap-3">
+                <a id="transactionLink" href="#" target="_blank"
+                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    ส่งภาพกองบุญ
+                </a>
+                <button class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" onclick="closeModaldetails()">
+                    ปิด
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function openDetailsModal(transaction) {
+            // ดึง Modal และ Content
+            const modal = document.getElementById('detailsModal');
+            const modalContent = document.getElementById('modalContent');
+            const transactionLink = document.getElementById('transactionLink');
+
+            // แสดงข้อมูลใน modal
+            modalContent.innerHTML = `
+        <ul class="list-decimal text-left ml-4 text-xl">
+            ${transaction.details ? transaction.details.split(',').map(detail => `<li>${detail}</li>`).join('') : ''}
+            ${transaction.details2 ? transaction.details2.split(',').map(detail => `<li>${detail}</li>`).join('') : ''}
+            ${transaction.detailsbirthday ? transaction.detailsbirthday.split(',').map(detail => `<li>${detail}</li>`).join('') : ''}
+            ${transaction.detailstext ? transaction.detailstext.split(',').map(detail => `<li>${detail}</li>`).join('') : ''}
+        </ul>
+    `;
+
+            // ตั้งค่า HREF สำหรับปุ่ม
+            transactionLink.href =
+                `https://donation.kuanimtungpichai.com/pushevidence2?transactionID=${transaction.transactionID}`;
+
+            // แสดง Modal
+            modal.classList.remove('hidden');
+            document.getElementById('loader').classList.add('hidden');
+
+        }
+
+        function closeModaldetails() {
+            const modal = document.getElementById('detailsModal');
+            modal.classList.add('hidden');
+            document.getElementById('loader').classList.add('hidden');
+
+        }
+    </script>
+
+
     <div id="imageModal"
         class="fixed inset-0 text-center bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
         <div class="bg-white text-center rounded-xl shadow-lg max-w-4xl w-auto">
@@ -246,24 +300,17 @@
             currentData.forEach((transactions, index) => {
                 const row = `
                 <tr>
-                    <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
-                        <a href="https://donation.kuanimtungpichai.com/pushevidence2?transactionID=${transactions.transactionID}">
-                            ${transactions.transactionID}
-                        </a>
-                    </td>
+                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${startIndex + index + 1}</td>
                     <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
                         <a href="#" data-toggle="modal" data-target="#imageModal"
                          onclick="openImageModal('${baseUrl}/${transactions.evidence}')">
                             <img src="${baseUrl}/${transactions.evidence}" alt="หลักฐานการโอน" width="100px" class="inline-block">
                         </a>
                     </td>
-                   <td class="px-6 py-2 text-wrap text-center text-md text-gray-700 w-[500px]">
-                        <ul class="list-decimal text-left ml-4">
-                            ${transactions.details ? transactions.details.split(',').map((detail, index) => `<li>${detail}</li>`).join('') : ''}
-                            ${transactions.details2 ? transactions.details2.split(',').map((detail, index) => `<li>${detail}</li>`).join('') : ''}
-                            ${transactions.detailsbirthday ? transactions.detailsbirthday.split(',').map((detail, index) => `<li>${detail}</li>`).join('') : ''}
-                            ${transactions.detailstext ? transactions.detailstext.split(',').map((detail, index) => `<li>${detail}</li>`).join('') : ''}
-                        </ul>
+                   <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
+                        <a href="#" onclick="openDetailsModal(${JSON.stringify(transactions).replace(/"/g, '&quot;')})">
+                            ${transactions.details || transactions.details2 || transactions.detailsbirthday || transactions.detailstext || 'ไม่มีข้อมูล'}
+                        </a>
                     </td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.value}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.lineName}</td>
