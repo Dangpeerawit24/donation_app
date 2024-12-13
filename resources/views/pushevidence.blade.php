@@ -45,8 +45,8 @@
                 </div>
                 <input type="hidden" id="transactionID" name="transactionID" value="{{ $transactionID }}">
                 @foreach ($names as $name)
-                <input type="hidden" name="userid" value="{{ $name->lineId }}">
-                <input type="hidden" id="campaignname" name="campaignname" value="{{ $name->campaignsname }}">
+                    <input type="hidden" name="userid" value="{{ $name->lineId }}">
+                    <input type="hidden" id="campaignname" name="campaignname" value="{{ $name->campaignsname }}">
                 @endforeach
                 <div class="d-flex justify-content-center align-items-center mt-3">
                     <button class="btn btn-success" type="button" onclick="submitForm()">ยืนยันหลักฐาน</button>
@@ -88,6 +88,8 @@
                 title: "{{ session('success') }}",
                 timer: 5000,
                 buttons: "ตกลง"
+            }).then(() => {
+                window.close(); // คำสั่งสำหรับปิดหน้าต่างเว็บ
             });
         </script>
     @endif
