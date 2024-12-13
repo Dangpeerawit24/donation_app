@@ -3,7 +3,7 @@
     $manu = 'campaigns';
 @endphp
 @section('content')
-    <div class="flex flex-col md:flex-row">
+    <div class="flex flex-col">
         <h3 class="text-3xl m-0 md:mb-4">รายการผู้ร่วมบุญกองบุญ #{{ $name }}</h3>
         <div class="flex flex-row mb-0 md:mb-5 gap-2 ml-3">
             <a href="{{ url('admin/campaigns_transaction?campaign_id=' . $campaignId . '&name=' . $name) }}"
