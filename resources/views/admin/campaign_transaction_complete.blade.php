@@ -32,7 +32,8 @@
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">สลิป</th>
-                        <th class="px-6 py-3 text-center text-nowrap w-[500px] text-md font-semibold text-white">ข้อมูลผู้ร่วมบุญ</th>
+                        <th class="px-6 py-3 text-center text-nowrap w-[500px] text-md font-semibold text-white">
+                            ข้อมูลผู้ร่วมบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวน</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">QR Url</th>
@@ -305,19 +306,25 @@
         });
 
         document.getElementById('copy-table').addEventListener('click', () => {
-    const table = document.querySelector('table');
-    const rows = Array.from(table.rows);
+            const table = document.querySelector('table');
+            const rows = Array.from(table.rows);
 
-    const columnsToCopy = [0, 1, 2, 3, 4, 5, 6];
+            // ระบุคอลัมน์ที่ต้องการคัดลอก
+            const columnsToCopy = [3]; // เปลี่ยนเป็นดัชนีคอลัมน์ที่ต้องการรวมข้อความ เช่น คอลัมน์ที่มีลำดับและชื่อ
 
-    const text = rows.map(row => {
-        return Array.from(row.cells)
-            .filter((_, index) => columnsToCopy.includes(index))
-            .map(cell => cell.textContent.trim().split(',').join('\n')) // แยกข้อมูลในแต่ละเซลล์
-            .join('\t'); // ใช้ tab แยกคอลัมน์
-    }).join('\n'); // ใช้ newline แยกแถว
+            // สร้างข้อความที่รวมข้อมูลจากแถวทั้งหมด
+            const text = rows.map((row, rowIndex) => {
+                return Array.from(row.cells)
+                    .filter((_, index) => columnsToCopy.includes(index)) // เลือกเฉพาะคอลัมน์ที่ต้องการ
+                    .map(cell => {
+                        // ลบลำดับ (ตัวเลขนำหน้า) ออกจากข้อความ
+                        return cell.innerText.replace(/^\d+\.\s*/, '').trim(); // ใช้ Regex ลบ "เลข. "
+                    })
+                    .join(','); // รวมข้อความด้วย ","
+            }).join('\n'); // ใช้ newline แยกแถว
 
-    navigator.clipboard.writeText(text).then(() => {
+            // คัดลอกข้อความไปยังคลิปบอร์ด
+            navigator.clipboard.writeText(text).then(() => {
 
                 Swal.fire({
                     title: 'สำเร็จ!',
