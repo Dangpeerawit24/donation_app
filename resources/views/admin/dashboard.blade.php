@@ -76,7 +76,7 @@
                     <table class="min-w-full border-collapse bg-white"  id="campaignsTable">
                         <thead>
                             <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
-                                <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อกองบุญ</th>
+                                <th class="px-6 py-3 text-center text-wrap text-md font-semibold text-white">ชื่อกองบุญ</th>
                                 <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวนที่เปิดรับ</th>
                                 <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ร่วมบุญแล้ว</th>
                                 <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">คงเหลือร่วมบุญได้</th>
@@ -158,7 +158,7 @@
                         data.forEach(campaign => {
                             tableBody += `
                         <tr class="h-16">
-                            <td class="px-6 py-2 text-nowrap text-xl text-start text-md text-blue-700">
+                            <td class="px-6 py-2 text-wrap text-xl text-start text-md text-blue-700">
                                 <a href="/admin/campaigns_transaction?campaign_id=${campaign.id}&name=${campaign.name}">
                                     ${campaign.name}
                                 </a>
