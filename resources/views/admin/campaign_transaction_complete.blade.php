@@ -32,7 +32,7 @@
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">สลิป</th>
-                        <th class="px-6 py-3 text-center text-nowrap w-96 text-md font-semibold text-white">ข้อมูลผู้ร่วมบุญ</th>
+                        <th class="px-6 py-3 text-center text-nowrap w-[500px] text-md font-semibold text-white">ข้อมูลผู้ร่วมบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวน</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">QR Url</th>
@@ -247,7 +247,7 @@
                             <img src="${baseUrl}/${transactions.evidence}" alt="หลักฐานการโอน" width="100px" class="inline-block">
                         </a>
                     </td>
-                   <td class="px-6 py-2 text-wrap text-center text-md text-gray-700 h-96">
+                   <td class="px-6 py-2 text-wrap text-center text-md text-gray-700 w-[500px]">
                         <ul class="list-decimal text-left ml-4">
                             ${transactions.details ? transactions.details.split(',').map((detail, index) => `<li>${detail}</li>`).join('') : ''}
                             ${transactions.details2 ? transactions.details2.split(',').map((detail, index) => `<li>${detail}</li>`).join('') : ''}
