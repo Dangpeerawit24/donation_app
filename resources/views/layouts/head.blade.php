@@ -37,7 +37,7 @@
     .scrollbar-custom {
         scrollbar-width: thin;
         /* สำหรับ Firefox */
-        scrollbar-color: #888 #f5f5f5;
+        scrollbar-color: #b7b7b7 #f5f5f5;
         /* สีของ Scrollbar */
     }
 
@@ -52,7 +52,7 @@
     }
 
     .scrollbar-custom::-webkit-scrollbar-thumb {
-        background-color: #888;
+        background-color: #cfcfcf;
         /* สี Scrollbar */
         border-radius: 8px;
         /* มุมมน */

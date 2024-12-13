@@ -32,11 +32,11 @@
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">สลิป</th>
-                        <th class="px-6 py-3 text-center text-nowrap w-[500px] text-md font-semibold text-white">
+                        <th class="px-6 py-3 text-center text-wrap w-[500px] text-md font-semibold text-white">
                             ข้อมูลผู้ร่วมบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวน</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
-                        <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">QR Url</th>
+                        <th class="px-6 py-3 text-center text-wrap text-md font-semibold text-white">QR Url</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ที่มา</th>
                     </tr>
                 </thead>

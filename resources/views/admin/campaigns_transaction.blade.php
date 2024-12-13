@@ -42,7 +42,7 @@
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ข้อมูลผู้ร่วมบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวน</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
-                        <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">QR Url</th>
+                        <th class="px-6 py-3 text-center text-wrap text-md font-semibold text-white">QR Url</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ที่มา</th>
                     </tr>
                 </thead>
@@ -267,7 +267,7 @@
                     </td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.value}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.lineName}</td>
-                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.qr_url}</td>
+                   <td class="px-6 py-2 text-wrap  text-center text-md text-gray-700">${transactions.qr_url}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.form}</td>
                </tr>
            `;
