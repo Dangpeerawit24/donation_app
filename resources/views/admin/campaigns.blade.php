@@ -449,7 +449,7 @@
                                 </a>
                                 <button 
                                     class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-600"
-                                    onclick="openEditModal('${Results.id}', '${Results.name}', encodeURIComponent('${Results.description}'), '${Results.price}', '${Results.stock}')">
+                                    onclick="openEditModal('${Results.id}', '${Results.name.replace(/'/g, "\\'")}', '${encodeURIComponent(Results.description)}', '${Results.price}', '${Results.stock}')">
                                     Edit
                                 </button>
                                <form id="deleteForm-${Results.id}" action="/admin/campaigns/destroy/${Results.id}" method="POST">
