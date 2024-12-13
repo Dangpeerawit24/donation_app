@@ -303,12 +303,38 @@
         renderTable();
 
         document.getElementById('export-excel').addEventListener('click', () => {
-            const table = document.querySelector('table'); // ดึงข้อมูลจากตาราง
-            const workbook = XLSX.utils.table_to_book(table, {
-                sheet: "Sheet 1"
-            }); // แปลงตารางเป็น workbook
-            XLSX.writeFile(workbook, "table_data.xlsx"); // ดาวน์โหลดไฟล์ Excel ชื่อ "table_data.xlsx"
+            const table = document.querySelector('table');
+            const rows = Array.from(table.rows);
+
+            const columnsToCopy = [0, 1, 2, 3, 4, 5, 6]; // ระบุคอลัมน์ที่ต้องการ
+            const mergeColumnIndex = 2; // คอลัมน์ "ข้อมูลผู้ร่วมบุญ" ที่ต้องรวมข้อความ
+
+            // สร้างข้อมูลใหม่จากตาราง
+            const data = rows.map((row, rowIndex) => {
+                return Array.from(row.cells)
+                    .filter((_, index) => columnsToCopy.includes(index))
+                    .map((cell, index) => {
+                        if (index === mergeColumnIndex) {
+                            // แปลงข้อมูลในคอลัมน์ "ข้อมูลผู้ร่วมบุญ"
+                            return cell.innerText
+                                .split('\n') // แยกข้อความเป็นบรรทัด
+                                .map(line => line.replace(/^\d+\.\s*/, '').trim()) // ลบลำดับ เช่น "1. "
+                                .join(', '); // รวมข้อความคั่นด้วย ,
+                        } else {
+                            return cell.innerText.trim(); // คัดลอกคอลัมน์อื่นตามปกติ
+                        }
+                    });
+            });
+
+            // สร้างเวิร์กบุ๊ก Excel
+            const worksheet = XLSX.utils.aoa_to_sheet(data); // แปลงข้อมูลเป็น worksheet
+            const workbook = XLSX.utils.book_new(); // สร้าง workbook ใหม่
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet 1"); // เพิ่ม worksheet เข้า workbook
+
+            // ดาวน์โหลดไฟล์ Excel
+            XLSX.writeFile(workbook, "table_data.xlsx");
         });
+
 
         document.getElementById('copy-table').addEventListener('click', () => {
             const table = document.querySelector('table');
