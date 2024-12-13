@@ -12,7 +12,7 @@ class PushevidenceController extends Controller
     {
         // รับค่าจาก Query String
         $transactionID = $request->query('transactionID');
-
+        
         if (!$transactionID) {
             return redirect()->back()->with('error', 'ข้อมูลไม่ครบถ้วน');
         }
@@ -41,7 +41,7 @@ class PushevidenceController extends Controller
     {
         // รับค่าจาก Query String
         $transactionID = $request->query('transactionID');
-
+        
         if (!$transactionID) {
             return redirect()->back()->with('error', 'ข้อมูลไม่ครบถ้วน');
         }
@@ -88,8 +88,8 @@ class PushevidenceController extends Controller
         if ($updated) {
             // ข้อความที่ต้องการส่ง
             $message =  "ภาพจากกองบุญ\n" .
-                "✨ $campaignname\n" .
-                "ขอนุโมทนาครับ🙏";
+                        "✨ $campaignname\n" .
+                        "ขอนุโมทนาครับ🙏";
 
             // ส่งข้อความและรูปภาพ
             $this->sendPushMessage($validated['userid'], $message, $imageUrl);
@@ -99,59 +99,6 @@ class PushevidenceController extends Controller
 
         return redirect()->back()->with('error', 'ไม่พบข้อมูลที่ต้องการอัปเดต');
     }
-
-    public function pushevidencetouser2(Request $request)
-    {
-        // ตรวจสอบความถูกต้องของข้อมูล
-        $validated = $request->validate([
-            'transactionID' => 'required|string',
-            'userid' => 'required|string',
-            'campaignname' => 'required|string',
-            'campaignsid' => 'required|integer', // เพิ่มการตรวจสอบ campaignsid
-            'url_img' => 'required|file|mimes:jpeg,png,jpg|max:7048',
-        ]);
-
-        // จัดการไฟล์อัปโหลด
-        $fileName = null;
-        if ($request->hasFile('url_img')) {
-            $fileName = time() . '.' . $request->url_img->extension(); // ตั้งชื่อไฟล์ใหม่
-            $request->url_img->move(public_path('img/pushimg/'), $fileName); // ย้ายไฟล์ไปยังโฟลเดอร์
-        }
-
-        // URL ของรูปภาพที่อัปโหลด
-        $imageUrl = asset('img/pushimg/' . $fileName);
-        $campaignname = $validated['campaignname'];
-
-        // อัปเดตข้อมูลในตาราง campaign_transactions
-        $updated = DB::table('campaign_transactions')
-            ->where('transactionID', $validated['transactionID'])
-            ->update([
-                'status' => "ส่งภาพกองบุญแล้ว",
-                'url_img' => $imageUrl,
-                'updated_at' => now(),
-            ]);
-
-        if ($updated) {
-            // ข้อความที่ต้องการส่ง
-            $message =  "ภาพจากกองบุญ\n" .
-                "✨ $campaignname\n" .
-                "ขอนุโมทนาครับ🙏";
-
-            // ส่งข้อความและรูปภาพ
-            $this->sendPushMessage($validated['userid'], $message, $imageUrl);
-
-            // Redirect ไปยังหน้า campaigns_transaction
-            $type = auth()->user()->type; // ดึงประเภทของผู้ใช้
-            $campaignId = $request->campaignsid;
-            $campaignName = $request->campaignname;
-
-            return redirect("/$type/campaigns_transaction?campaign_id=$campaignId&name=$campaignName")
-                ->with('success', 'ส่งภาพกองบุญเรียบร้อยแล้ว!');
-        }
-
-        return redirect()->back()->with('error', 'ไม่พบข้อมูลที่ต้องการอัปเดต');
-    }
-
 
     // ฟังก์ชันสำหรับส่ง Push Message
     private function sendPushMessage($userId, $message, $imageUrl)
