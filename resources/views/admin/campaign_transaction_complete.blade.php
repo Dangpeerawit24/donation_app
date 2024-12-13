@@ -149,7 +149,48 @@
             }
         });
     </script>
+<script>
+    function showImage(src) {
+        console.log(src);
+        document.getElementById('modalImage').src = src;
+    }
+</script>
+<div id="imageModal"
+        class="fixed inset-0 text-center bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white text-center rounded-xl shadow-lg max-w-4xl w-auto">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 bg-blue-500 text-white flex justify-between items-center">
+                <h5 class="text-lg font-semibold">หลักฐานการโอน</h5>
+                <button id="closeImageModal" class="text-white hover:text-gray-300 text-2xl">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="px-6 py-4 text-center">
+                <img id="modalImage" src="" class=" max-w-80 md:max-w-xl h-auto rounded-lg" alt="หลักฐานการโอน">
+            </div>
+        </div>
+    </div>
+    <script>
+        // เปิด Modal
+        function openImageModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageSrc;
+            modal.classList.remove('hidden');
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                    document.getElementById('loader').classList.add('hidden');
+                }
+            });
+        }
 
+        // ปิด Modal
+        document.getElementById('closeImageModal').addEventListener('click', () => {
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('hidden');
+            document.getElementById('loader').classList.add('hidden');
+        });
+    </script>
     <script>
         const transactions = @json($transactions); // ดึงข้อมูลจาก Controller
         const rowsPerPage = 12;
@@ -168,7 +209,7 @@
             const startIndex = (currentPage - 1) * rowsPerPage;
             const endIndex = startIndex + rowsPerPage;
             const currentData = filteredData.slice(startIndex, endIndex);
-            const baseUrl = "{{ asset('img/campaign/') }}";
+            const baseUrl = "{{ asset('img/evidence/') }}";
 
             tableBody.innerHTML = '';
             currentData.forEach((transactions, index) => {
@@ -176,8 +217,10 @@
                <tr>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${startIndex + index + 1}</td>
                    <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
-                            <img src="${baseUrl}/${transactions.evidence}" alt="Campaign Image" width="100px" height="100px">
-                        </td>
+                        <a href="#" onclick="showImage('${baseUrl}/${transactions.evidence}')">
+                            <img src="${baseUrl}/${transactions.evidence}" alt="หลักฐานการโอน" width="100px" class="inline-block">
+                        </a>
+                    </td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.details ? transactions.details : ''}${transactions.details2 ? transactions.details2 : ''}${transactions.detailsbirthday ? transactions.detailsbirthday : ''}${transactions.detailstext ? transactions.detailstext : ''}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.value}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.lineName}</td>
