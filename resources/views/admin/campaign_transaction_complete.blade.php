@@ -310,7 +310,7 @@
 
     // ระบุคอลัมน์ที่ต้องการ
     const columnsToCopy = [0, 1, 2, 3, 4, 5]; // เปลี่ยนตามคอลัมน์ใน HTML
-    const mergeColumnIndex = 1; // คอลัมน์ "ข้อมูลผู้ร่วมบุญ" ที่ต้องรวมข้อความ
+    const mergeColumnIndex = 2; // คอลัมน์ "ข้อมูลผู้ร่วมบุญ" ที่ต้องรวมข้อความ
 
     // สร้างข้อมูล
     const text = rows.map((row, rowIndex) => {
