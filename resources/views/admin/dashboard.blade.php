@@ -103,7 +103,7 @@
                         <table class="min-w-full border-collapse bg-white" id="usersTable">
                             <thead>
                                 <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
-                                    <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
+                                    <th class="px-6 py-3 text-center text-wrap text-md font-semibold text-white">ชื่อไลน์</th>
                                 <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ยอดรวม</th>
                                 </tr>
                             </thead>
@@ -196,7 +196,7 @@
                         data.forEach(user => {
                             tableBody += `
                     <tr>
-                        <td class="px-6 py-2 text-nowrap  text-start text-md text-gray-700 line-clamp-2">${user.name}</td>
+                        <td class="px-6 py-2 text-wrap  text-start text-md text-gray-700 line-clamp-2">${user.name}</td>
                         <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${user.total_amount.toLocaleString()}</td>
                     </tr>
                 `;
