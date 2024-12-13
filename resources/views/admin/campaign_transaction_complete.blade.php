@@ -218,7 +218,7 @@
 
     <script>
         const transactions = @json($transactions); // ดึงข้อมูลจาก Controller
-        const rowsPerPage = 12;
+        const rowsPerPage = 300;
         let currentPage = 1;
         let filteredData = transactions;
 
