@@ -24,7 +24,7 @@ class LineLoginController extends Controller
     {
         // ตรวจสอบว่ามี 'code' หรือไม่
         if (!$request->has('code')) {
-            return redirect('/')->with('error', 'LINE login failed');
+            return redirect('/line')->with('error', 'LINE login failed');
         }
 
         $code = $request->get('code');
@@ -42,7 +42,7 @@ class LineLoginController extends Controller
         ]);
 
         if ($response->failed()) {
-            return redirect('/')->with('error', 'Failed to fetch LINE access token');
+            return redirect('/line')->with('error', 'Failed to fetch LINE access token');
         }
 
         $data = $response->json();
@@ -52,7 +52,7 @@ class LineLoginController extends Controller
         $profileResponse = Http::withToken($access_token)->get('https://api.line.me/v2/profile');
 
         if ($profileResponse->failed()) {
-            return redirect('/')->with('error', 'Failed to fetch LINE profile');
+            return redirect('/line')->with('error', 'Failed to fetch LINE profile');
         }
 
         $profile = $profileResponse->json();

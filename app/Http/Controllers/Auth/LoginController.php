@@ -46,42 +46,28 @@ class LoginController extends Controller
      *
      * @return RedirectResponse
      */
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
         $input = $request->all();
 
-        // ตรวจสอบ Validation
         $this->validate($request, [
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
-        // หากผู้ใช้งานล็อกอินอยู่แล้ว
-        if (Auth::check() && Auth::user()->type) {
-            return redirect()->route(Auth::user()->type . '.dashboard'); // เรียกใช้ Route ตาม type
-        }
-
-        // ตรวจสอบข้อมูลการ Login
         if (Auth::attempt(['email' => $input['email'], 'password' => $input['password']])) {
-            // กำหนดเส้นทางตามประเภทผู้ใช้งาน
             if (Auth::user()->type == 'admin') {
                 return redirect()->route('admin.dashboard');
-            } elseif (Auth::user()->type == 'manager') {
+            } else if (Auth::user()->type == 'manager') {
                 return redirect()->route('manager.dashboard');
-            } elseif (Auth::user()->type == 'user') {
-                return redirect()->route('user.dashboard');
             } else {
-                // หากไม่มีประเภทผู้ใช้ที่รองรับ
-                Auth::logout();
-                return redirect()->route('login')->with('error', 'Unauthorized access.');
+                return redirect()->route('home');
             }
         } else {
-            // ข้อมูลการ Login ไม่ถูกต้อง
             return redirect()->route('login')
-                ->with('error', 'Email or Password is incorrect.');
+                ->with('error', 'Email-Address And Password Are Wrong.');
         }
     }
-
 
     protected function redirectTo()
     {
@@ -91,4 +77,5 @@ class LoginController extends Controller
 
         return '/login'; // กรณีไม่มี type หรือไม่ได้ Login
     }
+
 }

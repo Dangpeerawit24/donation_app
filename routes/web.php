@@ -33,7 +33,7 @@ use App\Http\Controllers\PushevidenceController;
 Route::post('/webhook', [WebhookController::class, 'handle']);
 Route::get('/line/login', [LineLoginController::class, 'redirectToLine'])->name('line.login');
 Route::get('/line/callback', [LineLoginController::class, 'handleLineCallback'])->name('line.callback');
-Route::get('/', [LineLoginController::class, 'showDashboard'])->name('welcome');
+Route::get('/line', [LineLoginController::class, 'showDashboard'])->name('welcome');
 Route::get('/campaignstatus', [CampaignstatusController::class, 'campaignstatus'])->name('campaignstatus');
 Route::get('/campaignstatusimg', [CampaignstatusImgController::class, 'campaignstatusimg'])->name('campaignstatusimg');
 // Line Form
@@ -54,7 +54,7 @@ Route::post('/pushevidencetouser', [PushevidenceController::class, 'pushevidence
 Route::get('/pin', [PinController::class, 'showForm'])->name('pin.form');
 Route::post('/pin', [PinController::class, 'verifyPin'])->name('pin.verify');
 
-Route::get('/login', function () {
+Route::get('/', function () {
     return view('auth.login');
 });
 
@@ -65,14 +65,13 @@ All Normal Users Routes List
 --------------------------------------------*/
 Route::middleware(['auth', 'user-access:user'])->group(function () {
   
-    
+    Route::get('/home', [HomeController::class, 'index'])->name('user.home');
 });
   
 /*------------------------------------------
 All Admin Routes List
 --------------------------------------------*/
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
-    Route::get('/home', [HomeController::class, 'adminHome'])->name('home');
     Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::resource('/admin/users', UsersController::class);
