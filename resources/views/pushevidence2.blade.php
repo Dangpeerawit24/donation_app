@@ -89,7 +89,7 @@
                 timer: 5000,
                 buttons: "ตกลง"
             }).then(() => {
-                window.location.href = "https://donation.kuanimtungpichai.com/super-admin/campaigns_transaction?campaign_id={{ $name->campaignsid }}&name={{ $name->campaignsname }}"; // ใส่ URL ที่ต้องการรีไดเรก
+                window.close(); // คำสั่งสำหรับปิดหน้าต่างเว็บ
             });
         </script>
     @endif
