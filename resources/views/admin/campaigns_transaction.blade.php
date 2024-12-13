@@ -3,10 +3,10 @@
     $manu = 'campaigns';
 @endphp
 @section('content')
-    <div class="flex flex-col">
+    <div class="flex flex-col mb-4">
         <div class="flex flex-col md:flex-row">
-            <h3 class="text-xl md:text-3xl m-0 md:mb-4">#{{ $name }}</h3>
             <h3 class="text-xl md:text-3xl m-0 md:mb-4">รายการผู้ร่วมบุญกองบุญ</h3>
+            <h3 class="text-xl md:text-3xl m-0 md:mb-4">#{{ $name }}</h3>
         </div>
         <div class="flex flex-row mb-0 md:mb-5 gap-2 ml-3">
             <button class="px-2 py-2 bg-blue-600 text-white rounded hover:bg-blue-800"
