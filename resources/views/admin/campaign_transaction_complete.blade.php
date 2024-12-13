@@ -32,7 +32,8 @@
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">สลิป</th>
-                        <th class="px-6 py-3 text-center text-nowrap w-[500px] text-md font-semibold text-white">ข้อมูลผู้ร่วมบุญ</th>
+                        <th class="px-6 py-3 text-center text-nowrap w-[500px] text-md font-semibold text-white">
+                            ข้อมูลผู้ร่วมบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวน</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">QR Url</th>
@@ -305,34 +306,34 @@
         });
 
         document.getElementById('copy-table').addEventListener('click', () => {
-    const table = document.querySelector('table');
-    const rows = Array.from(table.rows);
+            const table = document.querySelector('table');
+            const rows = Array.from(table.rows);
 
-    // ระบุคอลัมน์ที่ต้องการ
-    const columnsToCopy = [0, 1, 2, 3, 4, 5, 6]; // เปลี่ยนตามคอลัมน์ใน HTML
-    const mergeColumnIndex = 2; // คอลัมน์ "ข้อมูลผู้ร่วมบุญ" ที่ต้องรวมข้อความ
+            // ระบุคอลัมน์ที่ต้องการ
+            const columnsToCopy = [0, 1, 2, 3, 4, 5, 6]; // เปลี่ยนตามคอลัมน์ใน HTML
+            const mergeColumnIndex = 2; // คอลัมน์ "ข้อมูลผู้ร่วมบุญ" ที่ต้องรวมข้อความ
 
-    // สร้างข้อมูล
-    const text = rows.map((row, rowIndex) => {
-        return Array.from(row.cells)
-            .filter((_, index) => columnsToCopy.includes(index))
-            .map((cell, index) => {
-                if (index === mergeColumnIndex) {
-                    // ลบลำดับ (ตัวเลขนำหน้า) และรวมข้อความในคอลัมน์ "ข้อมูลผู้ร่วมบุญ"
-                    return cell.innerText
-                        .split('\n') // แยกข้อความเป็นบรรทัด
-                        .map(line => line.replace(/^\d+\.\s*/, '').trim()) // ลบลำดับ เช่น "1. "
-                        .join(', '); // รวมข้อความคั่นด้วย ,
-                } else {
-                    // คัดลอกคอลัมน์อื่นตามปกติ
-                    return cell.innerText.trim();
-                }
-            })
-            .join('\t'); // ใช้ Tab คั่นระหว่างคอลัมน์
-    }).join('\n'); // ใช้ Newline คั่นระหว่างแถว
+            // สร้างข้อมูล
+            const text = rows.map((row, rowIndex) => {
+                return Array.from(row.cells)
+                    .filter((_, index) => columnsToCopy.includes(index))
+                    .map((cell, index) => {
+                        if (index === mergeColumnIndex) {
+                            // ลบลำดับ (ตัวเลขนำหน้า) และรวมข้อความในคอลัมน์ "ข้อมูลผู้ร่วมบุญ"
+                            return cell.innerText
+                                .split('\n') // แยกข้อความเป็นบรรทัด
+                                .map(line => line.replace(/^\d+\.\s*/, '').trim()) // ลบลำดับ เช่น "1. "
+                                .join(', '); // รวมข้อความคั่นด้วย ,
+                        } else {
+                            // คัดลอกคอลัมน์อื่นตามปกติ
+                            return cell.innerText.trim();
+                        }
+                    })
+                    .join('\t'); // ใช้ Tab คั่นระหว่างคอลัมน์
+            }).join('\n'); // ใช้ Newline คั่นระหว่างแถว
 
-    // คัดลอกข้อมูลไปยังคลิปบอร์ด
-    navigator.clipboard.writeText(text).then(() => {
+            // คัดลอกข้อมูลไปยังคลิปบอร์ด
+            navigator.clipboard.writeText(text).then(() => {
 
                 Swal.fire({
                     title: 'สำเร็จ!',

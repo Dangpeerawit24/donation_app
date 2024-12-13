@@ -157,6 +157,71 @@
         });
     </script>
 
+    <div id="imageModal"
+        class="fixed inset-0 text-center bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white text-center rounded-xl shadow-lg max-w-4xl w-auto">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 bg-blue-500 text-white flex justify-between items-center">
+                <h5 class="text-lg font-semibold">หลักฐานการโอน</h5>
+                <button id="closeImageModal" class="text-white hover:text-gray-300 text-2xl">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="px-6 py-4 text-center">
+                <img id="modalImage" src="" class=" max-w-80 md:max-w-md h-auto rounded-lg" alt="หลักฐานการโอน">
+            </div>
+        </div>
+    </div>
+    <script>
+        // เปิด Modal
+        function openImageModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageSrc;
+            modal.classList.remove('hidden');
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                    document.getElementById('loader').classList.add('hidden');
+                }
+            });
+        }
+
+        // ปิด Modal
+        document.getElementById('closeImageModal').addEventListener('click', () => {
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('hidden');
+            document.getElementById('loader').classList.add('hidden');
+        });
+    </script>
+
+    <script>
+        const modal = document.getElementById('modal');
+        const openModal = document.getElementById('openModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeModalFooter = document.getElementById('closeModalFooter');
+
+        // เปิด Modal
+        openModal.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
+
+        // ปิด Modal
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        closeModalFooter.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        // ปิด Modal เมื่อคลิกนอก Modal
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+    </script>
+
     <script>
         const transactions = @json($transactions); // ดึงข้อมูลจาก Controller
         const rowsPerPage = 12;
@@ -183,9 +248,19 @@
                <tr>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${startIndex + index + 1}</td>
                    <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
-                            <img src="${baseUrl}/${transactions.evidence}" alt="Campaign Image" width="100px" height="100px">
-                        </td>
-                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.details ? transactions.details : ''}${transactions.details2 ? transactions.details2 : ''}${transactions.detailsbirthday ? transactions.detailsbirthday : ''}${transactions.detailstext ? transactions.detailstext : ''}</td>
+                        <a href="#" data-toggle="modal" data-target="#imageModal"
+                         onclick="openImageModal('${baseUrl}/${transactions.evidence}')">
+                            <img src="${baseUrl}/${transactions.evidence}" alt="หลักฐานการโอน" width="100px" class="inline-block">
+                        </a>
+                    </td>
+                   <td class="px-6 py-2 text-wrap text-center text-md text-gray-700 w-[500px]">
+                        <ul class="list-decimal text-left ml-4">
+                            ${transactions.details ? transactions.details.split(',').map((detail, index) => `<li>${detail}</li>`).join('') : ''}
+                            ${transactions.details2 ? transactions.details2.split(',').map((detail, index) => `<li>${detail}</li>`).join('') : ''}
+                            ${transactions.detailsbirthday ? transactions.detailsbirthday.split(',').map((detail, index) => `<li>${detail}</li>`).join('') : ''}
+                            ${transactions.detailstext ? transactions.detailstext.split(',').map((detail, index) => `<li>${detail}</li>`).join('') : ''}
+                        </ul>
+                    </td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.value}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.lineName}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.qr_url}</td>
@@ -239,15 +314,30 @@
             const table = document.querySelector('table');
             const rows = Array.from(table.rows);
 
-            const columnsToCopy = [0, 1, 2, 3, 4, 5, 6];
+            // ระบุคอลัมน์ที่ต้องการ
+            const columnsToCopy = [0, 1, 2, 3, 4, 5, 6]; // เปลี่ยนตามคอลัมน์ใน HTML
+            const mergeColumnIndex = 2; // คอลัมน์ "ข้อมูลผู้ร่วมบุญ" ที่ต้องรวมข้อความ
 
-            const text = rows.map(row => {
+            // สร้างข้อมูล
+            const text = rows.map((row, rowIndex) => {
                 return Array.from(row.cells)
-                    .filter((_, index) => columnsToCopy.includes(index)) // เลือกเฉพาะคอลัมน์ที่ต้องการ
-                    .map(cell => cell.innerText)
-                    .join('\t');
-            }).join('\n');
+                    .filter((_, index) => columnsToCopy.includes(index))
+                    .map((cell, index) => {
+                        if (index === mergeColumnIndex) {
+                            // ลบลำดับ (ตัวเลขนำหน้า) และรวมข้อความในคอลัมน์ "ข้อมูลผู้ร่วมบุญ"
+                            return cell.innerText
+                                .split('\n') // แยกข้อความเป็นบรรทัด
+                                .map(line => line.replace(/^\d+\.\s*/, '').trim()) // ลบลำดับ เช่น "1. "
+                                .join(', '); // รวมข้อความคั่นด้วย ,
+                        } else {
+                            // คัดลอกคอลัมน์อื่นตามปกติ
+                            return cell.innerText.trim();
+                        }
+                    })
+                    .join('\t'); // ใช้ Tab คั่นระหว่างคอลัมน์
+            }).join('\n'); // ใช้ Newline คั่นระหว่างแถว
 
+            // คัดลอกข้อมูลไปยังคลิปบอร์ด
             navigator.clipboard.writeText(text).then(() => {
 
                 Swal.fire({
