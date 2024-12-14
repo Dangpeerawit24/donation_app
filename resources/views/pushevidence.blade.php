@@ -10,6 +10,8 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body>
@@ -40,8 +42,11 @@
             <form id="uploadForm" action="{{ Route('pushevidencetouser') }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
-                <div class="mt-3">
-                    <input type="file" name="url_img" id="url_img" required />
+                <div class="px-2 d-flex flex-column align-items-center"  id="fileUploadContainer">
+
+                </div>
+                <div class="px-2 d-flex flex-column align-items-center">
+                    <button type="button" class="btn btn-primary" id="addFileButton">เพิ่มรูป</button>
                 </div>
                 <input type="hidden" id="transactionID" name="transactionID" value="{{ $transactionID }}">
                 @foreach ($names as $name)
@@ -57,9 +62,46 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+     <script>
+        const fileUploadContainer = document.getElementById('fileUploadContainer');
+        const addFileButton = document.getElementById('addFileButton');
+
+        // กำหนดจำนวนช่องอัปโหลดไฟล์สูงสุด
+        const maxFileInputs = 4;
+
+        addFileButton.addEventListener('click', () => {
+            // ตรวจสอบว่ามีช่องอัปโหลดไฟล์กี่ช่องแล้ว
+            const fileInputs = fileUploadContainer.querySelectorAll('.file-container');
+            if (fileInputs.length < maxFileInputs) {
+                // สร้างช่องอัปโหลดไฟล์ใหม่
+                const newFileContainer = document.createElement('div');
+                newFileContainer.className = 'file-container';
+                newFileContainer.innerHTML = `
+                    <input type="file" name="url_img[]" id="url_img[]" class="file-input mt-2">
+                    <button type="button" class="removeFileButton btn btn-danger" multiple required >ลบ</button>
+                `;
+                fileUploadContainer.appendChild(newFileContainer);
+
+                // เพิ่มฟังก์ชันลบช่องอัปโหลด
+                const removeFileButton = newFileContainer.querySelector('.removeFileButton');
+                removeFileButton.addEventListener('click', () => {
+                    newFileContainer.remove();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'ข้อจำกัดในการเพิ่มไฟล์',
+                    text: 'คุณสามารถเพิ่มช่องอัปโหลดไฟล์ได้สูงสุด 4 ช่องเท่านั้น!',
+                    confirmButtonText: 'ตกลง',
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            }
+        });
+    </script>
     <script>
         function submitForm() {
-            var fileInput = document.getElementById('url_img');
+            var fileInput = document.getElementById('url_img[]');
             if (fileInput.files.length === 0) {
                 swal({
                     title: "กรุณาเลือกหรือถ่ายภาพใหม่",
