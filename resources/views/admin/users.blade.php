@@ -87,6 +87,9 @@
                         <select name="type" id="type"
                             class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200">
                             <option value="">เลือกสิทธิ์การใช้งาน</option>
+                            <option value="1">
+                                แอดมิน
+                            </option>
                             <option value="2">
                                 ผู้จัดการ
                             </option>
@@ -151,6 +154,9 @@
                         <select name="type" id="type2" 
                             class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200">
                             <option value="">เลือกสิทธิ์การใช้งาน</option>
+                            <option value="1">
+                                แอดมิน
+                            </option>
                             <option value="2">
                                 ผู้จัดการ
                             </option>
