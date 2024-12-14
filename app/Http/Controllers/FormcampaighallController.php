@@ -132,7 +132,7 @@ class FormcampaighallController extends Controller
 
         $this->sendLineMessage($validated['lineId'], $validated['lineName'], $validated['campaignsname'], $validated['value']);
 
-        return redirect('/')
+        return redirect('/line')
             ->with('success', 'บันทึกข้อมูลและสร้าง QR Code สำเร็จ!')
             ->with('lineName', $validated['lineName'])
             ->with('campaignname', $validated['campaignsname']);
