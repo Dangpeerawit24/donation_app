@@ -467,7 +467,7 @@
             const startIndex = (currentPage - 1) * rowsPerPage;
             const endIndex = startIndex + rowsPerPage;
             const currentData = filteredData.slice(startIndex, endIndex);
-            const baseUrl = "{{ asset('img/evidence/') }}";
+            const baseUrl = "{{ asset('img/campaign/') }}";
 
             tableBody.innerHTML = '';
             currentData.forEach((Results, index) => {
