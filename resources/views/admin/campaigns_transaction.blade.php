@@ -86,10 +86,13 @@
                                 placeholder="กรอก จำนวน" required>
                         </div>
                         <div>
-                            <label for="details" class="block text-sm font-medium text-gray-700 mb-1">ข้อมูลผู้ร่วมบุญ</label>
-                            <textarea name="details" id="details" rows="5"
+                            <div>
+                                <label for="details" class="block text-sm font-medium text-gray-700 mb-1">ข้อมูลผู้ร่วมบุญ</label>
+                                <textarea name="details" id="details" rows="5"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
                                 placeholder="กรอกรายละเอียด..." required></textarea>
+                            </div>
+                            <button class="p-1 bg-blue-500 text-white rounded hover:bg-blue-600" onclick="addCommas()">เพิ่มเครื่องหมาย ','</button>
                         </div>
                         <div>
                             <label for="lineName" class="block text-sm font-medium text-gray-700 mb-1">ชื่อที่แสดง</label>
@@ -281,7 +284,18 @@
             }
         });
     </script>
-
+    <script>
+        function addCommas() {
+            const textarea = document.getElementById('details');
+            const lines = textarea.value.split('\n'); // แยกข้อความแต่ละบรรทัดออกมาในรูปแบบ array
+            const updatedLines = lines.map((line, index) => {
+                // เพิ่ม ',' หลังบรรทัด ถ้าไม่ใช่บรรทัดสุดท้าย และบรรทัดไม่ว่างเปล่า
+                return line.trim() !== '' && index < lines.length - 1 ? `${line},` : line;
+            });
+    
+            textarea.value = updatedLines.join('\n'); // รวมข้อความกลับเป็น string แบ่งด้วย newline
+        }
+    </script>
     <script>
         const transactions = @json($transactions); // ดึงข้อมูลจาก Controller
         const rowsPerPage = 12;

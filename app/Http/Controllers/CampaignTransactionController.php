@@ -80,45 +80,50 @@ class CampaignTransactionController extends Controller
 
         $lineName = $request['lineName'];
 
-        // ค้นหา userid จากตาราง lineid
+        // ค้นหา user_id จากตาราง line_users
         $lineId = DB::table('line_users')
             ->where('display_name', $lineName)
-            ->value('user_id') ?? $lineName; // ถ้าไม่มี user_id ให้ใช้ $lineName
+            ->value('user_id'); // ถ้าไม่มี user_id จะได้ null
 
-        // สร้างข้อมูลสำหรับ QR Code
-        $qrData = env('APP_URL') . "/pushevidence?transactionID={$request['transactionID']}";
+        // ตรวจสอบว่ามี user_id หรือไม่
+        $qrUrl = null; // กำหนดค่าเริ่มต้นของ QR Code URL เป็น null
+        if ($lineId) {
+            // ถ้ามี user_id ให้สร้าง QR Code
+            $qrData = env('APP_URL') . "/pushevidence?transactionID={$request['transactionID']}";
 
-        $qrFolder = public_path('img/qr-codes/');
-        if (!is_dir($qrFolder)) {
-            mkdir($qrFolder, 0777, true);
+            $qrFolder = public_path('img/qr-codes/');
+            if (!is_dir($qrFolder)) {
+                mkdir($qrFolder, 0777, true);
+            }
+
+            $qrFileName = 'qrcode_' . time() . '.png';
+            $qrFilePath = $qrFolder . $qrFileName;
+
+            // ใช้ Endroid\QrCode สร้าง QR Code
+            $qrCode = new QrCode($qrData);
+            $qrCode->setSize(300);
+
+            $writer = new PngWriter();
+            $result = $writer->write($qrCode);
+
+            // บันทึก QR Code เป็นไฟล์
+            $result->saveToFile($qrFilePath);
+
+            // ใช้ APP_URL สำหรับเก็บ Path ของ QR Code
+            $qrUrl = env('APP_URL') . '/img/qr-codes/' . $qrFileName;
         }
 
-        $qrFileName = 'qrcode_' . time() . '.png';
-        $qrFilePath = $qrFolder . $qrFileName;
-
-        // ใช้ Endroid\QrCode สร้าง QR Code
-        $qrCode = new QrCode($qrData);
-        $qrCode->setSize(300);
-
-        $writer = new PngWriter();
-        $result = $writer->write($qrCode);
-
-        // บันทึก QR Code เป็นไฟล์
-        $result->saveToFile($qrFilePath);
-
-        // ใช้ APP_URL สำหรับเก็บ Path ของ QR Code
-        $qrUrl = env('APP_URL') . '/img/qr-codes/' . $qrFileName;
-
+        // บันทึกข้อมูลลงในตาราง campaign_transactions
         DB::table('campaign_transactions')->insert([
             'campaignsid' => $request['campaignsid'],
             'campaignsname' => $request['campaignsname'],
-            'lineId' => $lineId,
+            'lineId' => $lineId ?? $lineName, // ถ้าไม่มี user_id ให้ใช้ lineName แทน
             'lineName' => $request['lineName'],
             'value' => $request['value'],
             'details2' => $request['details'],
             'form' => $request['form'],
             'transactionID' => $request['transactionID'],
-            'qr_url' => $qrUrl, // เก็บ path ของ QR Code
+            'qr_url' => $qrUrl, // เก็บ path ของ QR Code (null ถ้าไม่มี user_id)
             'status' => "รอดำเนินการ",
             'created_at' => now(),
             'updated_at' => now(),
