@@ -86,7 +86,7 @@
                                 placeholder="กรอก จำนวน" required>
                         </div>
                         <div>
-                            <label for="details" class="block text-sm font-medium text-gray-700 mb-1">จำนวน</label>
+                            <label for="details" class="block text-sm font-medium text-gray-700 mb-1">ข้อมูลผู้ร่วมบุญ</label>
                             <textarea name="details" id="details" rows="5"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
                                 placeholder="กรอกรายละเอียด..." required></textarea>

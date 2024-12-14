@@ -328,15 +328,26 @@
             }
         }
 
-        // อัปเดต hidden fields เมื่อเปลี่ยนค่าใน priceInput และ stockInput
-        document.getElementById('price').addEventListener('input', (e) => {
-            const hiddenPrice = document.getElementById('hiddenPrice');
-            hiddenPrice.value = e.target.value;
-        });
-
-        document.getElementById('stock').addEventListener('input', (e) => {
-            const hiddenStock = document.getElementById('hiddenStock');
-            hiddenStock.value = e.target.value;
+    </script>
+    <script>
+        const textarea = document.getElementById('description2');
+    
+        textarea.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') { // ตรวจจับการกด Enter
+                event.preventDefault(); // ป้องกันการขึ้นบรรทัดใหม่แบบปกติ
+    
+                const cursorPosition = textarea.selectionStart; // ตำแหน่งของเคอร์เซอร์
+                const text = textarea.value; // ค่าปัจจุบันใน textarea
+    
+                // เพิ่ม , ไว้ท้ายบรรทัดบน และเพิ่มบรรทัดใหม่
+                const beforeCursor = text.slice(0, cursorPosition);
+                const afterCursor = text.slice(cursorPosition);
+    
+                textarea.value = `${beforeCursor.trim()}/n\n${afterCursor.trim()}`;
+                
+                // ย้ายเคอร์เซอร์ไปยังบรรทัดใหม่
+                textarea.selectionStart = textarea.selectionEnd = cursorPosition + 2;
+            }
         });
     </script>
     <script>
