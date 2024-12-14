@@ -272,22 +272,36 @@
             const hiddenStock = document.getElementById('hiddenStock');
 
             if (faithCheckbox.checked) {
-                // ตั้งค่า price เป็น 999999 และทำให้แก้ไขไม่ได้
+                // ตั้งค่า price และ stock เป็น "ตามศรัทธา" และทำให้แก้ไขไม่ได้
                 priceInput.value = "ตามศรัทธา";
                 stockInput.value = "ตามศรัทธา";
-                priceInput.disabled = true; // ใช้ disabled ได้
-                stockInput.disabled = true; // ใช้ disabled ได้
+                priceInput.disabled = true;
+                stockInput.disabled = true;
                 hiddenPrice.value = 1; // อัปเดตค่า hidden input
                 hiddenStock.value = 999999; // อัปเดตค่า hidden input
             } else {
-                // เปิดให้แก้ไขและเคลียร์ค่า
-                priceInput.value = '';
+                // เปิดให้แก้ไขได้
                 priceInput.disabled = false;
-                stockInput.value = '';
                 stockInput.disabled = false;
+
+                // ตั้งค่าของ hiddenPrice และ hiddenStock ให้เท่ากับค่าที่กรอกลงไป
+                hiddenPrice.value = priceInput.value || '';
+                hiddenStock.value = stockInput.value || '';
             }
         }
 
+        // อัปเดต hidden fields เมื่อเปลี่ยนค่าใน priceInput และ stockInput
+        document.getElementById('price').addEventListener('input', (e) => {
+            const hiddenPrice = document.getElementById('hiddenPrice');
+            hiddenPrice.value = e.target.value;
+        });
+
+        document.getElementById('stock').addEventListener('input', (e) => {
+            const hiddenStock = document.getElementById('hiddenStock');
+            hiddenStock.value = e.target.value;
+        });
+    </script>
+    <script>
         function toggleFaithPrice2() {
             const priceInput2 = document.getElementById('price2');
             const stockInput2 = document.getElementById('stock2');
@@ -296,21 +310,34 @@
             const hiddenStock2 = document.getElementById('hiddenStock2');
 
             if (faithCheckbox.checked) {
-                // ตั้งค่า price เป็น 999999 และทำให้แก้ไขไม่ได้
-                priceInput2.value = "ตามศรัทธา";
-                stockInput2.value = "ตามศรัทธา";
-                priceInput2.disabled = true; // ใช้ disabled ได้
-                stockInput2.disabled = true; // ใช้ disabled ได้
-                hiddenPrice2.value = 1; // อัปเดตค่า hidden input
-                hiddenStock2.value = 999999; // อัปเดตค่า hidden input
+                // ตั้งค่า price และ stock เป็น "ตามศรัทธา" และทำให้แก้ไขไม่ได้
+                priceInput.value = "ตามศรัทธา";
+                stockInput.value = "ตามศรัทธา";
+                priceInput.disabled = true;
+                stockInput.disabled = true;
+                hiddenPrice.value = 1; // อัปเดตค่า hidden input
+                hiddenStock.value = 999999; // อัปเดตค่า hidden input
             } else {
-                // เปิดให้แก้ไขและเคลียร์ค่า
-                priceInput2.value = '';
-                priceInput2.disabled = false;
-                stockInput2.value = '';
-                stockInput2.disabled = false;
+                // เปิดให้แก้ไขได้
+                priceInput.disabled = false;
+                stockInput.disabled = false;
+
+                // ตั้งค่าของ hiddenPrice และ hiddenStock ให้เท่ากับค่าที่กรอกลงไป
+                hiddenPrice.value = priceInput.value || '';
+                hiddenStock.value = stockInput.value || '';
             }
         }
+
+        // อัปเดต hidden fields เมื่อเปลี่ยนค่าใน priceInput และ stockInput
+        document.getElementById('price').addEventListener('input', (e) => {
+            const hiddenPrice = document.getElementById('hiddenPrice');
+            hiddenPrice.value = e.target.value;
+        });
+
+        document.getElementById('stock').addEventListener('input', (e) => {
+            const hiddenStock = document.getElementById('hiddenStock');
+            hiddenStock.value = e.target.value;
+        });
     </script>
     <script>
         const textarea = document.getElementById('description2');
@@ -489,10 +516,10 @@
                                             ${
                                     Results.status !== "ปิดกองบุญแล้ว"
                                         ? `<button 
-                                            class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
-                                            onclick="confirmCloseCampaign(${Results.id})">
-                                            ปิดกองบุญ
-                                        </button>`
+                                                class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
+                                                onclick="confirmCloseCampaign(${Results.id})">
+                                                ปิดกองบุญ
+                                            </button>`
                                         : ''
                                 }
                                
