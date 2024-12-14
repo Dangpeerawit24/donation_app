@@ -129,7 +129,7 @@
                 timer: 5000,
                 buttons: "ตกลง"
             }).then(() => {
-                window.location.href = "/";
+                window.close();
             });
         </script>
     @endif
