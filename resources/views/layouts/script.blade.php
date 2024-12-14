@@ -19,6 +19,7 @@
     });
 </script>
 <script>
+
     document.querySelectorAll('a').forEach(function(link) {
         link.addEventListener('click', function() {
             if (link.id !== 'pos') {
@@ -81,19 +82,17 @@
             }
         });
     });
-</script>
-@if (session('success'))
-    <script>
-        swal({
+
+    @if (session('success'))
+        Swal.fire({
             icon: 'success',
-            title: "{{ session('success') }}",
-            timer: 5000,
-            buttons: "ตกลง"
-        }).then(() => {
-            window.close(); // คำสั่งสำหรับปิดหน้าต่างเว็บ
+            title: 'สำเร็จ',
+            text: '{{ session('success') }}',
+            timer: 2000,
+            showConfirmButton: false
         });
-    </script>
-@endif
+    @endif
+</script>
 {{-- <script>
     let logoutTimer;
 

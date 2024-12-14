@@ -89,7 +89,7 @@
                 timer: 5000,
                 buttons: "ตกลง"
             }).then(() => {
-                window.close(); // คำสั่งสำหรับปิดหน้าต่างเว็บ
+                window.location.href = "/";
             });
         </script>
     @endif

@@ -94,7 +94,7 @@ class PushevidenceController extends Controller
             // ส่งข้อความและรูปภาพ
             $this->sendPushMessage($validated['userid'], $message, $imageUrl);
 
-            return redirect('/')->with('success', 'ส่งภาพกองบุญเรียบร้อยแล้ว!');
+            return redirect()->back()->with('success', 'ส่งภาพกองบุญเรียบร้อยแล้ว!');
         }
 
         return redirect()->back()->with('error', 'ไม่พบข้อมูลที่ต้องการอัปเดต');
