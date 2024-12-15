@@ -108,7 +108,8 @@
                         </div>
                         <div>
                             <label for="description" class="block text-sm font-medium text-gray-700 mb-1">รายละเอียด
-                                (ต้องการขึ้นบรรทัดใหม่ให้พิมพ์ /n )</label>
+                                </label>
+                                {{-- (ต้องการขึ้นบรรทัดใหม่ให้พิมพ์ /n ) --}}
                             <textarea class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200" id="description2"
                                 name="description" rows="4" maxlength="500" required></textarea>
                             <div id="charCount" class="form-text">เหลือ 500 ตัวอักษร</div>
@@ -345,23 +346,23 @@
             }
         });
 
-        textarea.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') { // ตรวจจับการกด Enter
-                event.preventDefault(); // ป้องกันการขึ้นบรรทัดใหม่แบบปกติ
+        // textarea.addEventListener('keydown', (event) => {
+        //     if (event.key === 'Enter') { // ตรวจจับการกด Enter
+        //         event.preventDefault(); // ป้องกันการขึ้นบรรทัดใหม่แบบปกติ
     
-                const cursorPosition = textarea.selectionStart; // ตำแหน่งของเคอร์เซอร์
-                const text = textarea.value; // ค่าปัจจุบันใน textarea
+        //         const cursorPosition = textarea.selectionStart; // ตำแหน่งของเคอร์เซอร์
+        //         const text = textarea.value; // ค่าปัจจุบันใน textarea
     
-                // เพิ่ม , ไว้ท้ายบรรทัดบน และเพิ่มบรรทัดใหม่
-                const beforeCursor = text.slice(0, cursorPosition);
-                const afterCursor = text.slice(cursorPosition);
+        //         // เพิ่ม , ไว้ท้ายบรรทัดบน และเพิ่มบรรทัดใหม่
+        //         const beforeCursor = text.slice(0, cursorPosition);
+        //         const afterCursor = text.slice(cursorPosition);
     
-                textarea.value = `${beforeCursor.trim()}/n\n${afterCursor.trim()}`;
+        //         textarea.value = `${beforeCursor.trim()},\n${afterCursor.trim()}`;
                 
-                // ย้ายเคอร์เซอร์ไปยังบรรทัดใหม่
-                textarea.selectionStart = textarea.selectionEnd = cursorPosition + 2;
-            }
-        });
+        //         // ย้ายเคอร์เซอร์ไปยังบรรทัดใหม่
+        //         textarea.selectionStart = textarea.selectionEnd = cursorPosition + 2;
+        //     }
+        // });
     </script>
     <script>
         const modal = document.getElementById('modal');
