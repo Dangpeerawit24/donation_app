@@ -19,14 +19,15 @@ class CampaignController extends Controller
             ->select(
                 'campaigns.*',
                 'categories.name as category_name',
-                DB::raw('SUM(campaign_transactions.value) as total_value') // หาผลรวม value
+                DB::raw('SUM(campaign_transactions.value) as total_value')
             )
             ->groupBy(
                 'campaigns.id',
                 'campaigns.name',
                 'campaigns.categoriesID',
                 'campaigns.created_at',
-                'campaigns.description', // เพิ่ม description ใน GROUP BY
+                'campaigns.description',
+                'campaigns.price', // เพิ่ม price ลงใน GROUP BY
                 'categories.name'
             )
             ->orderByDesc('campaigns.created_at')
