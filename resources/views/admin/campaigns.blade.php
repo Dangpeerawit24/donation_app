@@ -33,6 +33,7 @@
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อกองบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ราคา</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวนที่เปิดรับ</th>
+                        <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ยอดร่วมบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap  w-10 text-md font-semibold text-white">การเปลื่ยนแปลง
                         </th>
                     </tr>
@@ -518,6 +519,7 @@
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.name}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.price <= 1 ? "ตามกำลังศรัทธา": Results.price.toLocaleString()}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.stock >= 999999 ? "ตามกำลังศรัทธา": Results.stock}</td>
+                       <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.total_value}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">
                            <div class="flex justify-center gap-2">
                                 <a href="/admin/campaigns_transaction?campaign_id=${Results.id}&name=${encodeURIComponent(Results.name)}" 
