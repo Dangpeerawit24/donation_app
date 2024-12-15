@@ -8,6 +8,7 @@
 <script src="{{asset('sweetalert2@11.js')}}"></script>
 <script src="{{asset('xlsx.full.min.js')}}"></script>
 <script src="{{asset('jquery-3.7.1.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     h1.line-clamp-2 {

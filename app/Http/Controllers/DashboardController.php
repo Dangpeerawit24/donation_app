@@ -21,9 +21,10 @@ class DashboardController extends Controller
 
         $total_value_year = DB::table('campaign_transactions as trans')
             ->join('campaigns as camp', 'trans.campaignsid', '=', 'camp.id')
-            ->whereYear('trans.created_at', date('Y')) // เฉพาะปีปัจจุบัน
-            ->select(DB::raw('COALESCE(SUM(trans.value * camp.price), 0) AS total_value')) // รวมยอดทั้งหมด
+            ->whereYear('camp.created_at', now()->year) // ใช้ปีจาก campaigns
+            ->select(DB::raw('COALESCE(SUM(trans.value * camp.price), 0) AS total_value'))
             ->value('total_value');
+
 
         $total_campaign_month = DB::table('campaigns')
             ->whereMonth('created_at', date('m')) // เฉพาะแถวที่เพิ่มในเดือนปัจจุบัน
@@ -125,5 +126,154 @@ class DashboardController extends Controller
         $users = $query->orderBy('total_amount', 'desc')->get();
 
         return response()->json($users);
+    }
+
+    public function dashboardmonth()
+    {
+        $thaiMonth = [
+            'January' => 'มกราคม',
+            'February' => 'กุมภาพันธ์',
+            'March' => 'มีนาคม',
+            'April' => 'เมษายน',
+            'May' => 'พฤษภาคม',
+            'June' => 'มิถุนายน',
+            'July' => 'กรกฎาคม',
+            'August' => 'สิงหาคม',
+            'September' => 'กันยายน',
+            'October' => 'ตุลาคม',
+            'November' => 'พฤศจิกายน',
+            'December' => 'ธันวาคม'
+        ];
+
+        $monthYear = $thaiMonth[Carbon::now()->format('F')] . ' ' . (Carbon::now()->year + 543);
+
+        $results = DB::table('campaigns')
+            ->leftJoin('campaign_transactions', 'campaigns.id', '=', 'campaign_transactions.campaignsid')
+            ->select(
+                'campaigns.name',
+                DB::raw('SUM(campaign_transactions.value) as total_value'),
+                'campaigns.price',
+                DB::raw('SUM(campaign_transactions.value * campaigns.price) as total_amount')
+            )
+            ->whereMonth('campaign_transactions.created_at', Carbon::now()->month) // เฉพาะเดือนนี้
+            ->whereYear('campaign_transactions.created_at', Carbon::now()->year)   // เฉพาะปีนี้
+            ->groupBy('campaigns.id', 'campaigns.name', 'campaigns.price')
+            ->get();
+
+        // ยอดรวมของ value ก่อนคูณ
+        $totalValue = $results->sum('total_value');
+
+        // ยอดรวมสุดท้าย หลังคูณ
+        $totalAmount = $results->sum('total_amount');
+
+        $labels = $results->pluck('name')->toArray(); // ชื่อกองบุญ
+        $data = $results->pluck('total_amount')->toArray(); // ยอดรวม
+
+        return view('admin.dashboardmonth', compact('results', 'monthYear', 'totalValue', 'totalAmount', 'labels', 'data'));
+    }
+
+    public function dashboardYear()
+    {
+        // ดึงข้อมูลยอดรวมกองบุญรายปี
+        $results = DB::table('campaigns')
+            ->leftJoin('campaign_transactions', 'campaigns.id', '=', 'campaign_transactions.campaignsid')
+            ->select(
+                'campaigns.name',
+                DB::raw('SUM(campaign_transactions.value) as total_value'),
+                'campaigns.price',
+                DB::raw('SUM(campaign_transactions.value * campaigns.price) as total_amount')
+            )
+            ->whereYear('campaign_transactions.created_at', now()->year) // ดึงข้อมูลปีปัจจุบัน
+            ->groupBy('campaigns.id', 'campaigns.name', 'campaigns.price')
+            ->get();
+
+        // คำนวณยอดรวม
+        $totalValue = $results->sum('total_value');
+        $totalAmount = $results->sum('total_amount');
+
+        // ส่งข้อมูลไปยัง View
+        return view('admin.dashboardyear', [
+            'results' => $results,
+            'totalValue' => $totalValue,
+            'totalAmount' => $totalAmount,
+            'labels' => $results->pluck('name'),
+            'data' => $results->pluck('total_amount')
+        ]);
+    }
+
+    public function campaignsmonth()
+    {
+        // ดึงข้อมูลยอดรวมกองบุญรายปี
+        $thaiMonth = [
+            'January' => 'มกราคม',
+            'February' => 'กุมภาพันธ์',
+            'March' => 'มีนาคม',
+            'April' => 'เมษายน',
+            'May' => 'พฤษภาคม',
+            'June' => 'มิถุนายน',
+            'July' => 'กรกฎาคม',
+            'August' => 'สิงหาคม',
+            'September' => 'กันยายน',
+            'October' => 'ตุลาคม',
+            'November' => 'พฤศจิกายน',
+            'December' => 'ธันวาคม'
+        ];
+
+        $monthYear = $thaiMonth[Carbon::now()->format('F')] . ' ' . (Carbon::now()->year + 543);
+
+        $results = DB::table('campaigns')
+            ->leftJoin('campaign_transactions', 'campaigns.id', '=', 'campaign_transactions.campaignsid')
+            ->select(
+                'campaigns.name',
+                DB::raw('COALESCE(SUM(campaign_transactions.value), 0) as total_value'), // ถ้าไม่มีข้อมูลให้เป็น 0
+                'campaigns.price',
+                DB::raw('COALESCE(SUM(campaign_transactions.value * campaigns.price), 0) as total_amount') // ถ้าไม่มีข้อมูลให้เป็น 0
+            )
+            ->whereMonth('campaigns.created_at', Carbon::now()->month) // ใช้เดือนจากตาราง campaigns
+            ->whereYear('campaigns.created_at', Carbon::now()->year)   // ใช้ปีจากตาราง campaigns
+            ->groupBy('campaigns.id', 'campaigns.name', 'campaigns.price')
+            ->get();
+
+        // ยอดรวมของ value ก่อนคูณ
+        $totalValue = $results->sum('total_value');
+
+        // ยอดรวมสุดท้าย หลังคูณ
+        $totalAmount = $results->sum('total_amount');
+
+        $labels = $results->pluck('name')->toArray(); // ชื่อกองบุญ
+        $data = $results->pluck('total_amount')->toArray(); // ยอดรวม
+
+        // ส่งข้อมูลไปยัง View
+        return view('admin.campaignsmonth', compact('results', 'monthYear', 'totalValue', 'totalAmount', 'labels', 'data'));
+    }
+
+    public function campaignsyear()
+    {
+        // ดึงข้อมูลยอดรวมกองบุญรายปี
+        $results = DB::table('campaigns')
+            ->leftJoin('campaign_transactions', 'campaigns.id', '=', 'campaign_transactions.campaignsid')
+            ->select(
+                'campaigns.name',
+                DB::raw('COALESCE(SUM(campaign_transactions.value), 0) as total_value'), // รวม Value
+                'campaigns.price',
+                DB::raw('COALESCE(SUM(campaign_transactions.value * campaigns.price), 0) as total_amount') // รวมยอดคูณ Price
+            )
+            ->whereYear('campaign_transactions.created_at', now()->year) // ใช้ปีจาก transactions
+            ->groupBy('campaigns.id', 'campaigns.name', 'campaigns.price')
+            ->get();
+
+
+        // คำนวณยอดรวม
+        $totalValue = $results->sum('total_value');
+        $totalAmount = $results->sum('total_amount');
+
+        // ส่งข้อมูลไปยัง View
+        return view('admin.campaignsyear', [
+            'results' => $results,
+            'totalValue' => $totalValue,
+            'totalAmount' => $totalAmount,
+            'labels' => $results->pluck('name'),
+            'data' => $results->pluck('total_amount')
+        ]);
     }
 }

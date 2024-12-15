@@ -4,7 +4,7 @@
 @endphp
 @section('content')
     <div class="flex flex-col">
-        <div class="flex flex-col md:flex-row gap-x-5 mb-3">
+        <div class="flex flex-col md:flex-row gap-x-5 mb-1">
             <h3 class="text-3xl m-0 md:mb-2">Dashboard</h3>
         </div>
         <div>
@@ -23,6 +23,9 @@
                                     alt="">
                             </div>
                         </div>
+                        <div>
+                            <a href="/admin/dashboardmonth" class="pl-4">กดเพื่อดูรายละเอียด</a>
+                        </div>
                     </div>
                 </div>
                 <!-- Total Value (This Year) -->
@@ -39,6 +42,9 @@
                                     alt="">
                             </div>
                         </div>
+                        <div>
+                            <a href="/admin/dashboardyear" class="pl-4">กดเพื่อดูรายละเอียด</a>
+                        </div>
                     </div>
                 </div>
                 <!-- Total Campaigns (This Month) -->
@@ -47,11 +53,14 @@
                         <div>
                             <h2 id="total-campaign-month" class="text-3xl font-bold">{{ $total_campaign_month }}</h2>
                             <h5 class="text-lg">จำนวนกองบุญ</h5>
-                            <h5 class="text-lg">(ปีนี้)</h5>
+                            <h5 class="text-lg">(เดือนนี้)</h5>
                         </div>
                         <div>
                             <img src="{{ asset('img/graph-svgrepo-com.svg') }}" width="100px" alt="">
                         </div>
+                    </div>
+                    <div>
+                        <a href="/admin/campaignsmonth" class="pl-4">กดเพื่อดูรายละเอียด</a>
                     </div>
                 </div>
                 <!-- Total Campaigns (This Year) -->
@@ -66,6 +75,9 @@
                             <img src="{{ asset('img/graph-svgrepo-com.svg') }}" width="100px" alt="">
                         </div>
                     </div>
+                    <div>
+                        <a href="/admin/campaignsyear" class="pl-4">กดเพื่อดูรายละเอียด</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,13 +85,17 @@
             <div class=" lg:w-3/4">
                 <h3 class="text-xl font-bold">กองบุญที่ยังเปิดให้ร่วมบุญ</h3>
                 <div class=" lg:h-[600px] rounded-lg  overflow-x-auto p-2 scrollbar-hide">
-                    <table class="min-w-full border-collapse bg-white"  id="campaignsTable">
+                    <table class="min-w-full border-collapse bg-white" id="campaignsTable">
                         <thead>
                             <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
-                                <th class="px-6 py-3 text-center text-nowrap md:text-wrap text-md font-semibold text-white">ชื่อกองบุญ</th>
-                                <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวนที่เปิดรับ</th>
-                                <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ร่วมบุญแล้ว</th>
-                                <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">คงเหลือร่วมบุญได้</th>
+                                <th class="px-6 py-3 text-center text-nowrap md:text-wrap text-md font-semibold text-white">
+                                    ชื่อกองบุญ</th>
+                                <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">
+                                    จำนวนที่เปิดรับ</th>
+                                <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ร่วมบุญแล้ว
+                                </th>
+                                <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">
+                                    คงเหลือร่วมบุญได้</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
@@ -103,12 +119,14 @@
                         <table class="min-w-full border-collapse bg-white" id="usersTable">
                             <thead>
                                 <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
-                                    <th class="px-6 py-3 text-center text-wrap text-md font-semibold text-white">ชื่อไลน์</th>
-                                <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ยอดรวม</th>
+                                    <th class="px-6 py-3 text-center text-wrap text-md font-semibold text-white">ชื่อไลน์
+                                    </th>
+                                    <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ยอดรวม
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
-                                
+
                             </tbody>
                         </table>
                     </div>

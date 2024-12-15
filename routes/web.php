@@ -74,6 +74,10 @@ All Admin Routes List
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/dashboardmonth', [DashboardController::class, 'dashboardmonth'])->name('admin.dashboardmonth');
+    Route::get('/admin/dashboardyear', [DashboardController::class, 'dashboardyear'])->name('admin.dashboardyear');
+    Route::get('/admin/campaignsmonth', [DashboardController::class, 'campaignsmonth'])->name('admin.campaignsmonth');
+    Route::get('/admin/campaignsyear', [DashboardController::class, 'campaignsyear'])->name('admin.campaignsyear');
     Route::resource('/admin/users', UsersController::class);
     Route::put('/admin/users/update/{id}', [UsersController::class, 'update'])->name('users.update');
     Route::delete('/admin/users/destroy/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
