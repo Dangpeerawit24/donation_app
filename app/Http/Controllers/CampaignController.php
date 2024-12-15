@@ -15,10 +15,21 @@ class CampaignController extends Controller
         $categories = DB::table('categories')->get();
         $Results = DB::table('campaigns')
             ->join('categories', 'campaigns.categoriesID', '=', 'categories.id')
-            ->select('campaigns.*', 'categories.name as category_name')
+            ->leftJoin('campaign_transactions', 'campaigns.id', '=', 'campaign_transactions.campaignsid')
+            ->select(
+                'campaigns.*',
+                'categories.name as category_name',
+                DB::raw('SUM(campaign_transactions.value) as total_value') // หาผลรวม value
+            )
+            ->groupBy(
+                'campaigns.id',
+                'campaigns.name',
+                'campaigns.categoriesID',
+                'campaigns.created_at',
+                'categories.name'
+            )
             ->orderByDesc('campaigns.created_at')
             ->get();
-
 
         if (Auth::user()->type === 'admin') {
             return view('admin.campaigns', compact('categories', 'Results'));
