@@ -53,7 +53,6 @@
                             <tr class="bg-gray-100">
                                 <td colspan="3" class="border px-4 py-2 font-bold text-right"></td>
                                 <td class="border px-4 py-2 font-bold text-right">ยอดรวมทั้งหมด</td>
-                                <td class="border px-4 py-2 font-bold text-right">ยอดรวมทั้งหมด</td>
                                 <td class="border px-4 py-2 font-bold">{{ number_format($totalAmount, 2) }}</td>
                             </tr>
                         </tfoot>
