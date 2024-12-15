@@ -26,6 +26,7 @@ class CampaignController extends Controller
                 'campaigns.name',
                 'campaigns.categoriesID',
                 'campaigns.created_at',
+                'campaigns.description', // เพิ่ม description ใน GROUP BY
                 'categories.name'
             )
             ->orderByDesc('campaigns.created_at')
