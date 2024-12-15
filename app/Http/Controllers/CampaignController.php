@@ -60,10 +60,11 @@ class CampaignController extends Controller
             // ข้อความ Broadcast
             $lineToken = env('LINE_CHANNEL_ACCESS_TOKEN');
             $linkapp = env('APP_URL');
+            $priceMessage = ($campaign->price == 1) ? "ตามกำลังศรัทธา" : "{$campaign->price} บาท";
             // สร้างข้อความสำหรับส่ง
             $message = "🎉 ขอเชิญร่วมกองบุญ 🎉\n" .
                 "✨ {$campaign->name}\n" .
-                "💰 ร่วมบุญ: {$campaign->price} บาท\n" .
+                "💰 ร่วมบุญ: {$priceMessage}\n" .
                 "📋 " . $campaign->description;
                 // "📋 " . str_replace(",", "\n", $campaign->description);
 
