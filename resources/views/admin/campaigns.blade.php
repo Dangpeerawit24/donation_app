@@ -33,6 +33,7 @@
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อกองบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ราคา</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวนที่เปิดรับ</th>
+                        <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ยอดร่วมบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap  w-10 text-md font-semibold text-white">การเปลื่ยนแปลง
                         </th>
                     </tr>
@@ -331,7 +332,19 @@
     </script>
     <script>
         const textarea = document.getElementById('description2');
-    
+        const charCount = document.getElementById('charCount');
+        const maxLength = textarea.getAttribute('maxlength');
+
+        textarea.addEventListener('input', () => {
+            const remaining = maxLength - textarea.value.length;
+            charCount.textContent = `เหลือ ${remaining} ตัวอักษร`;
+            if (remaining <= 20) {
+                charCount.style.color = 'red';
+            } else {
+                charCount.style.color = '#6c757d';
+            }
+        });
+
         textarea.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') { // ตรวจจับการกด Enter
                 event.preventDefault(); // ป้องกันการขึ้นบรรทัดใหม่แบบปกติ
@@ -350,22 +363,6 @@
             }
         });
     </script>
-    <script>
-        const textarea = document.getElementById('description2');
-        const charCount = document.getElementById('charCount');
-        const maxLength = textarea.getAttribute('maxlength');
-
-        textarea.addEventListener('input', () => {
-            const remaining = maxLength - textarea.value.length;
-            charCount.textContent = `เหลือ ${remaining} ตัวอักษร`;
-            if (remaining <= 20) {
-                charCount.style.color = 'red';
-            } else {
-                charCount.style.color = '#6c757d';
-            }
-        });
-    </script>
-
     <script>
         const modal = document.getElementById('modal');
         const openModal = document.getElementById('openModal');
@@ -518,6 +515,7 @@
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.name}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.price <= 1 ? "ตามกำลังศรัทธา": Results.price.toLocaleString()}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.stock >= 999999 ? "ตามกำลังศรัทธา": Results.stock}</td>
+                       <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.total_value}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">
                            <div class="flex justify-center gap-2">
                                 <a href="/admin/campaigns_transaction?campaign_id=${Results.id}&name=${encodeURIComponent(Results.name)}" 
