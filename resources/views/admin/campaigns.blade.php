@@ -30,7 +30,7 @@
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">รูปกองบุญ</th>
-                        <th class="px-6 py-3 text-center text-wrap text-md font-semibold text-white">ชื่อกองบุญ</th>
+                        <th class="px-6 py-3 text-center text-nowrap md:text-wrap text-md font-semibold text-white">ชื่อกองบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ราคา</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวนที่เปิดรับ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ยอดร่วมบุญ</th>
@@ -97,6 +97,7 @@
                                 <option value="กล่องข้อความใหญ่">กล่องข้อความใหญ่</option>
                                 <option value="ชื่อวันเดือนปีเกิด">ชื่อวันเดือนปีเกิด</option>
                                 <option value="ตามศรัทธา">ตามศรัทธา</option>
+                                <option value="คำขอพร">คำขอพร</option>
                                 <option value="กิจกรรม">กิจกรรม</option>
                             </select>
                         </div>
@@ -428,7 +429,7 @@
                        <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
                             <img src="${baseUrl}/${Results.campaign_img}" alt="Campaign Image" width="100px" height="100px">
                         </td>
-                       <td class="px-6 py-2 text-wrap  text-center text-md text-gray-700">${Results.name}</td>
+                       <td class="px-6 py-2 text-nowrap md:text-wrap  text-center text-md text-gray-700">${Results.name}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.price <= 1 ? "ตามกำลังศรัทธา": Results.price.toLocaleString()}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.stock >= 999999 ? "ตามกำลังศรัทธา": Results.stock}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.total_value}</td>

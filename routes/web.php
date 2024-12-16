@@ -22,6 +22,7 @@ use App\Http\Controllers\FormcampaighallController;
 use App\Http\Controllers\FormcampaighgiveController;
 use App\Http\Controllers\FormcampaignController;
 use App\Http\Controllers\PushevidenceController;
+use App\Http\Controllers\Formcampaighall2Controller;
 
 
 // Route::get('/login', function () { return view('auth.login');});
@@ -44,6 +45,7 @@ Route::get('/fetch_formcampaighbirthday_details', [FormcampaighbirthdayControlle
 Route::resource('/formcampaightext', FormcampaightextController::class);
 Route::get('/fetch_formcampaightext_details', [FormcampaightextController::class, 'fetchformcampaightextdetails'])->name('fetch.formcampaightext.details');
 Route::resource('/formcampaighall', FormcampaighallController::class);
+Route::resource('/formcampaighall2', Formcampaighall2Controller::class);
 Route::get('/fetch_formcampaighall_details', [FormcampaighallController::class, 'fetchformcampaighalldetails'])->name('fetch.formcampaighall.details');
 Route::resource('/formcampaighgive', FormcampaighgiveController::class);
 // Line Push Evidence
