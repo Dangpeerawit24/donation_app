@@ -77,8 +77,8 @@ class CampaignController extends Controller
                 "ธ.ไทยพาณิชย์ เลขที่บัญชี 649-242269-4\n\n" .
                 "📌 ร่วมบุญผ่านระบบกองบุญออนไลน์ได้ที่ : https://liff.line.me/2006463554-1M9q5zzK";
 
-            // $imageUrl = asset('img/campaign/' . $campaign->campaign_img);
-            $imageUrl = "https://images.unsplash.com/photo-1720048169707-a32d6dfca0b3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8"; 
+            $imageUrl = asset('img/campaign/' . $campaign->campaign_img);
+            // $imageUrl = "https://images.unsplash.com/photo-1720048169707-a32d6dfca0b3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8"; 
 
             // ส่งคำขอไปยัง LINE OA
             $response = Http::withHeaders([
@@ -234,11 +234,11 @@ class CampaignController extends Controller
             "ธ.ไทยพาณิชย์ เลขที่บัญชี 649-242269-4\n\n" .
             "📌 ร่วมบุญผ่านระบบกองบุญออนไลน์ได้ที่ : https://liff.line.me/2006463554-1M9q5zzK";
 
-        // $imageUrl = $fileName
-        //     ? asset('img/campaignpush/' . $fileName)
-        //     : asset('img/campaign/' . $campaign->campaign_img);
+        $imageUrl = $fileName
+            ? asset('img/campaignpush/' . $fileName)
+            : asset('img/campaign/' . $campaign->campaign_img);
 
-        $imageUrl = "https://images.unsplash.com/photo-1720048169707-a32d6dfca0b3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8"; 
+        // $imageUrl = "https://images.unsplash.com/photo-1720048169707-a32d6dfca0b3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8"; 
 
         // ส่งข้อความ Broadcast ผ่าน LINE API
         $lineToken = env('LINE_CHANNEL_ACCESS_TOKEN');
