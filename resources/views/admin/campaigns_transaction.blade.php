@@ -43,6 +43,7 @@
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">สลิป</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ข้อมูลผู้ร่วมบุญ</th>
+                        <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">คำขอพร</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวน</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
                         <th class="px-6 py-3 text-center text-wrap text-md font-semibold text-white">QR Url</th>
@@ -298,7 +299,7 @@
     </script>
     <script>
         const transactions = @json($transactions); // ดึงข้อมูลจาก Controller
-        const rowsPerPage = 12;
+        const rowsPerPage = 300;
         let currentPage = 1;
         let filteredData = transactions;
 
@@ -332,6 +333,7 @@
                             ${transactions.details || transactions.details2 || transactions.detailsbirthday || transactions.detailstext || 'ไม่มีข้อมูล'}
                         </a>
                     </td>
+                   <td class="px-6 py-2 text-wrap  text-center text-md text-gray-700">${transactions.wish}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.value}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.lineName}</td>
                    <td class="px-6 py-2 text-wrap  text-center text-md text-gray-700">${transactions.qr_url}</td>
@@ -377,7 +379,7 @@
             const table = document.querySelector('table');
             const rows = Array.from(table.rows);
 
-            const columnsToCopy = [0, 1, 2, 3, 4, 5, 6]; // ระบุคอลัมน์ที่ต้องการ
+            const columnsToCopy = [0, 1, 2, 3, 4, 5, 6, 7]; // ระบุคอลัมน์ที่ต้องการ
             const mergeColumnIndex = 2; // คอลัมน์ "ข้อมูลผู้ร่วมบุญ" ที่ต้องรวมข้อความ
 
             // สร้างข้อมูลใหม่จากตาราง
@@ -412,7 +414,7 @@
             const rows = Array.from(table.rows);
 
             // ระบุคอลัมน์ที่ต้องการ
-            const columnsToCopy = [0, 1, 2, 3, 4, 5, 6]; // เปลี่ยนตามคอลัมน์ใน HTML
+            const columnsToCopy = [0, 1, 2, 3, 4, 5, 6, 7]; // เปลี่ยนตามคอลัมน์ใน HTML
             const mergeColumnIndex = 2; // คอลัมน์ "ข้อมูลผู้ร่วมบุญ" ที่ต้องรวมข้อความ
 
             // สร้างข้อมูล

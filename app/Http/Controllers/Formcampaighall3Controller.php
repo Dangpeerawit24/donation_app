@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 
-class Formcampaighall2Controller extends Controller
+class Formcampaighall3Controller extends Controller
 {
     public function index(Request $request)
     {
@@ -29,7 +29,7 @@ class Formcampaighall2Controller extends Controller
             ];
         });
 
-        return view('formcampaighall2', compact('campaignData'));
+        return view('formcampaighall3', compact('campaignData'));
     }
 
     public function fetchformcampaighalldetails(Request $request)
@@ -76,6 +76,8 @@ class Formcampaighall2Controller extends Controller
             'campaignsname' => 'required|string',
             'lineId' => 'required|string',
             'lineName' => 'required|string',
+            'newName' => 'required|string',
+            'newWish' => 'required|string',
             'respond' => 'required|string',
             'value' => 'required|integer|min:1',
             'transactionID' => 'required|string',
@@ -88,15 +90,6 @@ class Formcampaighall2Controller extends Controller
             $fileName = time() . '.' . $request->evidence->extension();
             $request->evidence->move(public_path('img/evidence/'), $fileName);
         }
-
-        // ประมวลผลข้อมูลชื่อผู้ร่วมบุญ
-        $newNames = $request->input('newName', []);
-
-        // รวมค่าจาก $newNames และคั่นด้วย ","
-        $finalNamesString = implode(', ', array_filter($newNames));
-
-        $newWish = $request->input('newWish', []);
-        $finalWishString = implode(', ', array_filter($newWish));
 
         // สร้างข้อมูลสำหรับ QR Code
         $qrData = env('APP_URL') . "/pushevidence?transactionID={$validated['transactionID']}";
@@ -122,8 +115,6 @@ class Formcampaighall2Controller extends Controller
         // ใช้ APP_URL สำหรับเก็บ Path ของ QR Code
         $qrUrl = env('APP_URL') . '/img/qr-codes/' . $qrFileName;
 
-        $status = $validated['respond'] === 'ไม่ส่งข้อความ' ? 'ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว' : ($validated['respond'] ?? 'รอดำเนินการ');
-
         // บันทึกข้อมูลลงในฐานข้อมูล
         DB::table('campaign_transactions')->insert([
             'campaignsid' => $validated['campaignsid'],
@@ -131,18 +122,18 @@ class Formcampaighall2Controller extends Controller
             'lineId' => $validated['lineId'],
             'lineName' => $validated['lineName'],
             'value' => $validated['value'],
-            'details2' => $finalNamesString,
-            'wish' => $finalWishString,
+            'details2' => $validated['newName'],
+            'wish' => $validated['newWish'],
             'evidence' => $fileName,
             'transactionID' => $validated['transactionID'],
             'qr_url' => $qrUrl, // เก็บ path ของ QR Code
-            'status' => $status,
+            'status' => "ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว",
             'notify' => "1",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        $this->sendLineMessage($validated['lineId'], $validated['lineName'], $validated['campaignsname'], $validated['respond']);
+        $this->sendLineMessage($validated['lineId'], $validated['lineName'], $validated['campaignsname'], $validated['value']);
 
         return redirect('/line')
             ->with('success', 'บันทึกข้อมูลและสร้าง QR Code สำเร็จ!')
@@ -150,13 +141,12 @@ class Formcampaighall2Controller extends Controller
             ->with('campaignname', $validated['campaignsname']);
     }
 
-    private function sendLineMessage($userId, $lineName, $campaignsname, $respond)
+    private function sendLineMessage($userId, $lineName, $campaignsname, $value)
     {
-        $respond = $respond === 'ไม่ส่งข้อความ' ? 'ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว' : ($respond ?? '');
         $lineAccessToken = env('LINE_CHANNEL_ACCESS_TOKEN'); // ดึง Access Token จาก .env
         $Text = "🙏ขออนุโมทนากับคุณ {$lineName}\n" .
             "✨ที่ร่วมกองบุญ{$campaignsname}\n" .
-            "{$respond}";
+            "💰เป็นจำนวนเงิน {$value} บาท";
 
         $message = [
             'to' => $userId,

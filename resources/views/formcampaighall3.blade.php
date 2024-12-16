@@ -34,20 +34,24 @@
         <div class="card" style="height: auto;">
             <div class="card-body">
                 <div>
-                    <form action="{{ Route('formcampaighall2.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ Route('formcampaighall3.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="d-flex justify-content-start align-items-center">
                             <h4 style="color: var(--bs-body-color);font-weight: bold;">กรอกข้อมูลผู้ร่วมบุญ</h4>
                         </div>
-                            <div>
-                                <h5 style="color: var(--bs-emphasis-color);">จำนวนกองบุญที่ต้องการร่วมบุญ</h5>
-                            </div>
+                        <div>
+                            <h5 style="color: var(--bs-emphasis-color);">จำนวนเงินที่ต้องการร่วมบุญ</h5>
+                        </div>
                         <div>
                             <input type="number" id="donationCount" name="value" required
                                 style="width: 100%; text-align: center; height: 45.4286px;" placeholder="0"
-                                min="0" max="30" onchange="updateDonationInputs()">
+                                min="0" onchange="updateDonationInputs()">
                         </div>
-                        <div id="donationInputs" class="input-container"></div>
+                        <div id="donationInputs" class="input-container">
+                            <h5 style="color: var(--bs-emphasis-color);" class="mt-2 mb-0">ข้อมูลผู้ร่วมบุญ</h5>
+                            <textarea name="newName" id="newDonorName" class="mt-2 mb-1" style="width: 100%; text-align: center; height: 100px; align-content: center;" placeholder="กรอก ชื่อ - สกุล"></textarea>
+                            <textarea name="newWish" id="newDonorWish" class="mt-2 mb-1" style="width: 100%; text-align: center; height: 200px; align-content: center; " placeholder="กรอก คำอธิฐานขอพร"></textarea>
+                        </div>
                         <div class="d-flex justify-content-start" style="margin-top: 9px;">
                             <h5 style="color: var(--bs-emphasis-color);font-weight: bold;">แนบหลักฐานการโอนเงิน</h5>
                         </div>
@@ -155,58 +159,11 @@
             .catch(error => console.error('Error fetching details:', error));
     };
 
-    function createInputFields(index) {
-        // สร้าง div สำหรับ input ใหม่
-        const inputDiv = document.createElement('div');
-        inputDiv.className = 'input-container';
-        inputDiv.style.marginBottom = '20px';
-
-        // สร้าง textarea สำหรับชื่อ
-        const nameTextarea = `
-        <textarea name="newName[]" id="newDonorName${index}" class="mt-2 mb-1" style="width: 100%; text-align: center; height: 100px; align-content: center;" placeholder="กรอก ชื่อ - สกุล วันเดือนปีเกิด  ชุดที่ ${index + 1}"></textarea>`;
-
-        // สร้าง textarea สำหรับคำอธิษฐาน
-        const wishTextarea = `
-        <textarea name="newWish[]" id="newDonorWish${index}" class="mt-2 mb-1" style="width: 100%; text-align: center; height: 200px; align-content: center; " placeholder="กรอก คำอธิฐานขอพร ชุดที่ ${index + 1}"></textarea>`;
-
-        // ใส่ textarea ลงใน div
-        inputDiv.innerHTML = `
-        <label for="newDonorName${index}" class="mt-2 mb-1">กรอกข้อมูล ชุดที่ ${index + 1}</label>
-        ${nameTextarea}
-        ${wishTextarea}`;
-
-        // เพิ่ม div ไปยัง container หลัก
-        document.getElementById('donationInputs').appendChild(inputDiv);
-    }
-
-
-
     function updateDonationInputs() {
-        const countInput = document.getElementById('donationCount');
-        let count = parseInt(countInput.value, 10);
-
-        if (isNaN(count) || count < 0) {
-            count = 0;
-            countInput.value = count;
-        }
-
-        if (count > 30) {
-            Swal.fire({
-                title: "ข้อจำกัด!",
-                text: "คุณไม่สามารถกรอกจำนวนกองบุญเกิน 30 ได้",
-                icon: "warning",
-                confirmButtonText: "ตกลง"
-            });
-            count = 30;
-            countInput.value = count;
-        }
-
-
-        const donationInputsContainer = document.getElementById('donationInputs');
+        const count = parseInt(document.getElementById('donationCount').value, 10);
         const qrImage = document.getElementById('qr');
-        donationInputsContainer.innerHTML = '';
 
-        if (count > 0) {
+        if (!isNaN(count) && count > 0) {
             const totalAmount = count * pricePerUnit;
             document.getElementById('totalAmountDisplay').innerText = totalAmount.toFixed(2) + " บาท";
 
@@ -214,9 +171,7 @@
             qrImage.style.display = 'block';
 
             if (cachedDetails) {
-                for (let i = 0; i < count; i++) {
-                    createInputFields(i);
-                }
+                for (let i = 0; i < count; i++) {}
             } else {
                 console.error('ยังไม่มีข้อมูลใน cachedDetails');
             }

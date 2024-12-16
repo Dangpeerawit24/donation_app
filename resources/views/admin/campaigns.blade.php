@@ -98,6 +98,7 @@
                                 <option value="ชื่อวันเดือนปีเกิด">ชื่อวันเดือนปีเกิด</option>
                                 <option value="ตามศรัทธา">ตามศรัทธา</option>
                                 <option value="คำขอพร">คำขอพร</option>
+                                <option value="คำขอพรตามศรัทธา">คำขอพรตามศรัทธา</option>
                                 <option value="กิจกรรม">กิจกรรม</option>
                             </select>
                         </div>

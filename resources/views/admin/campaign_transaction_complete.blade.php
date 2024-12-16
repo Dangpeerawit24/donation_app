@@ -34,6 +34,7 @@
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">สลิป</th>
                         <th class="px-6 py-3 text-center text-wrap w-[500px] text-md font-semibold text-white">
                             ข้อมูลผู้ร่วมบุญ</th>
+                        <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">คำขอพร</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวน</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
                         <th class="px-6 py-3 text-center text-wrap text-md font-semibold text-white">QR Url</th>
@@ -256,6 +257,7 @@
                             ${transactions.detailstext ? transactions.detailstext.split(',').map((detail, index) => `<li>${detail}</li>`).join('') : ''}
                         </ul>
                     </td>
+                   <td class="px-6 py-2 text-wrap  text-center text-md text-gray-700">${transactions.wish}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.value}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.lineName}</td>
                    <td class="px-6 py-2 text-wrap  text-center text-md text-gray-700">${transactions.qr_url}</td>
