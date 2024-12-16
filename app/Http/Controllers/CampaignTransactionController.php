@@ -27,7 +27,7 @@ class CampaignTransactionController extends Controller
 
         // ดึงข้อมูลที่ต้องการ
         $transactions = campaign_transaction::where('campaignsid', $campaignId)
-            ->whereIn('status', ['รอดำเนินการ'])
+            ->whereIn('status', ['รอดำเนินการ', 'แอดมินจะส่งภาพกองบุญให้ท่านได้อนุโมทนาอีกครั้ง'])
             ->get();
 
         if (Auth::user()->type === 'admin') {
