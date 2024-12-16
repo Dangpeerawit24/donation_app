@@ -59,7 +59,7 @@
                 <img src="{{ asset('img/campaign/' . $campaign->campaign_img) }}" class="rounded-xl" width="100%"
                     alt="">
                 <h2 class="text-2xl mt-2">กองบุญ{{ $campaign->name }}</h2>
-                <p class="mt-1 text-wrap">{!! str_replace('/n', '<br>', e($campaign->description)) !!}</p>
+                <p class="mt-1 text-wrap">{!! nl2br(e($campaign->description)) !!}</p>
                 @php
                     $details = $campaign->details;
                 @endphp

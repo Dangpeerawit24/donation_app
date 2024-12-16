@@ -100,6 +100,17 @@
                                 <option value="กิจกรรม">กิจกรรม</option>
                             </select>
                         </div>
+                        <div class="col-sm-10">
+                            <label for="respond"
+                                class="block text-sm font-medium text-gray-700 mb-1">ข้อความตอบกลับ</label>
+                            <select
+                                class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                name="respond" id="respond" required>
+                                <option value="แอดมินจะส่งภาพกองบุญให้ท่านได้อนุโมทนาอีกครั้ง">แอดมินจะส่งภาพกองบุญให้ท่านได้อนุโมทนาอีกครั้ง</option>
+                                <option value="ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว">ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว</option>
+                                <option value="ไม่ส่งข้อความ">ไม่ส่งข้อความ</option>
+                            </select>
+                        </div>
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-1">ชื่อกองบุญ</label>
                             <input type="text" name="name" id="name" value="{{ old('name') }}"

@@ -16,6 +16,7 @@ class Campaign extends Model
         'name',
         'description',
         'price',
+        'respond',
         'stock',
         'details',
         'campaign_img',

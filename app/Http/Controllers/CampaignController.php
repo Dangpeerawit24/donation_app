@@ -41,6 +41,7 @@ class CampaignController extends Controller
             'stock' => 'required|integer',
             'details' => 'required',
             'status' => 'required',
+            'respond' => 'required',
             'campaign_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:7048',
         ]);
 

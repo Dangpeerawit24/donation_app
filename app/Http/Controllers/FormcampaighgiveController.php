@@ -62,7 +62,7 @@ class FormcampaighgiveController extends Controller
             'evidence' => $fileName,
             'transactionID' => $validated['transactionID'],
             'value' => "0",
-            'status' => "รายนามเข้าระบบเรียบร้อยแล้ว",
+            'status' => "ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว",
             'notify' => "1",
             'created_at' => now(),
             'updated_at' => now(),

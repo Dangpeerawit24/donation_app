@@ -63,6 +63,7 @@
                         <input type="hidden" id="campaignsname" name="campaignsname"
                             value="{{ $data['campaign']->name }}">
                         <input type="hidden" name="lineId" value="{{ $data['profile']['userId'] }}">
+                        <input type="hidden" id="respond" name="respond" value="{{ $data['campaign']->respond }}">
                         <input type="hidden" name="lineName" value="{{ $data['profile']['displayName'] }}">
                         <input type="hidden" name="transactionID"
                             value="TX-{{ now()->timestamp }}-{{ rand(1000, 9999) }}">

@@ -75,6 +75,7 @@ class FormcampaighbirthdayController extends Controller
             'campaignsid' => 'required|integer',
             'campaignsname' => 'required|string',
             'lineId' => 'required|string',
+            'respond' => 'required|string',
             'lineName' => 'required|string',
             'value' => 'required|integer|min:1',
             'transactionID' => 'required|string',
@@ -125,6 +126,8 @@ class FormcampaighbirthdayController extends Controller
         // ใช้ APP_URL สำหรับเก็บ Path ของ QR Code
         $qrUrl = env('APP_URL') . '/img/qr-codes/' . $qrFileName;
 
+        $status = $validated['respond'] === 'ไม่ส่งข้อความ' ? 'ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว' : ($validated['respond'] ?? 'รอดำเนินการ');
+
         // บันทึกข้อมูลลงในฐานข้อมูล
         DB::table('campaign_transactions')->insert([
             'campaignsid' => $validated['campaignsid'],
@@ -136,13 +139,13 @@ class FormcampaighbirthdayController extends Controller
             'evidence' => $fileName,
             'transactionID' => $validated['transactionID'],
             'qr_url' => $qrUrl, // เก็บ path ของ QR Code
-            'status' => "รอดำเนินการ",
+            'status' => $status,
             'notify' => "1",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        $this->sendLineMessage($validated['lineId'], $validated['lineName'], $validated['campaignsname']);
+        $this->sendLineMessage($validated['lineId'], $validated['lineName'], $validated['campaignsname'], $validated['respond']);
 
         return redirect('/line')
             ->with('success', 'บันทึกข้อมูลและสร้าง QR Code สำเร็จ!')
@@ -150,12 +153,13 @@ class FormcampaighbirthdayController extends Controller
             ->with('campaignname', $validated['campaignsname']);
     }
 
-    private function sendLineMessage($userId, $lineName, $campaignsname)
+    private function sendLineMessage($userId, $lineName, $campaignsname, $respond)
     {
+        $respond = $respond === 'ไม่ส่งข้อความ' ? 'ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว' : ($respond ?? '');
         $lineAccessToken = env('LINE_CHANNEL_ACCESS_TOKEN'); // ดึง Access Token จาก .env
         $Text = "🙏ขออนุโมทนากับคุณ {$lineName}\n" .
             "✨ที่ร่วมกองบุญ{$campaignsname}\n" .
-            "แอดมินจะส่งภาพกองบุญให้ท่านได้อนุโมทนาอีกครั้ง";
+            "{$respond}";
 
         $message = [
             'to' => $userId,
