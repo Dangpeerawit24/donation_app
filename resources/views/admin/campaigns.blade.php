@@ -106,8 +106,10 @@
                             <select
                                 class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 name="respond" id="respond" required>
-                                <option value="แอดมินจะส่งภาพกองบุญให้ท่านได้อนุโมทนาอีกครั้ง">แอดมินจะส่งภาพกองบุญให้ท่านได้อนุโมทนาอีกครั้ง</option>
-                                <option value="ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว">ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว</option>
+                                <option value="แอดมินจะส่งภาพกองบุญให้ท่านได้อนุโมทนาอีกครั้ง">
+                                    แอดมินจะส่งภาพกองบุญให้ท่านได้อนุโมทนาอีกครั้ง</option>
+                                <option value="ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว">ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว
+                                </option>
                                 <option value="ไม่ส่งข้อความ">ไม่ส่งข้อความ</option>
                             </select>
                         </div>
@@ -119,8 +121,8 @@
                         </div>
                         <div>
                             <label for="description" class="block text-sm font-medium text-gray-700 mb-1">รายละเอียด
-                                </label>
-                                {{-- (ต้องการขึ้นบรรทัดใหม่ให้พิมพ์ /n ) --}}
+                            </label>
+                            {{-- (ต้องการขึ้นบรรทัดใหม่ให้พิมพ์ /n ) --}}
                             <textarea class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200" id="description2"
                                 name="description" rows="4" maxlength="500" required></textarea>
                             <div id="charCount" class="form-text">เหลือ 500 ตัวอักษร</div>
@@ -130,7 +132,8 @@
                             <div class="flex items-center gap-2">
                                 <div class="flex items-center text-nowrap">
                                     <input type="checkbox" id="faithPrice" class="mr-2" onclick="toggleFaithPrice()">
-                                    <label for="faithPrice" class="text-sm font-medium text-gray-700">ตามกำลังศรัทธา</label>
+                                    <label for="faithPrice"
+                                        class="text-sm font-medium text-gray-700">ตามกำลังศรัทธา</label>
                                 </div>
                                 <input type="text" name="price" id="price" value="{{ old('price') }}"
                                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
@@ -168,114 +171,121 @@
             </div>
         </div>
     </div>
+    <script>
+        const modal = document.getElementById('modal');
+        const openModal = document.getElementById('openModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeModalFooter = document.getElementById('closeModalFooter');
 
-    <div id="editModal" class="fixed inset-0 p-2 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl overflow-hidden">
-            <!-- Modal Header -->
-            <div class="px-6 py-4 bg-blue-500 text-white flex justify-between items-center">
-                <h2 class="text-xl font-semibold">แก้ไขข้อมูลสินค้า</h2>
-                <button id="closeModal2" class="text-white hover:text-gray-300 text-2xl">
-                    &times;
-                </button>
+        // เปิด Modal
+        openModal.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
+
+        // ปิด Modal
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        closeModalFooter.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        // ปิด Modal เมื่อคลิกนอก Modal
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+    </script>
+
+    <!-- Modal -->
+    <div id="pushmessage"
+        class="fixed inset-0 bg-gray-900 bg-opacity-50 px-2 flex items-center justify-center hidden z-50">
+        <!-- Modal Content -->
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md overflow-hidden">
+            <!-- Header -->
+            <div class="px-4 py-2 bg-blue-500 text-white flex justify-between items-center">
+                <h2 class="text-lg font-semibold">Push Message</h2>
+                <button id="closeModalpushmessage" class="text-white text-2xl hover:text-gray-300">&times;</button>
             </div>
 
-            <!-- Modal Body -->
-            <div class="px-6 py-4">
-                <form action="" id="usersForm2" method="POST" enctype="multipart/form-data">
+            <!-- Body -->
+            <div class="p-4 space-y-4">
+                <form action="" id="pushmessageform" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
-                    <div class="grid grid-cols-1 overflow-x-auto  gap-4 ">
-                        <div class="col-sm-10">
-                            <label for="status" class="block text-sm font-medium text-gray-700 mb-1">สถานะกองบุญ</label>
-                            <select
-                                class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                name="status" id="status" required>
-                                <option value="เปิดกองบุญ">เปิดกองบุญ</option>
-                                <option value="ปิดกองบุญแล้ว">ปิดกองบุญแล้ว</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-10">
-                            <label for="categoriesID"
-                                class="block text-sm font-medium text-gray-700 mb-1">สถานะกองบุญ</label>
-                            <select
-                                class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                name="categoriesID" id="categoriesID" required>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-10">
-                            <label for="details"
-                                class="block text-sm font-medium text-gray-700 mb-1">ต้องการให้กรอก</label>
-                            <select
-                                class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                name="details" id="details" required>
-                                <option value="ชื่อสกุล">ชื่อสกุล</option>
-                                <option value="กล่องข้อความใหญ่">กล่องข้อความใหญ่</option>
-                                <option value="ชื่อวันเดือนปีเกิด">ชื่อวันเดือนปีเกิด</option>
-                                <option value="ตามศรัทธา">ตามศรัทธา</option>
-                                <option value="กิจกรรม">กิจกรรม</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">ชื่อกองบุญ</label>
-                            <input type="text" name="name" id="name2" value="{{ old('name') }}"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
-                                placeholder="กรอก ชื่อกองบุญ" required>
-                        </div>
-                        <div>
-                            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">รายละเอียด
-                                (ต้องการขึ้นบรรทัดใหม่ให้พิมพ์ /n )</label>
-                            <textarea class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200" id="description3"
-                                name="description" rows="4" maxlength="500" value="{{ old('description') }}" required></textarea>
-                            <div id="charCount" class="form-text">เหลือ 500 ตัวอักษร</div>
-                        </div>
-                        <div>
-                            <label for="price" class="block text-sm font-medium text-gray-700 mb-1">ราคา</label>
-                            <div class="flex items-center gap-2">
-                                <div class="flex items-center text-nowrap">
-                                    <input type="checkbox" id="faithPrice2" class="mr-2"
-                                        onclick="toggleFaithPrice2()">
-                                    <label for="faithPrice"
-                                        class="text-sm font-medium text-gray-700">ตามกำลังศรัทธา</label>
-                                </div>
-                                <input type="text" name="price" id="price2" value="{{ old('price') }}"
-                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
-                                    placeholder="กรอก ราคา" required>
-                            </div>
-                        </div>
-                        <div>
-                            <label for="stock"
-                                class="block text-sm font-medium text-gray-700 mb-1">จำนวนที่เปิดรับ</label>
-                            <input type="text" name="stock" id="stock2" value="{{ old('stock') }}"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
-                                placeholder="จำนวนที่เปิดรับ" required>
-                        </div>
-                        <div class="">
-                            <label for="campaign_img"
-                                class="block text-sm font-medium text-gray-700 mb-1">รูปกองบุญ</label>
-                            <input type="file" name="campaign_img" id="campaign_img"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200">
-                        </div>
-                        <input type="hidden" name="price" id="hiddenPrice2">
-                        <input type="hidden" name="stock" id="hiddenStock2">
+                    <div>
+                        <label for="campaign_imgpush" class="block text-sm font-medium text-gray-700">อัปโหลดไฟล์</label>
+                        <input type="file" id="campaign_imgpush" name="campaign_imgpush"
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200">
                     </div>
+
+                    <!-- Textarea -->
+                    <div>
+                        <label for="textareaInput" class="block text-sm font-medium text-gray-700">ข้อความ</label>
+                        <textarea id="textareaInput" name="textareaInput" rows="4"
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
+                            placeholder="พิมพ์ข้อความของคุณที่นี่"></textarea>
+                    </div>
+                    <input type="hidden" name="pushmessage" value="pushmessage">
                 </form>
             </div>
 
-            <!-- Modal Footer -->
-            <div class="px-6 py-4 bg-gray-100 flex justify-end items-center space-x-3">
-                <button id="closeModalFooter2" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
-                    Cancel
+            <!-- Footer -->
+            <div class="px-4 py-2 bg-gray-100 flex justify-end space-x-2">
+                <button id="closeModalFooterpushmessage"
+                    class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
+                    ปิด
                 </button>
-                <button type="submit" form="usersForm2"
+                <button type="submit" form="pushmessageform"
                     class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-                    Save
+                    ยืนยัน
                 </button>
             </div>
         </div>
     </div>
+    <script>
+        // เปิด Modal
+        function openModalpushmessage(url) {
+            const modal = document.getElementById('pushmessage');
+            const form = document.getElementById('pushmessageform');
+
+            // ตั้งค่า URL action ใน form
+            form.action = url;
+
+            // เปิด Modal
+            modal.classList.remove('hidden');
+        }
+
+        // ปิด Modal
+        function closeModalpushmessage() {
+            const modal = document.getElementById('pushmessage');
+            modal.classList.add('hidden');
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            const closeModalButton = document.getElementById('closeModalpushmessage');
+            const closeModalFooterButton = document.getElementById('closeModalFooterpushmessage');
+            const modal = document.getElementById('pushmessage');
+
+            // ปิด Modal (จาก Header ปุ่ม X)
+            closeModalButton.addEventListener('click', closeModalpushmessage);
+
+            // ปิด Modal (จาก Footer ปุ่มปิด)
+            closeModalFooterButton.addEventListener('click', closeModalpushmessage);
+
+            // ปิด Modal เมื่อคลิกพื้นที่นอก Modal
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModalpushmessage();
+                }
+            });
+        });
+    </script>
+
+
     <script>
         function toggleFaithPrice() {
             const priceInput = document.getElementById('price');
@@ -315,34 +325,6 @@
         });
     </script>
     <script>
-        function toggleFaithPrice2() {
-            const priceInput2 = document.getElementById('price2');
-            const stockInput2 = document.getElementById('stock2');
-            const faithCheckbox2 = document.getElementById('faithPrice2');
-            const hiddenPrice2 = document.getElementById('hiddenPrice2');
-            const hiddenStock2 = document.getElementById('hiddenStock2');
-
-            if (faithCheckbox.checked) {
-                // ตั้งค่า price และ stock เป็น "ตามศรัทธา" และทำให้แก้ไขไม่ได้
-                priceInput.value = "ตามศรัทธา";
-                stockInput.value = "ตามศรัทธา";
-                priceInput.disabled = true;
-                stockInput.disabled = true;
-                hiddenPrice.value = 1; // อัปเดตค่า hidden input
-                hiddenStock.value = 999999; // อัปเดตค่า hidden input
-            } else {
-                // เปิดให้แก้ไขได้
-                priceInput.disabled = false;
-                stockInput.disabled = false;
-
-                // ตั้งค่าของ hiddenPrice และ hiddenStock ให้เท่ากับค่าที่กรอกลงไป
-                hiddenPrice.value = priceInput.value || '';
-                hiddenStock.value = stockInput.value || '';
-            }
-        }
-
-    </script>
-    <script>
         const textarea = document.getElementById('description2');
         const charCount = document.getElementById('charCount');
         const maxLength = textarea.getAttribute('maxlength');
@@ -356,87 +338,9 @@
                 charCount.style.color = '#6c757d';
             }
         });
-
-        // textarea.addEventListener('keydown', (event) => {
-        //     if (event.key === 'Enter') { // ตรวจจับการกด Enter
-        //         event.preventDefault(); // ป้องกันการขึ้นบรรทัดใหม่แบบปกติ
-    
-        //         const cursorPosition = textarea.selectionStart; // ตำแหน่งของเคอร์เซอร์
-        //         const text = textarea.value; // ค่าปัจจุบันใน textarea
-    
-        //         // เพิ่ม , ไว้ท้ายบรรทัดบน และเพิ่มบรรทัดใหม่
-        //         const beforeCursor = text.slice(0, cursorPosition);
-        //         const afterCursor = text.slice(cursorPosition);
-    
-        //         textarea.value = `${beforeCursor.trim()},\n${afterCursor.trim()}`;
-                
-        //         // ย้ายเคอร์เซอร์ไปยังบรรทัดใหม่
-        //         textarea.selectionStart = textarea.selectionEnd = cursorPosition + 2;
-        //     }
-        // });
-    </script>
-    <script>
-        const modal = document.getElementById('modal');
-        const openModal = document.getElementById('openModal');
-        const closeModal = document.getElementById('closeModal');
-        const closeModalFooter = document.getElementById('closeModalFooter');
-
-        // เปิด Modal
-        openModal.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-        });
-
-        // ปิด Modal
-        closeModal.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-
-        closeModalFooter.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-
-        // ปิด Modal เมื่อคลิกนอก Modal
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
-            }
-        });
     </script>
     <script>
         const csrfToken = "{{ csrf_token() }}";
-    </script>
-    <script>
-        function openEditModal(id, name, description, price, stock) {
-            // เปิด Modal
-            const modal = document.getElementById('editModal');
-            modal.classList.remove('hidden');
-            const decodedDescription = decodeURIComponent(description);
-
-
-            // เติมข้อมูลในฟอร์ม
-            const form = document.getElementById('usersForm2');
-            form.action = `/admin/campaigns/update/${id}`; // เปลี่ยน action ของฟอร์ม
-
-            document.getElementById('name2').value = name;
-            document.getElementById('description3').value = decodedDescription;
-            document.getElementById('price2').value = price;
-            document.getElementById('stock2').value = stock;
-
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
-                }
-            });
-        }
-
-        // ฟังก์ชันสำหรับปิด Modal
-        document.getElementById('closeModal2').addEventListener('click', () => {
-            document.getElementById('editModal').classList.add('hidden');
-        });
-
-        document.getElementById('closeModalFooter2').addEventListener('click', () => {
-            document.getElementById('editModal').classList.add('hidden');
-        });
     </script>
     <script>
         function confirmCloseCampaign(campaignId) {
@@ -534,13 +438,18 @@
                                     class="px-4 py-2 bg-sky-300 text-black rounded hover:bg-sky-600">
                                         ดูรายการกองบุญ
                                 </a>
+                                <button
+                                    class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                                    onclick="openModalpushmessage('/admin/pushmessage?campaign_id=${Results.id}')">
+                                    pushmessage
+                                </button>
                                             ${
                                     Results.status !== "ปิดกองบุญแล้ว"
                                         ? `<button 
-                                                class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
-                                                onclick="confirmCloseCampaign(${Results.id})">
-                                                ปิดกองบุญ
-                                            </button>`
+                                                                            class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
+                                                                            onclick="confirmCloseCampaign(${Results.id})">
+                                                                            ปิดกองบุญ
+                                                                        </button>`
                                         : ''
                                 }
                                

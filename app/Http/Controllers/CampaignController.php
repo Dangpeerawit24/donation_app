@@ -14,15 +14,17 @@ class CampaignController extends Controller
     {
         $categories = DB::table('categories')->get();
         $Results = DB::table('campaigns')
-    ->leftJoin(
-        DB::raw('(SELECT campaignsid, SUM(value) as total_value 
+            ->leftJoin(
+                DB::raw('(SELECT campaignsid, SUM(value) as total_value 
                   FROM campaign_transactions 
                   GROUP BY campaignsid) as ct'),
-        'campaigns.id', '=', 'ct.campaignsid'
-    )
-    ->select('campaigns.*', DB::raw('IFNULL(ct.total_value, 0) as total_value'))
-    ->orderByDesc('campaigns.created_at')
-    ->get();
+                'campaigns.id',
+                '=',
+                'ct.campaignsid'
+            )
+            ->select('campaigns.*', DB::raw('IFNULL(ct.total_value, 0) as total_value'))
+            ->orderByDesc('campaigns.created_at')
+            ->get();
 
         if (Auth::user()->type === 'admin') {
             return view('admin.campaigns', compact('categories', 'Results'));
@@ -67,7 +69,7 @@ class CampaignController extends Controller
                 "✨ {$campaign->name}\n" .
                 "💰 ร่วมบุญ: {$priceMessage}\n" .
                 "📋 " . $campaign->description;
-                // "📋 " . str_replace(",", "\n", $campaign->description);
+            // "📋 " . str_replace(",", "\n", $campaign->description);
 
             $message2 = "แสดงหลักฐานการร่วมบุญ\n" .
                 "💰 มูลนิธิเมตตาธรรมรัศมี\n" .
@@ -163,6 +165,84 @@ class CampaignController extends Controller
 
         return response()->json(['success' => true, 'message' => 'ปิดกองบุญเรียบร้อยแล้ว.']);
     }
+
+    public function pushmessage(Request $request)
+    {
+        $campaign_id = $request->query('campaign_id');
+        if (!$campaign_id) {
+            return redirect()->back()->with('error', 'ข้อมูลไม่ครบถ้วน');
+        }
+
+        // ตรวจสอบว่ามี campaign นี้อยู่ในฐานข้อมูล
+        $campaign = DB::table('campaigns')->where('id', $campaign_id)->first();
+        if (!$campaign) {
+            return redirect()->back()->with('error', 'ไม่พบข้อมูลกองบุญ');
+        }
+
+        // ตรวจสอบข้อมูลที่ส่งมา
+        $validated = $request->validate([
+            'textareaInput' => 'required',
+            'campaign_imgpush' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:7048',
+        ]);
+
+        // อัปโหลดรูปภาพและบันทึกในฐานข้อมูล
+        $fileName = null;
+        if ($request->hasFile('campaign_imgpush')) {
+            $fileName = time() . '.' . $request->campaign_imgpush->extension();
+            $request->campaign_imgpush->move(public_path('img/campaignpush/'), $fileName);
+
+            // อัปเดตในตาราง campaigns
+            DB::table('campaigns')->where('id', $campaign_id)->update([
+                'campaign_imgpush' => $fileName,
+            ]);
+        }
+
+        // เตรียมข้อมูลสำหรับข้อความ Broadcast
+        $priceMessage = $campaign->price == 1 ? 'ตามกำลังศรัทธา' : number_format($campaign->price, 2) . ' บาท';
+        $description = $validated['textareaInput'] ?? 'ไม่มีรายละเอียดเพิ่มเติม';
+
+        $message = "{$description}\n" .
+            "✨ กองบุญ{$campaign->name}\n" .
+            "💰 ร่วมบุญ: {$priceMessage}\n\n" .
+            "แสดงหลักฐานการร่วมบุญ\n" .
+            "💰 มูลนิธิเมตตาธรรมรัศมี\n" .
+            "ธ.กสิกรไทย เลขที่บัญชี 171-1-75423-3\n" .
+            "ธ.ไทยพาณิชย์ เลขที่บัญชี 649-242269-4\n\n" .
+            "📌 ร่วมบุญผ่านระบบกองบุญออนไลน์ได้ที่ : https://liff.line.me/2006463554-1M9q5zzK";
+
+        $imageUrl = $fileName
+            ? asset('img/campaignpush/' . $fileName)
+            : asset('img/campaign/' . $campaign->campaign_img);
+
+        // $imageUrl = "https://images.unsplash.com/photo-1720048169707-a32d6dfca0b3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8"; 
+
+        // ส่งข้อความ Broadcast ผ่าน LINE API
+        $lineToken = env('LINE_CHANNEL_ACCESS_TOKEN');
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => "Bearer $lineToken",
+        ])->post('https://api.line.me/v2/bot/message/broadcast', [
+            'messages' => [
+                [
+                    'type' => 'image',
+                    'originalContentUrl' => $imageUrl,
+                    'previewImageUrl' => $imageUrl,
+                ],
+                [
+                    'type' => 'text',
+                    'text' => $message,
+                ],
+            ],
+        ]);
+
+        // ตรวจสอบผลลัพธ์ของการส่งข้อความ
+        if ($response->successful()) {
+            return redirect()->back()->with('success', 'pushmessage เรียบร้อยแล้ว.');
+        } else {
+            return redirect()->back()->with('error', 'pushmessage ไม่สำเร็จ.');
+        }
+    }
+
 
 
     public function destroy($id)
