@@ -30,7 +30,7 @@
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">รูปกองบุญ</th>
-                        <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ชื่อกองบุญ</th>
+                        <th class="px-6 py-3 text-center text-wrap text-md font-semibold text-white">ชื่อกองบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ราคา</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวนที่เปิดรับ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ยอดร่วมบุญ</th>
@@ -428,12 +428,12 @@
                        <td class="px-6 py-2 text-nowrap text-center text-md text-gray-700">
                             <img src="${baseUrl}/${Results.campaign_img}" alt="Campaign Image" width="100px" height="100px">
                         </td>
-                       <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.name}</td>
+                       <td class="px-6 py-2 text-wrap  text-center text-md text-gray-700">${Results.name}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.price <= 1 ? "ตามกำลังศรัทธา": Results.price.toLocaleString()}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.stock >= 999999 ? "ตามกำลังศรัทธา": Results.stock}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.total_value}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">
-                           <div class="flex justify-center gap-2">
+                           <div class="flex flex-row justify-center gap-2">
                                 <a href="/admin/campaigns_transaction?campaign_id=${Results.id}&name=${encodeURIComponent(Results.name)}" 
                                     class="px-4 py-2 bg-sky-300 text-black rounded hover:bg-sky-600">
                                         ดูรายการกองบุญ
