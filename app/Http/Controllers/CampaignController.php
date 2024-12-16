@@ -199,7 +199,7 @@ class CampaignController extends Controller
 
         // เตรียมข้อมูลสำหรับข้อความ Broadcast
         $priceMessage = $campaign->price == 1 ? 'ตามกำลังศรัทธา' : number_format($campaign->price, 2) . ' บาท';
-        $description = $validated['textareaInput'] ?? 'ไม่มีรายละเอียดเพิ่มเติม';
+        $description = $validated['textareaInput'] ?? '';
 
         $message = "{$description}\n" .
             "✨ กองบุญ{$campaign->name}\n" .
