@@ -83,6 +83,7 @@ class CampaignTransactionController extends Controller
         // ค้นหา user_id จากตาราง line_users
         $lineId = DB::table('line_users')
             ->where('display_name', $lineName)
+            ->orderBy('created_at', 'desc')
             ->value('user_id'); // ถ้าไม่มี user_id จะได้ null
 
         // ตรวจสอบว่ามี user_id หรือไม่
