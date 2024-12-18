@@ -46,7 +46,7 @@ class WebhookController extends Controller
 
                         if ($profile) {
                             // เก็บข้อมูลในฐานข้อมูล
-                            LineUser::Create(
+                            LineUser::updateOrCreate(
                                 ['user_id' => $userId],
                                 [
                                     'display_name' => $profile['displayName'],
