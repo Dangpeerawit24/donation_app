@@ -86,6 +86,13 @@
                         </a>
                     </li>
                     <li>
+                        <a href="/admin/lineusers" class="flex items-center gap-2 p-2 rounded hover:bg-sky-800">
+                            <img src="{{ asset('img/submenu/ic_menu_lineusers.svg') }}" width="30px" height="30px"
+                                alt="">
+                            รายการลูกบุญย้อนหลัง
+                        </a>
+                    </li>
+                    <li>
                         <a href="/admin/users" class="flex items-center gap-2 p-2 rounded hover:bg-sky-800">
                             <img src="{{ asset('img/submenu/ic_menu_user.svg') }}" width="30px"
                                 height="30px" alt="">
@@ -165,6 +172,14 @@
                             <img src="{{ asset('img/submenu/ic_menu_qrcode.svg') }}" width="30px" height="30px"
                                 alt="">
                             สร้าง QR CODE
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/lineusers"
+                            class="flex items-center gap-2 p-2 rounded {{ $manu == 'รายการลูกบุญย้อนหลัง' ? ' bg-sky-600 scale-125' : '' }} hover:bg-sky-800 hover:scale-110	">
+                            <img src="{{ asset('img/submenu/ic_menu_lineusers.svg') }}" width="30px" height="30px"
+                                alt="">
+                            รายการลูกบุญย้อนหลัง
                         </a>
                     </li>
                     <li>

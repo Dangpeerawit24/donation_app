@@ -24,6 +24,7 @@ use App\Http\Controllers\FormcampaignController;
 use App\Http\Controllers\PushevidenceController;
 use App\Http\Controllers\Formcampaighall2Controller;
 use App\Http\Controllers\Formcampaighall3Controller;
+use App\Http\Controllers\LineUsersController;
 
 
 // Route::get('/login', function () { return view('auth.login');});
@@ -101,7 +102,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::resource('/admin/campaigns_transaction', CampaignTransactionController::class);
     Route::get('/admin/campaigns_transaction_success', [CampaignTransactionController::class, 'success']);
     Route::resource('/admin/campaign_transaction_complete', CampaignTransactionComplete::class);
-
+    Route::get('/admin/lineusers', [LineUsersController::class, 'index']);
     
 });
 
@@ -117,6 +118,7 @@ Route::middleware(['auth', 'user-access:member'])->group(function () {
 Route::get('/api/campaigns', [DashboardController::class, 'getActiveCampaigns']);
 Route::get('/api/users', [DashboardController::class, 'getActiveuser']);
 Route::get('/api/dashboard-data', [DashboardController::class, 'getDashboardData'])->name('dashboard.data');
+Route::get('/api/lineusers', [LineUsersController::class, 'getLineUsers']);
 
 // เส้นทางสำหรับสร้าง QR Code
 Route::post('/qr-code/generate', [QRCodeController::class, 'generate'])->name('qr-code.generate');
