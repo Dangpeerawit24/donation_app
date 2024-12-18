@@ -112,9 +112,9 @@
                     title: "กำลังประมวลผล",
                     text: "กรุณารอสักครู่...",
                     icon: "info",
-                    buttons: false,
-                    closeOnClickOutside: false,
-                    closeOnEsc: false
+                    allowOutsideClick: false, // ป้องกันการคลิกด้านนอก
+                    allowEscapeKey: false, // ป้องกันการกด Esc
+                    showConfirmButton: false // ไม่แสดงปุ่มยืนยัน
                 });
 
                 document.getElementById("uploadForm").submit();
