@@ -237,14 +237,24 @@
             <div class="p-4 space-y-4">
                 <form action="" id="pushmessageform" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div>
+                    <div class="col-sm-10">
+                        <label for="broadcastOption" class="block text-sm font-medium text-gray-700 mb-1">ส่งให้</label>
+                        <select
+                            class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                            name="broadcastOption" id="" required>
+                            <option value="Broadcast">Broadcast ทั้งหมด</option>
+                            <option value="3months">ลูกบุญย้อนหลัง 3 เดือน</option>
+                            <option value="year">ลูกบุญย้อนหลังปีนี้</option>
+                        </select>
+                    </div>
+                    <div class="mt-3">
                         <label for="campaign_imgpush" class="block text-sm font-medium text-gray-700">อัปโหลดไฟล์</label>
                         <input type="file" id="campaign_imgpush" name="campaign_imgpush"
                             class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200">
                     </div>
 
                     <!-- Textarea -->
-                    <div>
+                    <div class="mt-3">
                         <label for="textareaInput" class="block text-sm font-medium text-gray-700">ข้อความ</label>
                         <textarea id="textareaInput" name="textareaInput" rows="4"
                             class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"

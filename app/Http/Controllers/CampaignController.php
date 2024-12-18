@@ -77,7 +77,7 @@ class CampaignController extends Controller
                 "📌 ร่วมบุญผ่านระบบกองบุญออนไลน์ได้ที่ : $linkapp";
 
             $imageUrl = asset('img/campaign/' . $campaign->campaign_img);
-            
+
             $userIds = [];
 
             // ดึงข้อมูล user ตาม broadcastOption
@@ -223,6 +223,7 @@ class CampaignController extends Controller
         // ตรวจสอบข้อมูลที่ส่งมา
         $validated = $request->validate([
             'textareaInput' => 'required',
+            'broadcastOption' => 'required',
             'campaign_imgpush' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:7048',
         ]);
 
@@ -241,6 +242,7 @@ class CampaignController extends Controller
         // เตรียมข้อมูลสำหรับข้อความ Broadcast
         $priceMessage = $campaign->price == 1 ? 'ตามกำลังศรัทธา' : number_format($campaign->price, 2) . ' บาท';
         $description = $validated['textareaInput'] ?? '';
+        $linkapp = env('Liff_App');
 
         $message = "{$description}\n" .
             "✨ กองบุญ{$campaign->name}\n" .
@@ -249,7 +251,7 @@ class CampaignController extends Controller
             "💰 มูลนิธิเมตตาธรรมรัศมี\n" .
             "ธ.กสิกรไทย เลขที่บัญชี 171-1-75423-3\n" .
             "ธ.ไทยพาณิชย์ เลขที่บัญชี 649-242269-4\n\n" .
-            "📌 ร่วมบุญผ่านระบบกองบุญออนไลน์ได้ที่ : https://liff.line.me/2006463554-1M9q5zzK";
+            "📌 ร่วมบุญผ่านระบบกองบุญออนไลน์ได้ที่ : $linkapp";
 
         $imageUrl = $fileName
             ? asset('img/campaignpush/' . $fileName)
@@ -259,29 +261,52 @@ class CampaignController extends Controller
 
         // ส่งข้อความ Broadcast ผ่าน LINE API
         $lineToken = env('LINE_CHANNEL_ACCESS_TOKEN');
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Authorization' => "Bearer $lineToken",
-        ])->post('https://api.line.me/v2/bot/message/broadcast', [
-            'messages' => [
-                [
-                    'type' => 'image',
-                    'originalContentUrl' => $imageUrl,
-                    'previewImageUrl' => $imageUrl,
-                ],
-                [
-                    'type' => 'text',
-                    'text' => $message,
-                ],
-            ],
-        ]);
 
-        // ตรวจสอบผลลัพธ์ของการส่งข้อความ
-        if ($response->successful()) {
-            return redirect()->back()->with('success', 'pushmessage เรียบร้อยแล้ว.');
-        } else {
-            return redirect()->back()->with('error', 'pushmessage ไม่สำเร็จ.');
+        $userIds = [];
+
+        // ดึงข้อมูล user ตาม broadcastOption
+        if ($request->broadcastOption === 'Broadcast') {
+            // ส่ง Broadcast API
+            Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer $lineToken",
+            ])->post('https://api.line.me/v2/bot/message/broadcast', [
+                'messages' => [
+                    ['type' => 'image', 'originalContentUrl' => $imageUrl, 'previewImageUrl' => $imageUrl],
+                    ['type' => 'text', 'text' => $message],
+                ],
+            ]);
+        } elseif ($request->broadcastOption === '3months') {
+            $userIds = DB::table('line_users')
+                ->where('created_at', '>=', now()->subMonths(3))
+                ->groupBy('user_id')
+                ->orderByRaw('MAX(created_at) DESC')
+                ->pluck('user_id');
+        } elseif ($request->broadcastOption === 'year') {
+            $userIds = DB::table('line_users')
+                ->whereYear('created_at', now()->year)
+                ->groupBy('user_id')
+                ->pluck('user_id');
         }
+
+        // ส่งข้อความแบบ Multicast
+        if (!empty($userIds)) {
+            $userIdsChunk = array_chunk($userIds->toArray(), 500); // แบ่งชุดละ 500
+            foreach ($userIdsChunk as $chunk) {
+                Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Authorization' => "Bearer $lineToken",
+                ])->post('https://api.line.me/v2/bot/message/multicast', [
+                    'to' => $chunk,
+                    'messages' => [
+                        ['type' => 'image', 'originalContentUrl' => $imageUrl, 'previewImageUrl' => $imageUrl],
+                        ['type' => 'text', 'text' => $message],
+                    ],
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'pushmessage เรียบร้อยแล้ว.');
     }
 
 
