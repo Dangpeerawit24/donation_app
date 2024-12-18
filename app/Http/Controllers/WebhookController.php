@@ -46,14 +46,12 @@ class WebhookController extends Controller
 
                         if ($profile) {
                             // เก็บข้อมูลในฐานข้อมูล
-                            LineUser::create(
-                                ['user_id' => $userId],
-                                [
-                                    'display_name' => $profile['displayName'],
-                                    'picture_url' => $profile['pictureUrl'] ?? null,
-                                    'status_message' => $profile['statusMessage'] ?? null,
-                                ]
-                            );
+                            LineUser::create([
+                                'user_id' => $userId,
+                                'display_name' => $profile['displayName'],
+                                'picture_url' => $profile['pictureUrl'] ?? null,
+                                'status_message' => $profile['statusMessage'] ?? null,
+                            ]);                            
 
                             Log::info('User Profile Saved:', ['userId' => $userId]);
                         }
