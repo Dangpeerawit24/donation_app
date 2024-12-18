@@ -56,19 +56,20 @@
         document.addEventListener('DOMContentLoaded', () => {
             const rowsPerPage = 300;
             let currentPage = 1;
-            let filteredData = [];
+            let originalData = []; // เก็บข้อมูลต้นฉบับ
+            let filteredData = []; // เก็บข้อมูลที่ผ่านการกรอง
             const tableBody = document.getElementById('table-body');
             const pageInfo = document.getElementById('page-info');
             const prevButton = document.getElementById('prev');
             const nextButton = document.getElementById('next');
             const searchInput = document.getElementById('search');
-            const filterSelect = document.getElementById('filterSelect');
 
             async function fetchData(filter = 'month') {
                 try {
                     const response = await fetch(`/api/lineusers?filter=${filter}`);
                     const data = await response.json();
-                    filteredData = data;
+                    originalData = data; // เก็บข้อมูลต้นฉบับ
+                    filteredData = data; // ใช้ข้อมูลต้นฉบับเริ่มต้น
                     currentPage = 1;
                     renderTable();
                 } catch (error) {
@@ -108,10 +109,15 @@
             }
 
             function searchTable(query) {
-                const lowerCaseQuery = query.toLowerCase();
-                filteredData = filteredData.filter(user =>
-                    user.display_name.toLowerCase().includes(lowerCaseQuery)
-                );
+                if (!query) {
+                    // คืนค่าข้อมูลต้นฉบับเมื่อไม่มีคำค้นหา
+                    filteredData = originalData;
+                } else {
+                    const lowerCaseQuery = query.toLowerCase();
+                    filteredData = originalData.filter(user =>
+                        user.display_name.toLowerCase().includes(lowerCaseQuery)
+                    );
+                }
                 currentPage = 1;
                 renderTable();
             }
@@ -119,11 +125,10 @@
             prevButton.addEventListener('click', () => changePage(-1));
             nextButton.addEventListener('click', () => changePage(1));
             searchInput.addEventListener('input', (e) => searchTable(e.target.value));
-            filterSelect.addEventListener('change', (e) => fetchData(e.target.value));
 
             fetchData(); // เรียกครั้งแรกเพื่อแสดงข้อมูลเดือนนี้
-
         });
+
 
         document.getElementById('export-excel').addEventListener('click', () => {
             const table = document.querySelector('table'); // ดึงข้อมูลจากตาราง
