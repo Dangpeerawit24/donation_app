@@ -119,6 +119,7 @@ Route::get('/api/campaigns', [DashboardController::class, 'getActiveCampaigns'])
 Route::get('/api/users', [DashboardController::class, 'getActiveuser']);
 Route::get('/api/dashboard-data', [DashboardController::class, 'getDashboardData'])->name('dashboard.data');
 Route::get('/api/lineusers', [LineUsersController::class, 'getLineUsers']);
+Route::get('/api/transactions', [CampaignTransactionController::class, 'gettransactions']);
 
 // เส้นทางสำหรับสร้าง QR Code
 Route::post('/qr-code/generate', [QRCodeController::class, 'generate'])->name('qr-code.generate');

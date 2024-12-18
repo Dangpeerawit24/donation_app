@@ -122,6 +122,7 @@
             filterSelect.addEventListener('change', (e) => fetchData(e.target.value));
 
             fetchData(); // เรียกครั้งแรกเพื่อแสดงข้อมูลเดือนนี้
+
         });
 
         document.getElementById('export-excel').addEventListener('click', () => {
@@ -129,7 +130,7 @@
             const workbook = XLSX.utils.table_to_book(table, {
                 sheet: "Sheet 1"
             }); // แปลงตารางเป็น workbook
-            XLSX.writeFile(workbook, "table_lineusers.xlsx"); 
+            XLSX.writeFile(workbook, "table_lineusers.xlsx");
         });
 
         document.getElementById('copy-table').addEventListener('click', () => {

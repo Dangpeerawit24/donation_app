@@ -88,12 +88,14 @@
                         </div>
                         <div>
                             <div>
-                                <label for="details" class="block text-sm font-medium text-gray-700 mb-1">ข้อมูลผู้ร่วมบุญ</label>
+                                <label for="details"
+                                    class="block text-sm font-medium text-gray-700 mb-1">ข้อมูลผู้ร่วมบุญ</label>
                                 <textarea name="details" id="details" rows="5"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
-                                placeholder="กรอกรายละเอียด..." required></textarea>
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
+                                    placeholder="กรอกรายละเอียด..." required></textarea>
                             </div>
-                            <button class="p-1 bg-blue-500 text-white rounded hover:bg-blue-600" onclick="addCommas()">เพิ่มเครื่องหมาย ','</button>
+                            <button class="p-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                onclick="addCommas()">เพิ่มเครื่องหมาย ','</button>
                         </div>
                         <div>
                             <label for="lineName" class="block text-sm font-medium text-gray-700 mb-1">ชื่อที่แสดง</label>
@@ -215,8 +217,6 @@
             modal.classList.add('hidden');
             document.getElementById('loader').classList.add('hidden');
 
-            // รีเฟรชหน้าเว็บ
-            window.location.reload();
         }
     </script>
 
@@ -258,33 +258,7 @@
         });
     </script>
 
-    <script>
-        const modal = document.getElementById('modal');
-        const openModal = document.getElementById('openModal');
-        const closeModal = document.getElementById('closeModal');
-        const closeModalFooter = document.getElementById('closeModalFooter');
 
-        // เปิด Modal
-        openModal.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-        });
-
-        // ปิด Modal
-        closeModal.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-
-        closeModalFooter.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-
-        // ปิด Modal เมื่อคลิกนอก Modal
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
-            }
-        });
-    </script>
     <script>
         function addCommas() {
             const textarea = document.getElementById('details');
@@ -293,7 +267,7 @@
                 // เพิ่ม ',' หลังบรรทัด ถ้าไม่ใช่บรรทัดสุดท้าย และบรรทัดไม่ว่างเปล่า
                 return line.trim() !== '' && index < lines.length - 1 ? `${line},` : line;
             });
-    
+
             textarea.value = updatedLines.join('\n'); // รวมข้อความกลับเป็น string แบ่งด้วย newline
         }
     </script>
@@ -301,7 +275,7 @@
         const transactions = @json($transactions); // ดึงข้อมูลจาก Controller
         const rowsPerPage = 300;
         let currentPage = 1;
-        let filteredData = transactions;
+        // let filteredData = transactions;
 
         // อ้างอิง DOM
         const tableBody = document.getElementById('table-body');
@@ -309,6 +283,20 @@
         const prevButton = document.getElementById('prev');
         const nextButton = document.getElementById('next');
         const searchInput = document.getElementById('search');
+        const urlParams = new URLSearchParams(window.location.search);
+        const campaign_id = urlParams.get('campaign_id');
+
+        async function fetchData() {
+            try {
+                const response = await fetch(`/api/transactions?campaign_id=${campaign_id}`);
+                const data = await response.json();
+                filteredData = data;
+                currentPage = 1;
+                renderTable();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
 
         // ฟังก์ชันแสดงข้อมูลในตาราง
         function renderTable() {
@@ -373,7 +361,11 @@
         searchInput.addEventListener('input', (e) => searchTable(e.target.value));
 
         // เริ่มแสดงข้อมูล
-        renderTable();
+        fetchData(); // เรียกครั้งแรกเพื่อแสดงข้อมูลเดือนนี้
+
+        setInterval(() => {
+            fetchData();
+        }, 30000);
 
         document.getElementById('export-excel').addEventListener('click', () => {
             const table = document.querySelector('table');

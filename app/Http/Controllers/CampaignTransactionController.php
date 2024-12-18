@@ -37,6 +37,19 @@ class CampaignTransactionController extends Controller
         }
     }
 
+    public function gettransactions(Request $request)
+    {
+        // รับค่า campaign_id และ name จาก Query String
+        $campaignId = $request->query('campaign_id');
+
+        // ดึงข้อมูลที่ต้องการ
+        $transactions = campaign_transaction::where('campaignsid', $campaignId)
+            ->whereIn('status', ['รอดำเนินการ', 'แอดมินจะส่งภาพกองบุญให้ท่านได้อนุโมทนาอีกครั้ง'])
+            ->get();
+
+        return response()->json($transactions);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
