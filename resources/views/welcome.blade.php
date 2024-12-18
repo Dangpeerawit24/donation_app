@@ -58,8 +58,9 @@
                 class="max-w-sm p-6 mb-4 mt-5 bg-white border border-gray-200 rounded-3xl shadow dark:bg-gray-800 dark:border-gray-700">
                 <img src="{{ asset('img/campaign/' . $campaign->campaign_img) }}" class="rounded-xl" width="100%"
                     alt="">
-                <h2 class="text-2xl mt-2">กองบุญ{{ $campaign->name }}</h2>
-                <p class="mt-1 text-wrap">{!! nl2br(e($campaign->description)) !!}</p>
+                <h1 class="text-xl mt-2">กองบุญ{{ $campaign->name }}</h1>
+                <p class="mt-1 text-wrap">💰 ร่วมบุญ : {{ $campaign->price }} บาท</p>
+                <p class="mt-1 text-wrap">📋 {!! nl2br(e($campaign->description)) !!}</p>
                 @php
                     $details = $campaign->details;
                 @endphp
