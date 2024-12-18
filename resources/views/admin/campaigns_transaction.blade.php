@@ -365,7 +365,7 @@
 
         setInterval(() => {
             fetchData();
-        }, 30000);
+        }, 20000);
 
         document.getElementById('export-excel').addEventListener('click', () => {
             const table = document.querySelector('table');
