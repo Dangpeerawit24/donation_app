@@ -3,6 +3,19 @@
     $manu = 'campaigns';
 @endphp
 @Section('content')
+<style>
+    /* ควบคุมความสูงของ Modal และทำให้เลื่อนได้ */
+.modal-content {
+    max-height: 100vh; /* ความสูงไม่เกิน 90% ของ viewport */
+    overflow-y: auto; /* เพิ่ม Scroll bar เมื่อเนื้อหาเกิน */
+}
+
+.modal-body {
+    max-height: 80vh; /* ความสูงสูงสุดของ body */
+    overflow-y: auto; /* เพิ่ม Scroll bar เฉพาะ body */
+}
+
+</style>
     <div class="flex flex-col md:flex-row gap-x-5">
         <h3 class="text-3xl m-0 md:mb-10">จัดการข้อมูลกองบุญ</h3>
         <div>
@@ -30,7 +43,8 @@
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">รูปกองบุญ</th>
-                        <th class="px-6 py-3 text-center text-nowrap md:text-wrap text-md font-semibold text-white">ชื่อกองบุญ</th>
+                        <th class="px-6 py-3 text-center text-nowrap md:text-wrap text-md font-semibold text-white">
+                            ชื่อกองบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ราคา</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวนที่เปิดรับ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ยอดร่วมบุญ</th>
@@ -50,19 +64,16 @@
         </div>
     </div>
 
-    <div id="modal"
-        class="fixed inset-0 p-2 overflow-x-auto bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl overflow-hidden">
+    <div id="modal" class="fixed px-2 inset-0 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="modal-content bg-white rounded-xl shadow-xl w-full max-w-2xl">
             <!-- Modal Header -->
             <div class="px-6 py-4 bg-blue-500 text-white flex justify-between items-center">
                 <h2 class="text-xl font-semibold">เพิ่มกองบุญใหม่</h2>
-                <button id="closeModal" class="text-white hover:text-gray-300 text-2xl">
-                    &times;
-                </button>
+                <button id="closeModal" class="text-white hover:text-gray-300 text-2xl">&times;</button>
             </div>
 
             <!-- Modal Body -->
-            <div class="px-6 py-4 overflow-x-auto">
+            <div class="modal-body px-6 py-4">
                 <form action="{{ route('campaigns.store') }}" id="usersForm" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
@@ -74,6 +85,16 @@
                                 name="status" id="status" required>
                                 <option value="เปิดกองบุญ">เปิดกองบุญ</option>
                                 <option value="ปิดกองบุญแล้ว">ปิดกองบุญแล้ว</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-10">
+                            <label for="broadcastOption" class="block text-sm font-medium text-gray-700 mb-1">ส่งให้</label>
+                            <select
+                                class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                name="broadcastOption" id="broadcastOption" required>
+                                <option value="Broadcast">Broadcast ทั้งหมด</option>
+                                <option value="3months">ลูกบุญย้อนหลัง 3 เดือน</option>
+                                <option value="year">ลูกบุญย้อนหลังปีนี้</option>
                             </select>
                         </div>
                         <div class="col-sm-10">
@@ -162,7 +183,7 @@
             </div>
 
             <!-- Modal Footer -->
-            <div class="px-6 py-4 bg-gray-100 flex justify-end items-center space-x-3">
+            <div class="px-6 py-4 bg-gray-100 flex justify-end space-x-3">
                 <button id="closeModalFooter" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
                     Cancel
                 </button>
@@ -173,6 +194,7 @@
             </div>
         </div>
     </div>
+
     <script>
         const modal = document.getElementById('modal');
         const openModal = document.getElementById('openModal');
@@ -202,8 +224,7 @@
     </script>
 
     <!-- Modal -->
-    <div id="pushmessage"
-        class="fixed inset-0 bg-gray-900 bg-opacity-50 px-2 flex items-center justify-center hidden z-50">
+    <div id="pushmessage" class="fixed inset-0 bg-gray-900 bg-opacity-50 px-2 flex items-center justify-center hidden z-50">
         <!-- Modal Content -->
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md overflow-hidden">
             <!-- Header -->
@@ -214,8 +235,7 @@
 
             <!-- Body -->
             <div class="p-4 space-y-4">
-                <form action="" id="pushmessageform" method="POST"
-                    enctype="multipart/form-data">
+                <form action="" id="pushmessageform" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div>
                         <label for="campaign_imgpush" class="block text-sm font-medium text-gray-700">อัปโหลดไฟล์</label>
@@ -448,10 +468,10 @@
                                             ${
                                     Results.status !== "ปิดกองบุญแล้ว"
                                         ? `<button 
-                                                                            class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
-                                                                            onclick="confirmCloseCampaign(${Results.id})">
-                                                                            ปิดกองบุญ
-                                                                        </button>`
+                                                                                class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
+                                                                                onclick="confirmCloseCampaign(${Results.id})">
+                                                                                ปิดกองบุญ
+                                                                            </button>`
                                         : ''
                                 }
                                
