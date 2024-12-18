@@ -85,10 +85,10 @@
                 currentData.forEach((user, index) => {
                     const row = `
                 <tr>
-                    <td class="px-6 py-2 text-center text-md text-gray-700">${startIndex + index + 1}</td>
-                    <td class="px-6 py-2 text-center text-md text-gray-700">${user.user_id}</td>
-                    <td class="px-6 py-2 text-center text-md text-gray-700">${user.display_name}</td>
-                    <td class="px-6 py-2 text-center text-md text-gray-700">
+                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${startIndex + index + 1}</td>
+                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.user_id}</td>
+                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.display_name}</td>
+                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">
                         ${user.picture_url ? `<img src="${user.picture_url}" alt="User Picture" class="w-10 h-10 rounded-full mx-auto">` : 'N/A'}
                     </td>
                 </tr>

@@ -18,18 +18,22 @@ class LineUsersController extends Controller
 
         // สร้าง Query Builder สำหรับตาราง line_users
         $query = DB::table('line_users')
-            ->select('user_id', 'display_name', 'picture_url', DB::raw('MAX(created_at) as created_at'))
-            ->groupBy('user_id', 'display_name', 'picture_url');
-
-        // กรองข้อมูลตามช่วงเวลา
-        if ($filter === 'month') {
-            $query->whereMonth('created_at', now()->month)
-                ->whereYear('created_at', now()->year);
-        } elseif ($filter === '3months') {
-            $query->where('created_at', '>=', now()->subMonths(3));
-        } elseif ($filter === 'year') {
-            $query->whereYear('created_at', now()->year);
-        }
+            ->select('user_id', 'display_name', 'picture_url', 'created_at')
+            ->whereIn('id', function ($subQuery) use ($filter) {
+                $subQuery->select(DB::raw('MAX(id)'))
+                    ->from('line_users')
+                    ->groupBy('user_id')
+                    ->when($filter === 'month', function ($query) {
+                        $query->whereMonth('created_at', now()->month)
+                            ->whereYear('created_at', now()->year);
+                    })
+                    ->when($filter === '3months', function ($query) {
+                        $query->where('created_at', '>=', now()->subMonths(3));
+                    })
+                    ->when($filter === 'year', function ($query) {
+                        $query->whereYear('created_at', now()->year);
+                    });
+            });
 
         // เรียงลำดับและดึงข้อมูล
         $users = $query->orderBy('created_at', 'desc')->get();
