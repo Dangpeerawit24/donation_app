@@ -17,7 +17,9 @@ class LineUsersController extends Controller
         $filter = $request->query('filter', 'month'); // ค่าเริ่มต้นคือ 'month'
 
         // สร้าง Query Builder สำหรับตาราง line_users
-        $query = DB::table('line_users')->select('user_id', 'display_name', 'picture_url', 'created_at');
+        $query = DB::table('line_users')
+            ->select('user_id', 'display_name', 'picture_url', DB::raw('MAX(created_at) as created_at'))
+            ->groupBy('user_id', 'display_name', 'picture_url');
 
         // กรองข้อมูลตามช่วงเวลา
         if ($filter === 'month') {
