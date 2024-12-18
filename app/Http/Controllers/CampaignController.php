@@ -101,8 +101,10 @@ class CampaignController extends Controller
                     ->pluck('user_id');
             } elseif ($request->broadcastOption === 'year') {
                 $userIds = DB::table('line_users')
-                    ->whereYear('created_at', now()->year)
+                    ->select('user_id', DB::raw('MAX(created_at) as latest_created_at'))
+                    ->where('created_at', '>=', now()->subYear()) // ย้อนหลัง 1 ปีเต็มจากวันนี้
                     ->groupBy('user_id')
+                    ->orderBy('latest_created_at', 'desc')
                     ->pluck('user_id');
             }
 
@@ -284,8 +286,10 @@ class CampaignController extends Controller
                 ->pluck('user_id');
         } elseif ($request->broadcastOption === 'year') {
             $userIds = DB::table('line_users')
-                ->whereYear('created_at', now()->year)
+                ->select('user_id', DB::raw('MAX(created_at) as latest_created_at'))
+                ->where('created_at', '>=', now()->subYear()) // ย้อนหลัง 1 ปีเต็มจากวันนี้
                 ->groupBy('user_id')
+                ->orderBy('latest_created_at', 'desc')
                 ->pluck('user_id');
         }
 
