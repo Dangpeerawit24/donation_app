@@ -94,7 +94,7 @@
                                 name="broadcastOption" id="broadcastOption" required>
                                 <option value="Broadcast">Broadcast ทั้งหมด</option>
                                 <option value="3months">ลูกบุญย้อนหลัง 3 เดือน</option>
-                                <option value="year">ลูกบุญย้อนหลังปีนี้</option>
+                                <option value="year">ลูกบุญย้อนหลัง 1 ปี</option>
                             </select>
                         </div>
                         <div class="col-sm-10">
@@ -244,7 +244,7 @@
                             name="broadcastOption" id="" required>
                             <option value="Broadcast">Broadcast ทั้งหมด</option>
                             <option value="3months">ลูกบุญย้อนหลัง 3 เดือน</option>
-                            <option value="year">ลูกบุญย้อนหลังปีนี้</option>
+                            <option value="year">ลูกบุญย้อนหลัง 1 ปี</option>
                         </select>
                     </div>
                     <div class="mt-3">
