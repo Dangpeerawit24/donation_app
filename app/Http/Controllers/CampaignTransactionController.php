@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
+use Illuminate\Support\Facades\Http;
 
 class CampaignTransactionController extends Controller
 {
@@ -49,6 +50,129 @@ class CampaignTransactionController extends Controller
 
         return response()->json($transactions);
     }
+
+    public function noti(Request $request)
+    {
+        // รับค่า campaignId จาก Query String
+        $campaignId = $request->query('campaign_id');
+
+        if (!$campaignId) {
+            return response()->json(['message' => 'campaign_id is required'], 400);
+        }
+
+        // ตรวจสอบว่ามี campaignId ในตาราง campaigns หรือไม่
+        $campaign = DB::table('campaigns')
+            ->where('id', $campaignId)
+            ->first();
+
+        if (!$campaign) {
+            return response()->json(['message' => 'Campaign not found'], 404);
+        }
+
+        // ดึง campaignsid จากตาราง campaign_transactions ที่มี status = "รอดำเนินการ"
+        $pendingTransactions = DB::table('campaign_transactions')
+            ->where('campaignsid', $campaignId)
+            ->where('status', 'รอดำเนินการ')
+            ->get(['id', 'value']);
+
+        // หาผลรวม value ที่ status = "รอดำเนินการ"
+        $totalPendingValue = $pendingTransactions->sum('value');
+
+        // หาผลรวม value ทั้งหมดของ campaignsid
+        $totalValue = DB::table('campaign_transactions')
+            ->where('campaignsid', $campaignId)
+            ->sum('value');
+
+        // ส่งข้อความผ่าน LINE API
+        $groupId = env('groupId'); // ระบุ Group ID
+        $lineToken = env('LINE_CHANNEL_ACCESS_TOKEN'); // รับ Token จาก .env
+
+        $response = $this->pushFlexMessage(
+            $groupId,
+            $campaign->name,
+            number_format($totalPendingValue, 0),
+            number_format($totalValue, 0),
+            $campaignId,
+            $lineToken
+        );
+
+        return redirect()->back()->with('success', "ส่งแจ้งเตือนเข้ากลุ่ม เรียบร้อยแล้ว.");
+    }
+
+    protected function pushFlexMessage($groupId, $campaignname, $totalPendingValue, $totalValue, $campaignId, $lineToken)
+    {
+        $url = 'https://api.line.me/v2/bot/message/push';
+
+        $flexMessage = [
+            'to' => $groupId,
+            'messages' => [
+                [
+                    'type' => 'flex',
+                    'altText' => 'แจ้งเตือนกองบุญ',
+                    'contents' => [
+                        'type' => 'bubble',
+                        'body' => [
+                            'type' => 'box',
+                            'layout' => 'vertical',
+                            'contents' => [
+                                [
+                                    'type' => 'text',
+                                    'text' => 'แจ้งเตือนกองบุญ',
+                                    'weight' => 'bold',
+                                    'size' => 'xl',
+                                    'color' => '#1DB446'
+                                ],
+                                [
+                                    'type' => 'text',
+                                    'text' => "กองบุญ: {$campaignname}",
+                                    'size' => 'md',
+                                    'color' => '#111111'
+                                ],
+                                [
+                                    'type' => 'text',
+                                    'text' => "ยอดใหม่: {$totalPendingValue} บาท",
+                                    'size' => 'md',
+                                    'color' => '#111111'
+                                ],
+                                [
+                                    'type' => 'text',
+                                    'text' => "ยอดรวม: {$totalValue} บาท",
+                                    'size' => 'md',
+                                    'color' => '#111111'
+                                ]
+                            ]
+                        ],
+                        'footer' => [
+                            'type' => 'box',
+                            'layout' => 'vertical',
+                            'contents' => [
+                                [
+                                    'type' => 'button',
+                                    'style' => 'link',
+                                    'action' => [
+                                        'type' => 'uri',
+                                        'label' => 'ดูรายละเอียด',
+                                        'uri' => "https://donation.kuanimtungpichai.com/admin/campaigns_transaction?campaign_id={$campaignId}&name=" . urlencode($campaignname)
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $headers = [
+            'Content-Type: application/json',
+            'Authorization' => "Bearer $lineToken",
+        ];
+
+        $response = Http::withHeaders($headers)->post($url, $flexMessage);
+
+        return $response->json();
+    }
+
+
 
     /**
      * Show the form for creating a new resource.

@@ -101,6 +101,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::resource('/admin/categoriesdetails', CategoriesdetailsController::class);
     Route::resource('/admin/campaigns_transaction', CampaignTransactionController::class);
     Route::get('/admin/campaigns_transaction_success', [CampaignTransactionController::class, 'success']);
+    Route::get('/admin/campaigns_transaction_noti', [CampaignTransactionController::class, 'noti']);
     Route::resource('/admin/campaign_transaction_complete', CampaignTransactionComplete::class);
     Route::get('/admin/lineusers', [LineUsersController::class, 'index']);
     

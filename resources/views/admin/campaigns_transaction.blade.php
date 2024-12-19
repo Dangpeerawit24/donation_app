@@ -9,16 +9,21 @@
             <h3 class="text-xl md:text-3xl m-0 md:mb-4">#{{ $name }}</h3>
         </div>
         <div class="flex flex-row mb-0 md:mb-5 gap-2 ml-3">
-            <button class="px-2 py-2 bg-blue-600 text-white rounded hover:bg-blue-800"
+            <button class="px-2 py-2 bg-blue-600 text-center text-white rounded hover:bg-blue-800"
                 id="openModal">เพิ่มกองบุญจากดึงมือ</button>
             <a href="{{ url('admin/campaign_transaction_complete?campaign_id=' . $campaignId . '&name=' . $name) }}"
-                class="px-2 py-2 bg-red-500 text-white rounded hover:bg-red-800">
+                class="px-2 py-2 bg-red-500 text-center text-white rounded hover:bg-red-800">
                 รายการที่ดำเนินการแล้ว
             </a>
             <a href="#"
                 onclick="confirmAction('{{ url('admin/campaigns_transaction_success?campaign_id=' . $campaignId) }}')"
-                class="px-2 py-2 bg-green-600 text-white rounded hover:bg-green-800">
+                class="px-2 py-2 bg-green-600 text-center text-white rounded hover:bg-green-800">
                 เคลียร์รายการที่เสร็จแล้ว
+            </a>
+            <a href="#"
+                onclick="confirmActionnoti('{{ url('admin/campaigns_transaction_noti?campaign_id=' . $campaignId) }}')"
+                class="px-2 py-2 bg-yellow-600 text-center text-white rounded hover:bg-yellow-800">
+                ส่งแจ้งเตือนเข้ากลุ่ม
             </a>
         </div>
     </div>
@@ -455,6 +460,27 @@
         function confirmAction(url) {
             Swal.fire({
                 title: 'คุณแน่ใจหรือไม่?',
+                text: "คุณกำลังจะดำเนินการรายการนี้",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ดำเนินการ',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // เมื่อผู้ใช้กดยืนยัน ให้เปลี่ยนเส้นทางไปยัง URL
+                    window.location.href = url;
+                } else {
+                    document.getElementById('loader').classList.add('hidden');
+                }
+            });
+        }
+    </script>
+    <script>
+        function confirmActionnoti(url) {
+            Swal.fire({
+                title: 'ส่งแจ้งเตือนหรือไม่หรือไม่?',
                 text: "คุณกำลังจะดำเนินการรายการนี้",
                 icon: 'warning',
                 showCancelButton: true,
