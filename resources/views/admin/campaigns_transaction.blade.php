@@ -480,7 +480,7 @@
     <script>
         function confirmActionnoti(url) {
             Swal.fire({
-                title: 'ส่งแจ้งเตือนหรือไม่หรือไม่?',
+                title: 'ส่งแจ้งเตือนหรือไม่?',
                 text: "คุณกำลังจะดำเนินการรายการนี้",
                 icon: 'warning',
                 showCancelButton: true,

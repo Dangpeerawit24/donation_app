@@ -130,13 +130,13 @@ class CampaignTransactionController extends Controller
                                 ],
                                 [
                                     'type' => 'text',
-                                    'text' => "ยอดใหม่: {$totalPendingValue} บาท",
+                                    'text' => "ยอดใหม่: {$totalPendingValue}",
                                     'size' => 'md',
                                     'color' => '#111111'
                                 ],
                                 [
                                     'type' => 'text',
-                                    'text' => "ยอดรวม: {$totalValue} บาท",
+                                    'text' => "ยอดรวม: {$totalValue}",
                                     'size' => 'md',
                                     'color' => '#111111'
                                 ]
