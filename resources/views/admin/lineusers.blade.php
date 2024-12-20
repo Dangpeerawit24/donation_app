@@ -6,7 +6,7 @@
     <div class="container mx-auto p-6">
         <h1 class="text-3xl font-bold mb-6">รายการลูกบุญย้อนหลัง</h1>
         <form method="GET" class="mb-2">
-            <select id="filterSelect" name="filter" onchange="handleFilterChange(this.value)"
+            <select id="filterSelect" name="filter"
                 class="block w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-200">
                 <option value="month" selected>เดือนนี้</option>
                 <option value="3months">ย้อนหลัง 3 เดือน</option>
@@ -53,36 +53,29 @@
     </div>
 
     <script>
-        // ประกาศฟังก์ชัน fetchData ใน global scope
-        async function fetchData(filter = 'month') {
-            try {
-                const response = await fetch(`/api/lineusers?filter=${filter}`);
-                const data = await response.json();
-                originalData = data; // เก็บข้อมูลต้นฉบับ
-                filteredData = data; // ใช้ข้อมูลต้นฉบับเริ่มต้น
-                currentPage = 1;
-                renderTable();
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
-
-        // ประกาศฟังก์ชัน handleFilterChange ใน global scope
-        function handleFilterChange(filter) {
-            fetchData(filter);
-        }
-
-        // รัน DOMContentLoaded
         document.addEventListener('DOMContentLoaded', () => {
             const rowsPerPage = 300;
             let currentPage = 1;
-            let originalData = [];
-            let filteredData = [];
+            let originalData = []; // เก็บข้อมูลต้นฉบับ
+            let filteredData = []; // เก็บข้อมูลที่ผ่านการกรอง
             const tableBody = document.getElementById('table-body');
             const pageInfo = document.getElementById('page-info');
             const prevButton = document.getElementById('prev');
             const nextButton = document.getElementById('next');
             const searchInput = document.getElementById('search');
+
+            async function fetchData(filter = 'month') {
+                try {
+                    const response = await fetch(`/api/lineusers?filter=${filter}`);
+                    const data = await response.json();
+                    originalData = data; // เก็บข้อมูลต้นฉบับ
+                    filteredData = data; // ใช้ข้อมูลต้นฉบับเริ่มต้น
+                    currentPage = 1;
+                    renderTable();
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            }
 
             function renderTable() {
                 const startIndex = (currentPage - 1) * rowsPerPage;
@@ -92,15 +85,15 @@
                 tableBody.innerHTML = '';
                 currentData.forEach((user, index) => {
                     const row = `
-            <tr>
-                <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${startIndex + index + 1}</td>
-                <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.user_id}</td>
-                <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.display_name}</td>
-                <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">
-                    ${user.picture_url ? `<img src="${user.picture_url}" alt="User Picture" class="w-10 h-10 rounded-full mx-auto">` : 'N/A'}
-                </td>
-            </tr>
-        `;
+                <tr>
+                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${startIndex + index + 1}</td>
+                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.user_id}</td>
+                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.display_name}</td>
+                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">
+                        ${user.picture_url ? `<img src="${user.picture_url}" alt="User Picture" class="w-10 h-10 rounded-full mx-auto">` : 'N/A'}
+                    </td>
+                </tr>
+            `;
                     tableBody.insertAdjacentHTML('beforeend', row);
                 });
 
@@ -117,6 +110,7 @@
 
             function searchTable(query) {
                 if (!query) {
+                    // คืนค่าข้อมูลต้นฉบับเมื่อไม่มีคำค้นหา
                     filteredData = originalData;
                 } else {
                     const lowerCaseQuery = query.toLowerCase();
@@ -132,10 +126,8 @@
             nextButton.addEventListener('click', () => changePage(1));
             searchInput.addEventListener('input', (e) => searchTable(e.target.value));
 
-            // ดึงข้อมูลเริ่มต้น
-            fetchData();
+            fetchData(); // เรียกครั้งแรกเพื่อแสดงข้อมูลเดือนนี้
         });
-
 
 
         document.getElementById('export-excel').addEventListener('click', () => {
