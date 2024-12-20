@@ -53,6 +53,10 @@
     </div>
 
     <script>
+        function handleFilterChange(filter) {
+            fetchData(filter);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const rowsPerPage = 300;
             let currentPage = 1;
@@ -64,10 +68,6 @@
             const nextButton = document.getElementById('next');
             const searchInput = document.getElementById('search');
 
-            function handleFilterChange(filter) {
-                fetchData(filter);
-            }
-            
             async function fetchData(filter = 'month') {
                 try {
                     const response = await fetch(`/api/lineusers?filter=${filter}`);
@@ -111,7 +111,7 @@
                 currentPage += increment;
                 renderTable();
             }
-            
+
 
             function searchTable(query) {
                 if (!query) {
