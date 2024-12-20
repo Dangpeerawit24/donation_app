@@ -64,6 +64,10 @@
             const nextButton = document.getElementById('next');
             const searchInput = document.getElementById('search');
 
+            function handleFilterChange(filter) {
+                fetchData(filter);
+            }
+            
             async function fetchData(filter = 'month') {
                 try {
                     const response = await fetch(`/api/lineusers?filter=${filter}`);
@@ -106,10 +110,6 @@
             function changePage(increment) {
                 currentPage += increment;
                 renderTable();
-            }
-
-            function handleFilterChange(filter) {
-                fetchData(filter);
             }
             
 
