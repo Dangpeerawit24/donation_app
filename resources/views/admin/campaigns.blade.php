@@ -470,19 +470,23 @@
                                     class="px-4 py-2 bg-sky-300 text-black rounded hover:bg-sky-600">
                                         ดูรายการกองบุญ
                                 </a>
-                                <button
+                                ${
+                                Results.status !== "ปิดกองบุญแล้ว"
+                                    ? `<button
                                     class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
                                     onclick="openModalpushmessage('/admin/pushmessage?campaign_id=${Results.id}')">
                                     pushmessage
-                                </button>
-                                            ${
-                                    Results.status !== "ปิดกองบุญแล้ว"
-                                        ? `<button 
-                                                                                class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
-                                                                                onclick="confirmCloseCampaign(${Results.id})">
-                                                                                ปิดกองบุญ
-                                                                            </button>`
-                                        : ''
+                                </button>`
+                                    : ''
+                                }
+                                        ${
+                                Results.status !== "ปิดกองบุญแล้ว"
+                                    ? `<button 
+                                            class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
+                                            onclick="confirmCloseCampaign(${Results.id})">
+                                            ปิดกองบุญ
+                                        </button>`
+                                    : ''
                                 }
                                
                            </div>
