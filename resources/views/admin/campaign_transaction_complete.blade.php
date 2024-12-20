@@ -283,7 +283,10 @@
         // ฟังก์ชันการค้นหา
         function searchTable(query) {
             filteredData = transactions.filter((transactions) =>
-                transactions.lineName.toLowerCase().includes(query.toLowerCase())
+                transactions.details.toLowerCase().includes(query.toLowerCase())
+                transactions.details2.toLowerCase().includes(query.toLowerCase())
+                transactions.detailsbirthday.toLowerCase().includes(query.toLowerCase())
+                transactions.detailstext.toLowerCase().includes(query.toLowerCase())
             );
             currentPage = 1;
             renderTable();

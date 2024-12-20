@@ -470,15 +470,11 @@
                                     class="px-4 py-2 bg-sky-300 text-black rounded hover:bg-sky-600">
                                         ดูรายการกองบุญ
                                 </a>
-                                ${
-                                Results.status !== "ปิดกองบุญแล้ว"
-                                    ? `<button
+                                <button
                                     class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
                                     onclick="openModalpushmessage('/admin/pushmessage?campaign_id=${Results.id}')">
                                     pushmessage
-                                </button>`
-                                    : ''
-                                }
+                                </button>
                                         ${
                                 Results.status !== "ปิดกองบุญแล้ว"
                                     ? `<button 
