@@ -103,11 +103,11 @@ class DashboardController extends Controller
             ->select(
                 DB::raw('COALESCE(line_users.display_name, campaign_transactions.lineName) as name'), // ใช้ COALESCE เพื่อเลือกชื่อที่ไม่ใช่ NULL
                 'campaign_transactions.lineId', // Grouping ตาม lineId
-                DB::raw('SUM(campaign_transactions.value) as value'), // รวมค่า value ของทุก lineName
-                DB::raw('SUM(campaign_transactions.value * campaigns.price) as total_amount') // รวม total_amount
+                DB::raw('SUM(campaign_transactions.value) as total_value'), // รวม value ทั้งหมด
+                DB::raw('SUM(campaign_transactions.value * campaigns.price) as total_amount') // รวม value * price
             )
-            ->groupBy('campaign_transactions.lineId'); // Grouping เฉพาะ lineId
-
+            ->groupBy('campaign_transactions.lineId') // Group ตาม lineId
+            ->orderBy('total_amount', 'desc'); // เรียงลำดับตามยอดรวม
 
         // กรองข้อมูลตามตัวเลือก
         if ($filter === 'month') {
