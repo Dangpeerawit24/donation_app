@@ -6,7 +6,7 @@
     <div class="container mx-auto p-6">
         <h1 class="text-3xl font-bold mb-6">รายการลูกบุญย้อนหลัง</h1>
         <form method="GET" class="mb-2">
-            <select id="filterSelect" name="filter"
+            <select id="filterSelect" name="filter" onchange="handleFilterChange(this.value)"
                 class="block w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-200">
                 <option value="month" selected>เดือนนี้</option>
                 <option value="3months">ย้อนหลัง 3 เดือน</option>
@@ -107,6 +107,11 @@
                 currentPage += increment;
                 renderTable();
             }
+
+            function handleFilterChange(filter) {
+                fetchData(filter);
+            }
+            
 
             function searchTable(query) {
                 if (!query) {
