@@ -53,11 +53,26 @@
     </div>
 
     <script>
-        // ย้ายฟังก์ชันออกมานอก DOMContentLoaded
+        // ประกาศฟังก์ชัน fetchData ใน global scope
+        async function fetchData(filter = 'month') {
+            try {
+                const response = await fetch(`/api/lineusers?filter=${filter}`);
+                const data = await response.json();
+                originalData = data; // เก็บข้อมูลต้นฉบับ
+                filteredData = data; // ใช้ข้อมูลต้นฉบับเริ่มต้น
+                currentPage = 1;
+                renderTable();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // ประกาศฟังก์ชัน handleFilterChange ใน global scope
         function handleFilterChange(filter) {
             fetchData(filter);
         }
 
+        // รัน DOMContentLoaded
         document.addEventListener('DOMContentLoaded', () => {
             const rowsPerPage = 300;
             let currentPage = 1;
@@ -68,19 +83,6 @@
             const prevButton = document.getElementById('prev');
             const nextButton = document.getElementById('next');
             const searchInput = document.getElementById('search');
-
-            async function fetchData(filter = 'month') {
-                try {
-                    const response = await fetch(`/api/lineusers?filter=${filter}`);
-                    const data = await response.json();
-                    originalData = data;
-                    filteredData = data;
-                    currentPage = 1;
-                    renderTable();
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                }
-            }
 
             function renderTable() {
                 const startIndex = (currentPage - 1) * rowsPerPage;
@@ -130,8 +132,10 @@
             nextButton.addEventListener('click', () => changePage(1));
             searchInput.addEventListener('input', (e) => searchTable(e.target.value));
 
-            fetchData(); // เรียกครั้งแรกเพื่อแสดงข้อมูลเดือนนี้
+            // ดึงข้อมูลเริ่มต้น
+            fetchData();
         });
+
 
 
         document.getElementById('export-excel').addEventListener('click', () => {
