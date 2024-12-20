@@ -26,7 +26,7 @@
                     Excel</button>
             </div>
             <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded"
-                placeholder="Search categories...">
+                placeholder="Search...">
         </div>
 
         <!-- Table -->
