@@ -53,6 +53,7 @@
     </div>
 
     <script>
+        // ย้ายฟังก์ชันออกมานอก DOMContentLoaded
         function handleFilterChange(filter) {
             fetchData(filter);
         }
@@ -60,8 +61,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             const rowsPerPage = 300;
             let currentPage = 1;
-            let originalData = []; // เก็บข้อมูลต้นฉบับ
-            let filteredData = []; // เก็บข้อมูลที่ผ่านการกรอง
+            let originalData = [];
+            let filteredData = [];
             const tableBody = document.getElementById('table-body');
             const pageInfo = document.getElementById('page-info');
             const prevButton = document.getElementById('prev');
@@ -72,8 +73,8 @@
                 try {
                     const response = await fetch(`/api/lineusers?filter=${filter}`);
                     const data = await response.json();
-                    originalData = data; // เก็บข้อมูลต้นฉบับ
-                    filteredData = data; // ใช้ข้อมูลต้นฉบับเริ่มต้น
+                    originalData = data;
+                    filteredData = data;
                     currentPage = 1;
                     renderTable();
                 } catch (error) {
@@ -89,15 +90,15 @@
                 tableBody.innerHTML = '';
                 currentData.forEach((user, index) => {
                     const row = `
-                <tr>
-                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${startIndex + index + 1}</td>
-                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.user_id}</td>
-                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.display_name}</td>
-                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">
-                        ${user.picture_url ? `<img src="${user.picture_url}" alt="User Picture" class="w-10 h-10 rounded-full mx-auto">` : 'N/A'}
-                    </td>
-                </tr>
-            `;
+            <tr>
+                <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${startIndex + index + 1}</td>
+                <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.user_id}</td>
+                <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.display_name}</td>
+                <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">
+                    ${user.picture_url ? `<img src="${user.picture_url}" alt="User Picture" class="w-10 h-10 rounded-full mx-auto">` : 'N/A'}
+                </td>
+            </tr>
+        `;
                     tableBody.insertAdjacentHTML('beforeend', row);
                 });
 
@@ -112,10 +113,8 @@
                 renderTable();
             }
 
-
             function searchTable(query) {
                 if (!query) {
-                    // คืนค่าข้อมูลต้นฉบับเมื่อไม่มีคำค้นหา
                     filteredData = originalData;
                 } else {
                     const lowerCaseQuery = query.toLowerCase();
