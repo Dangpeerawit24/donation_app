@@ -56,14 +56,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             const rowsPerPage = 300;
             let currentPage = 1;
-            let originalData = []; // เก็บข้อมูลต้นฉบับ
-            let filteredData = []; // เก็บข้อมูลที่ผ่านการกรอง
+            let originalData = [];
+            let filteredData = [];
             const tableBody = document.getElementById('table-body');
             const pageInfo = document.getElementById('page-info');
             const prevButton = document.getElementById('prev');
             const nextButton = document.getElementById('next');
             const searchInput = document.getElementById('search');
+            const filterSelect = document.getElementById('filterSelect'); // อ้างอิง select
 
+            // ฟังก์ชัน fetchData
             async function fetchData(filter = 'month') {
                 try {
                     const response = await fetch(`/api/lineusers?filter=${filter}`);
@@ -77,6 +79,7 @@
                 }
             }
 
+            // ฟังก์ชัน renderTable
             function renderTable() {
                 const startIndex = (currentPage - 1) * rowsPerPage;
                 const endIndex = startIndex + rowsPerPage;
@@ -85,15 +88,15 @@
                 tableBody.innerHTML = '';
                 currentData.forEach((user, index) => {
                     const row = `
-                <tr>
-                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${startIndex + index + 1}</td>
-                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.user_id}</td>
-                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.display_name}</td>
-                    <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">
-                        ${user.picture_url ? `<img src="${user.picture_url}" alt="User Picture" class="w-10 h-10 rounded-full mx-auto">` : 'N/A'}
-                    </td>
-                </tr>
-            `;
+            <tr>
+                <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${startIndex + index + 1}</td>
+                <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.user_id}</td>
+                <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.display_name}</td>
+                <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">
+                    ${user.picture_url ? `<img src="${user.picture_url}" alt="User Picture" class="w-10 h-10 rounded-full mx-auto">` : 'N/A'}
+                </td>
+            </tr>
+        `;
                     tableBody.insertAdjacentHTML('beforeend', row);
                 });
 
@@ -103,14 +106,15 @@
                 nextButton.disabled = currentPage === totalPages;
             }
 
+            // ฟังก์ชันเปลี่ยนหน้า
             function changePage(increment) {
                 currentPage += increment;
                 renderTable();
             }
 
+            // ฟังก์ชันการค้นหา
             function searchTable(query) {
                 if (!query) {
-                    // คืนค่าข้อมูลต้นฉบับเมื่อไม่มีคำค้นหา
                     filteredData = originalData;
                 } else {
                     const lowerCaseQuery = query.toLowerCase();
@@ -122,12 +126,16 @@
                 renderTable();
             }
 
+            // Event Listeners
             prevButton.addEventListener('click', () => changePage(-1));
             nextButton.addEventListener('click', () => changePage(1));
             searchInput.addEventListener('input', (e) => searchTable(e.target.value));
+            filterSelect.addEventListener('change', (e) => fetchData(e.target.value)); // ผูก onchange กับ fetchData
 
-            fetchData(); // เรียกครั้งแรกเพื่อแสดงข้อมูลเดือนนี้
+            // ดึงข้อมูลเริ่มต้น
+            fetchData();
         });
+
 
 
         document.getElementById('export-excel').addEventListener('click', () => {
