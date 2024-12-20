@@ -21,8 +21,7 @@
                 <button id="export-excel" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Export to
                     Excel</button>
             </div>
-            <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded"
-                placeholder="Search...">
+            <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded" placeholder="Search...">
         </div>
 
         <!-- Table -->
@@ -282,15 +281,16 @@
 
         // ฟังก์ชันการค้นหา
         function searchTable(query) {
-            filteredData = transactions.filter((transactions) =>
-                transactions.details.toLowerCase().includes(query.toLowerCase())
-                transactions.details2.toLowerCase().includes(query.toLowerCase())
-                transactions.detailsbirthday.toLowerCase().includes(query.toLowerCase())
-                transactions.detailstext.toLowerCase().includes(query.toLowerCase())
+            filteredData = transactions.filter((transaction) =>
+                transaction.details.toLowerCase().includes(query.toLowerCase()) ||
+                transaction.details2.toLowerCase().includes(query.toLowerCase()) ||
+                transaction.detailsbirthday.toLowerCase().includes(query.toLowerCase()) ||
+                transaction.detailstext.toLowerCase().includes(query.toLowerCase())
             );
             currentPage = 1;
             renderTable();
         }
+
 
 
 
