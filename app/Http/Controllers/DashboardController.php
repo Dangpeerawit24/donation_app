@@ -101,13 +101,12 @@ class DashboardController extends Controller
             ->join('campaigns', 'campaign_transactions.campaignsid', '=', 'campaigns.id')
             ->leftJoin('line_users', 'campaign_transactions.lineId', '=', 'line_users.user_id') // Join กับตาราง line_users
             ->select(
-                DB::raw('COALESCE(line_users.display_name, campaign_transactions.lineName) as name'), // ใช้ COALESCE เพื่อเลือกชื่อที่ไม่ใช่ NULL
+                DB::raw('COALESCE(MAX(line_users.display_name), MAX(campaign_transactions.lineName)) as name'), // ใช้ MAX เพื่อเลือกชื่อที่เกี่ยวข้อง
                 'campaign_transactions.lineId', // Grouping ตาม lineId
-                DB::raw('SUM(campaign_transactions.value) as total_value'), // รวม value ทั้งหมด
-                DB::raw('SUM(campaign_transactions.value * campaigns.price) as total_amount') // รวม value * price
+                DB::raw('SUM(campaign_transactions.value) as value'), // รวมค่า value ของทุก lineName
+                DB::raw('SUM(campaign_transactions.value * campaigns.price) as total_amount') // รวม total_amount
             )
-            ->groupBy('campaign_transactions.lineId') // Group ตาม lineId
-            ->orderBy('total_amount', 'desc'); // เรียงลำดับตามยอดรวม
+            ->groupBy('campaign_transactions.lineId'); // Grouping เฉพาะ lineId
 
         // กรองข้อมูลตามตัวเลือก
         if ($filter === 'month') {
