@@ -98,15 +98,19 @@ class DashboardController extends Controller
         $filter = request('filter', 'month'); // ค่าเริ่มต้นเป็น 'month'
 
         $query = DB::table('campaign_transactions')
-            ->join('campaigns', 'campaign_transactions.campaignsid', '=', 'campaigns.id') // เชื่อม campaign_transactions กับ campaigns
+            ->join('campaigns', 'campaign_transactions.campaignsid', '=', 'campaigns.id')
             ->select(
-                DB::raw('MAX(campaign_transactions.lineName) AS name'), // ใช้ชื่อจาก campaign_transactions
-                'campaign_transactions.lineId', // ระบุ lineId
-                DB::raw('SUM(campaign_transactions.value) AS value'), // รวมค่า value
-                DB::raw('SUM(campaign_transactions.value * campaigns.price) AS total_amount') // คำนวณยอดรวม
+                'campaign_transactions.lineId',
+                DB::raw('(SELECT lineName 
+                  FROM campaign_transactions sub 
+                  WHERE sub.lineId = campaign_transactions.lineId 
+                  ORDER BY sub.created_at DESC 
+                  LIMIT 1) AS name'), // ดึง lineName ล่าสุด
+                DB::raw('SUM(campaign_transactions.value) AS value'),
+                DB::raw('SUM(campaign_transactions.value * campaigns.price) AS total_amount')
             )
-            ->groupBy('campaign_transactions.lineId') // จัดกลุ่มตาม lineId
-            ->orderBy('total_amount', 'DESC'); // เรียงลำดับจากยอดรวมมากไปน้อย (ถ้าต้องการ)
+            ->groupBy('campaign_transactions.lineId')
+            ->orderBy('total_amount', 'DESC');
         // Grouping เฉพาะ lineId
 
         // กรองข้อมูลตามตัวเลือก
