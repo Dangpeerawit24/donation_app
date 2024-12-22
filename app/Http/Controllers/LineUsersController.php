@@ -41,4 +41,34 @@ class LineUsersController extends Controller
         // ส่งข้อมูลกลับเป็น JSON
         return response()->json($users);
     }
+
+    public function update(Request $request, $id)
+    {
+        // ตรวจสอบและ validate ข้อมูล
+        $validated = $request->validate([
+            'display_name' => 'required|string|max:255',
+        ]);
+
+        // อัปเดตเฉพาะแถวล่าสุดที่ตรงกับ user_id
+        $latestRowId = DB::table('line_users')
+            ->where('user_id', $id)
+            ->orderBy('created_at', 'desc') // เลือกแถวล่าสุดตาม created_at
+            ->value('id'); // ดึงค่า id ของแถวล่าสุด
+
+        if ($latestRowId) {
+            $updated = DB::table('line_users')
+                ->where('id', $latestRowId) // อัปเดตเฉพาะแถวที่ตรงกับ id
+                ->update([
+                    'display_name' => $validated['display_name'],
+                    'updated_at' => now(), // อัปเดต timestamp
+                ]);
+
+            // ตรวจสอบว่าการอัปเดตสำเร็จหรือไม่
+            if ($updated) {
+                return redirect()->back()->with('success', 'แก้ไขข้อมูลเรียบร้อยแล้ว.');
+            }
+        }
+
+        return redirect()->back()->with('error', 'ไม่พบข้อมูลที่ต้องการแก้ไข.');
+    }
 }

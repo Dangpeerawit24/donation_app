@@ -104,6 +104,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/campaigns_transaction_noti', [CampaignTransactionController::class, 'noti']);
     Route::resource('/admin/campaign_transaction_complete', CampaignTransactionComplete::class);
     Route::get('/admin/lineusers', [LineUsersController::class, 'index']);
+    Route::put('/admin/lineusers/update/{id}', [LineUsersController::class, 'update'])->name('lineusers.update');
     
 });
 

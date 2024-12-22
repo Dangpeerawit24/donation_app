@@ -25,8 +25,7 @@
                 <button id="export-excel" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Export to
                     Excel</button>
             </div>
-            <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded"
-                placeholder="Search...">
+            <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded" placeholder="Search...">
         </div>
 
         <!-- Table -->
@@ -38,6 +37,7 @@
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">UID</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">display_name</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">picture</th>
+                        <th class="px-6 py-3 text-center text-nowrap  w-10 text-md font-semibold text-white">การเปลื่ยนแปลง</th>
                     </tr>
                 </thead>
                 <tbody id="table-body" class="divide-y divide-gray-200">
@@ -51,6 +51,77 @@
             <button id="next" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Next</button>
         </div>
     </div>
+
+    <div id="editModal" class="fixed inset-0 p-2 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl overflow-hidden">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 bg-blue-500 text-white flex justify-between items-center">
+                <h2 class="text-xl font-semibold">แก้ไขหัวข้อกองบุญ</h2>
+                <button id="closeModal2" class="text-white hover:text-gray-300 text-2xl">
+                    &times;
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="px-6 py-4">
+                <form action="" id="usersForm2" autocomplete="off" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="name2"
+                                class="block text-sm font-medium text-gray-700 mb-1">display_name</label>
+                            <input type="text" name="display_name" id="name2" value="{{ old('name') }}"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
+                                placeholder="กรอก ชื่อ-สกุล" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 bg-gray-100 flex justify-end items-center space-x-3">
+                <button id="closeModalFooter2" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
+                    Cancel
+                </button>
+                <button type="submit" form="usersForm2"
+                    class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const csrfToken = "{{ csrf_token() }}";
+    </script>
+    <script>
+        function openEditModal(id, name) {
+            // เปิด Modal
+            const modal = document.getElementById('editModal');
+            modal.classList.remove('hidden');
+
+            // เติมข้อมูลในฟอร์ม
+            const form = document.getElementById('usersForm2');
+            form.action = `/admin/lineusers/update/${id}`; // เปลี่ยน action ของฟอร์ม
+
+            document.getElementById('name2').value = name;
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+        }
+
+        // ฟังก์ชันสำหรับปิด Modal
+        document.getElementById('closeModal2').addEventListener('click', () => {
+            document.getElementById('editModal').classList.add('hidden');
+        });
+
+        document.getElementById('closeModalFooter2').addEventListener('click', () => {
+            document.getElementById('editModal').classList.add('hidden');
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -94,6 +165,13 @@
                 <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">${user.display_name}</td>
                 <td class="px-6 py-2 text-center text-nowrap text-md text-gray-700">
                     ${user.picture_url ? `<img src="${user.picture_url}" alt="User Picture" class="w-10 h-10 rounded-full mx-auto">` : 'N/A'}
+                </td>
+                <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">
+                    <button
+                        class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                        onclick="openEditModal('${user.user_id}', '${user.display_name}')">
+                        เปลื่ยนชื่อ
+                    </button>
                 </td>
             </tr>
         `;
