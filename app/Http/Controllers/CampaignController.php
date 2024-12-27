@@ -347,25 +347,6 @@ class CampaignController extends Controller
                     'aspectMode' => 'fit',
                     'aspectRatio' => '1:1',
                 ],
-                'body' => [
-                    'type' => 'box',
-                    'layout' => 'vertical',
-                    'contents' => [
-                        [
-                            'type' => 'text',
-                            'text' => 'กองบุญ' . $campaign->name, // ชื่อกองบุญ
-                            'size' => 'lg',
-                            'wrap' => true,
-                            'weight' => 'bold',
-                            'align' => 'start',
-                        ],
-                        [
-                            'type' => 'text',
-                            'text' => $priceMessage, // ใช้ข้อความตามเงื่อนไข
-                            'size' => 'lg',
-                        ],
-                    ],
-                ],
             ];
         }
 
