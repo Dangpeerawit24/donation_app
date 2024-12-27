@@ -84,6 +84,9 @@
         <div class="flex flex-col lg:flex-row mt-5">
             <div class=" lg:w-3/4">
                 <h3 class="text-xl font-bold">กองบุญที่ยังเปิดให้ร่วมบุญ</h3>
+                <button id="openModal" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    ยิงกองบุญที่ยังเปิด
+                </button>
                 <div class=" lg:h-[600px] rounded-lg  overflow-x-auto p-2 scrollbar-hide">
                     <table class="min-w-full border-collapse bg-white" id="campaignsTable">
                         <thead>
@@ -133,6 +136,74 @@
                 </div>
             </div>
         </div>
+
+        <div id="modal" class="fixed px-2 inset-0 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+            <div class="modal-content bg-white rounded-xl shadow-xl w-full max-w-2xl">
+                <!-- Modal Header -->
+                <div class="px-6 py-4 bg-blue-500 text-white flex justify-between items-center">
+                    <h2 class="text-xl font-semibold">เพิ่มกองบุญใหม่</h2>
+                    <button id="closeModal" class="text-white hover:text-gray-300 text-2xl">&times;</button>
+                </div>
+    
+                <!-- Modal Body -->
+                <div class="modal-body px-6 py-4">
+                    <form action="{{ route('campaigns.broadcastall') }}" id="usersForm" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('POST')
+                        <div class="grid grid-cols-1 overflow-x-auto  gap-4 ">
+                            <div class="col-sm-10">
+                                <label for="broadcastOption" class="block text-sm font-medium text-gray-700 mb-1">ส่งให้</label>
+                                <select
+                                    class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                    name="broadcastOption" id="broadcastOption" required>
+                                    <option value="Broadcast">Broadcast ทั้งหมด</option>
+                                    <option value="3months">ลูกบุญย้อนหลัง 3 เดือน</option>
+                                    <option value="year">ลูกบุญย้อนหลัง 1 ปี</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+    
+                <!-- Modal Footer -->
+                <div class="px-6 py-4 bg-gray-100 flex justify-end space-x-3">
+                    <button id="closeModalFooter" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
+                        Cancel
+                    </button>
+                    <button type="submit" form="usersForm"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script>
+            const modal = document.getElementById('modal');
+            const openModal = document.getElementById('openModal');
+            const closeModal = document.getElementById('closeModal');
+            const closeModalFooter = document.getElementById('closeModalFooter');
+    
+            // เปิด Modal
+            openModal.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+            });
+    
+            // ปิด Modal
+            closeModal.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+    
+            closeModalFooter.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+    
+            // ปิด Modal เมื่อคลิกนอก Modal
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+        </script>
 
         <script>
             function fetchDashboardData() {

@@ -313,6 +313,132 @@ class CampaignController extends Controller
         return redirect()->back()->with('success', 'pushmessage เรียบร้อยแล้ว.');
     }
 
+    public function sendFlexMessageWithText(Request $request)
+    {
+        $broadcastOption = $request->input('broadcastOption', 'Broadcast'); // ค่าเริ่มต้นเป็น Broadcast
+        $campaigns = Campaign::where('status', 'เปิดกองบุญ')->get();
+        $lineToken = env('LINE_CHANNEL_ACCESS_TOKEN');
+        $linkapp = env('Liff_App');
+
+        // สร้าง Flex Message
+        $contents = [];
+        foreach ($campaigns as $campaign) {
+            $priceMessage = $campaign->price == 1
+                ? 'ตามกำลังศรัทธา'
+                : 'ร่วมบุญ : ' . number_format($campaign->price, 2) . ' บาท';
+
+            $contents[] = [
+                'type' => 'bubble',
+                'hero' => [
+                    'type' => 'image',
+                    'url' => asset('img/campaign/' . $campaign->campaign_img), // URL รูปภาพ
+                    'size' => 'full',
+                    'aspectMode' => 'fit',
+                    'aspectRatio' => '1:1',
+                ],
+                'body' => [
+                    'type' => 'box',
+                    'layout' => 'vertical',
+                    'contents' => [
+                        [
+                            'type' => 'text',
+                            'text' => $campaign->name, // ชื่อกองบุญ
+                            'size' => 'lg',
+                            'wrap' => true,
+                            'weight' => 'bold',
+                            'align' => 'start',
+                        ],
+                        [
+                            'type' => 'text',
+                            'text' => $priceMessage, // ใช้ข้อความตามเงื่อนไข
+                            'size' => 'lg',
+                        ],
+                    ],
+                ],
+            ];
+        }
+
+        $message2 = "รายการกองบุญที่ยังเปิดให้ร่วมบุญ\n\n" .
+            "แสดงหลักฐานการร่วมบุญ\n" .
+            "💰 มูลนิธิเมตตาธรรมรัศมี\n" .
+            "ธ.กสิกรไทย เลขที่บัญชี 171-1-75423-3\n" .
+            "ธ.ไทยพาณิชย์ เลขที่บัญชี 649-242269-4\n\n" .
+            "📌 ร่วมบุญผ่านระบบกองบุญออนไลน์ได้ที่ : $linkapp";
+
+        $messages = [
+            [
+                'type' => 'flex',
+                'altText' => 'รายละเอียดกองบุญ',
+                'contents' => [
+                    'type' => 'carousel',
+                    'contents' => $contents
+                ]
+            ],
+            [
+                'type' => 'text',
+                'text' => $message2
+            ]
+        ];
+
+        $userIds = [];
+
+        // เลือก userIds ตาม broadcastOption
+        if ($broadcastOption === 'Broadcast') {
+            // ใช้ Broadcast API
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer $lineToken",
+            ])->post('https://api.line.me/v2/bot/message/broadcast', [
+                'messages' => $messages
+            ]);
+        } elseif ($broadcastOption === '3months') {
+            // ดึง userIds ย้อนหลัง 3 เดือน
+            $userIds = DB::table('line_users')
+                ->where('created_at', '>=', now()->subMonths(3))
+                ->groupBy('user_id')
+                ->orderByRaw('MAX(created_at) DESC')
+                ->pluck('user_id');
+        } elseif ($broadcastOption === 'year') {
+            // ดึง userIds ย้อนหลัง 1 ปี
+            $userIds = DB::table('line_users')
+                ->select('user_id', DB::raw('MAX(created_at) as latest_created_at'))
+                ->where('created_at', '>=', now()->subYear())
+                ->groupBy('user_id')
+                ->orderBy('latest_created_at', 'desc')
+                ->pluck('user_id');
+        }
+
+        // ส่งข้อความแบบ Multicast
+        if (!empty($userIds)) {
+            // แบ่งกลุ่ม user_id เป็นชุดละ 500 (ตามข้อจำกัดของ LINE API)
+            $userIdsChunk = array_chunk($userIds->toArray(), 500);
+
+            foreach ($userIdsChunk as $chunk) {
+                Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Authorization' => "Bearer $lineToken",
+                ])->post('https://api.line.me/v2/bot/message/multicast', [
+                    'to' => $chunk, // ส่งผู้ใช้ในกลุ่มนี้
+                    'messages' => [
+                        [
+                            'type' => 'flex',
+                            'altText' => 'รายละเอียดกองบุญ',
+                            'contents' => [
+                                'type' => 'carousel',
+                                'contents' => $contents
+                            ]
+                        ],
+                        [
+                            'type' => 'text',
+                            'text' => $message2, // ข้อความเพิ่มเติม
+                        ]
+                    ],
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'pushmessage เรียบร้อยแล้ว.');
+    }
 
 
     public function destroy($id)
