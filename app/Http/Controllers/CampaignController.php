@@ -325,7 +325,7 @@ class CampaignController extends Controller
         foreach ($campaigns as $campaign) {
             $priceMessage = $campaign->price == 1
                 ? 'ตามกำลังศรัทธา'
-                : 'ร่วมบุญ : ' . number_format($campaign->price, 2) . ' บาท';
+                : 'ร่วมบุญ : ' . number_format($campaign->price) . ' บาท';
 
             $contents[] = [
                 'type' => 'bubble',
@@ -342,7 +342,7 @@ class CampaignController extends Controller
                     'contents' => [
                         [
                             'type' => 'text',
-                            'text' => $campaign->name, // ชื่อกองบุญ
+                            'text' => 'กองบุญ' . $campaign->name, // ชื่อกองบุญ
                             'size' => 'lg',
                             'wrap' => true,
                             'weight' => 'bold',
