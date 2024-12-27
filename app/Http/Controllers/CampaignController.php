@@ -326,24 +326,11 @@ class CampaignController extends Controller
             "type" => "bubble",
             "hero" => [
                 "type" => "image",
-                "url" => "https://donation.kuanimtungpichai.com/img/campaign/1733567912.png", // รูปภาพของหน้าแรก
+                "url" => "https://donation.kuanimtungpichai.com/img/campaignall.png", // รูปภาพของหน้าแรก
                 "size" => "full",
                 "aspectMode" => "fit",
                 "aspectRatio" => "1:1"
             ],
-            "body" => [
-                "type" => "box",
-                "layout" => "vertical",
-                "contents" => [
-                    [
-                        "type" => "text",
-                        "text" => "กองบุญที่ยังเปิดให้ร่วมบุญ", // ข้อความหน้าแรก
-                        "size" => "lg",
-                        "weight" => "bold",
-                        "align" => "center"
-                    ]
-                ]
-            ]
         ];
         
         foreach ($campaigns as $campaign) {
