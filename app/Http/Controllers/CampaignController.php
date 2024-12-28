@@ -320,29 +320,25 @@ class CampaignController extends Controller
         $lineToken = env('LINE_CHANNEL_ACCESS_TOKEN');
         $linkapp = env('Liff_App');
 
-        // สร้าง Flex Message
-        $contents = [];
-        $contents[] = [
+        $bubbles = [];
+        $bubbles[] = [
             "type" => "bubble",
             "hero" => [
                 "type" => "image",
-                "url" => "https://donation.kuanimtungpichai.com/img/campaignall.png", // รูปภาพของหน้าแรก
+                "url" => "https://donation.kuanimtungpichai.com/img/campaignall.png",
                 "size" => "full",
                 "aspectMode" => "fit",
                 "aspectRatio" => "1:1"
             ],
         ];
-        
-        foreach ($campaigns as $campaign) {
-            $priceMessage = $campaign->price == 1
-                ? 'ร่วมบุญ : ตามกำลังศรัทธา'
-                : 'ร่วมบุญ : ' . number_format($campaign->price) . ' บาท';
 
-            $contents[] = [
+        foreach ($campaigns as $campaign) {
+
+            $bubbles[] = [
                 'type' => 'bubble',
                 'hero' => [
                     'type' => 'image',
-                    'url' => asset('img/campaign/' . $campaign->campaign_img), // URL รูปภาพ
+                    'url' => asset('img/campaign/' . $campaign->campaign_img),
                     'size' => 'full',
                     'aspectMode' => 'fit',
                     'aspectRatio' => '1:1',
@@ -350,47 +346,54 @@ class CampaignController extends Controller
             ];
         }
 
+        $bubbleChunks = array_chunk($bubbles, 10);
+
         $message2 = "แสดงหลักฐานการร่วมบุญ\n" .
             "💰 มูลนิธิเมตตาธรรมรัศมี\n" .
             "ธ.กสิกรไทย เลขที่บัญชี 171-1-75423-3\n" .
             "ธ.ไทยพาณิชย์ เลขที่บัญชี 649-242269-4\n\n" .
             "📌 ร่วมบุญผ่านระบบกองบุญออนไลน์ได้ที่ : $linkapp";
 
-        $messages = [
-            [
-                'type' => 'flex',
-                'altText' => 'รายละเอียดกองบุญ',
-                'contents' => [
-                    'type' => 'carousel',
-                    'contents' => $contents
-                ]
-            ],
-            [
-                'type' => 'text',
-                'text' => $message2
-            ]
-        ];
-
         $userIds = [];
 
-        // เลือก userIds ตาม broadcastOption
         if ($broadcastOption === 'Broadcast') {
-            // ใช้ Broadcast API
-            $response = Http::withHeaders([
+            foreach ($bubbleChunks as $chunk) {
+                Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Authorization' => "Bearer $lineToken",
+                ])->post('https://api.line.me/v2/bot/message/broadcast', [
+                    'messages' => [
+                        [
+                            'type' => 'flex',
+                            'altText' => 'รายละเอียดกองบุญ',
+                            'contents' => [
+                                'type' => 'carousel',
+                                'contents' => $chunk,
+                            ],
+                        ],
+                    ],
+                ]);
+            }
+
+            // ส่งข้อความ message2 หลังสุด
+            Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'Authorization' => "Bearer $lineToken",
             ])->post('https://api.line.me/v2/bot/message/broadcast', [
-                'messages' => $messages
+                'messages' => [
+                    [
+                        'type' => 'text',
+                        'text' => $message2,
+                    ],
+                ],
             ]);
         } elseif ($broadcastOption === '3months') {
-            // ดึง userIds ย้อนหลัง 3 เดือน
             $userIds = DB::table('line_users')
                 ->where('created_at', '>=', now()->subMonths(3))
                 ->groupBy('user_id')
                 ->orderByRaw('MAX(created_at) DESC')
                 ->pluck('user_id');
         } elseif ($broadcastOption === 'year') {
-            // ดึง userIds ย้อนหลัง 1 ปี
             $userIds = DB::table('line_users')
                 ->select('user_id', DB::raw('MAX(created_at) as latest_created_at'))
                 ->where('created_at', '>=', now()->subYear())
@@ -399,30 +402,39 @@ class CampaignController extends Controller
                 ->pluck('user_id');
         }
 
-        // ส่งข้อความแบบ Multicast
         if (!empty($userIds)) {
-            // แบ่งกลุ่ม user_id เป็นชุดละ 500 (ตามข้อจำกัดของ LINE API)
             $userIdsChunk = array_chunk($userIds->toArray(), 500);
-
             foreach ($userIdsChunk as $chunk) {
+                foreach ($bubbleChunks as $bubbles) {
+                    Http::withHeaders([
+                        'Content-Type' => 'application/json',
+                        'Authorization' => "Bearer $lineToken",
+                    ])->post('https://api.line.me/v2/bot/message/multicast', [
+                        'to' => $chunk,
+                        'messages' => [
+                            [
+                                'type' => 'flex',
+                                'altText' => 'รายละเอียดกองบุญ',
+                                'contents' => [
+                                    'type' => 'carousel',
+                                    'contents' => $bubbles,
+                                ],
+                            ],
+                        ],
+                    ]);
+                }
+
+                // ส่งข้อความ message2 หลังสุด
                 Http::withHeaders([
                     'Content-Type' => 'application/json',
                     'Authorization' => "Bearer $lineToken",
                 ])->post('https://api.line.me/v2/bot/message/multicast', [
-                    'to' => $chunk, // ส่งผู้ใช้ในกลุ่มนี้
+                    'to' => $chunk,
                     'messages' => [
                         [
-                            'type' => 'flex',
-                            'altText' => 'รายละเอียดกองบุญ',
-                            'contents' => [
-                                'type' => 'carousel',
-                                'contents' => $contents
-                            ]
-                        ],
-                        [
                             'type' => 'text',
-                            'text' => $message2, // ข้อความเพิ่มเติม
-                        ]
+                            'text' => $message2,
+                        ],
                     ],
                 ]);
             }
@@ -430,6 +442,7 @@ class CampaignController extends Controller
 
         return redirect()->back()->with('success', 'pushmessage เรียบร้อยแล้ว.');
     }
+
 
 
     public function destroy($id)
