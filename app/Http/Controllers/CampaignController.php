@@ -316,7 +316,12 @@ class CampaignController extends Controller
     public function sendFlexMessageWithText(Request $request)
     {
         $broadcastOption = $request->input('broadcastOption', 'Broadcast'); // ค่าเริ่มต้นเป็น Broadcast
+        
         $campaigns = Campaign::where('status', 'เปิดกองบุญ')->get();
+        if ($campaigns->isEmpty()) {
+            return redirect()->back()->with('error', 'ไม่มีแคมเปญที่สถานะเปิดกองบุญ');
+        }
+        
         $lineToken = env('LINE_CHANNEL_ACCESS_TOKEN');
         $linkapp = env('Liff_App');
 
@@ -375,7 +380,6 @@ class CampaignController extends Controller
                 ]);
             }
 
-            // ส่งข้อความ message2 หลังสุด
             Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'Authorization' => "Bearer $lineToken",
@@ -424,7 +428,6 @@ class CampaignController extends Controller
                     ]);
                 }
 
-                // ส่งข้อความ message2 หลังสุด
                 Http::withHeaders([
                     'Content-Type' => 'application/json',
                     'Authorization' => "Bearer $lineToken",
