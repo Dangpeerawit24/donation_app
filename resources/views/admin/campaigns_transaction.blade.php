@@ -36,8 +36,7 @@
                 <button id="export-excel" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Export to
                     Excel</button>
             </div>
-            <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded"
-                placeholder="Search...">
+            <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded" placeholder="Search...">
         </div>
 
         <!-- Table -->
@@ -267,15 +266,28 @@
     <script>
         function addCommas() {
             const textarea = document.getElementById('details');
-            const lines = textarea.value.split('\n'); // แยกข้อความแต่ละบรรทัดออกมาในรูปแบบ array
+            // แยกข้อความแต่ละบรรทัดออกมาเป็น array
+            const lines = textarea.value.split('\n');
+
+            // แปลงแต่ละบรรทัดให้มีเครื่องหมาย ',' ต่อท้าย (ยกเว้นบรรทัดสุดท้าย หรือบรรทัดว่าง)
             const updatedLines = lines.map((line, index) => {
-                // เพิ่ม ',' หลังบรรทัด ถ้าไม่ใช่บรรทัดสุดท้าย และบรรทัดไม่ว่างเปล่า
-                return line.trim() !== '' && index < lines.length - 1 ? `${line},` : line;
+                // trim() เอา white space ออกก่อนเช็คว่าบรรทัดว่างหรือไม่
+                return (line.trim() !== '' && index < lines.length - 1) ?
+                    `${line},` :
+                    line;
             });
 
-            textarea.value = updatedLines.join('\n'); // รวมข้อความกลับเป็น string แบ่งด้วย newline
+            // รวมข้อความกลับเป็น string ด้วย \n
+            textarea.value = updatedLines.join('\n');
+
+            // นับจำนวนบรรทัด (รวมบรรทัดว่างด้วย ถ้าไม่ต้องการนับบรรทัดว่างต้องกรองก่อน)
+            const lineCount = lines.length;
+
+            // เปลี่ยนค่า value ของ input id="value" เป็นจำนวนบรรทัด
+            document.getElementById('value').value = lineCount;
         }
     </script>
+
     <script>
         const transactions = @json($transactions); // ดึงข้อมูลจาก Controller
         const rowsPerPage = 300;
