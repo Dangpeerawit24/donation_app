@@ -47,8 +47,8 @@
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">รูปกองบุญ</th>
-                        <th class="px-6 py-3 text-center text-nowrap md:text-wrap text-md font-semibold text-white">
-                            ชื่อกองบุญ</th>
+                        <th class="px-6 py-3 text-center text-nowrap md:text-wrap text-md font-semibold text-white">ชื่อกองบุญ</th>
+                        <th class="px-6 py-3 text-center text-wrap md:text-wrap text-md font-semibold text-white">รายละเอียด</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ราคา</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวนที่เปิดรับ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ยอดร่วมบุญ</th>
@@ -466,6 +466,7 @@
                             <img src="${baseUrl}/${Results.campaign_img}" alt="Campaign Image" width="100px" height="100px">
                         </td>
                        <td class="px-6 py-2 text-nowrap md:text-wrap  text-center text-md text-gray-700">${Results.name}</td>
+                       <td class="px-6 py-2 text-nowrap md:text-wrap  text-center text-md text-gray-700">${Results.description}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.price <= 1 ? "ตามกำลังศรัทธา": Results.price.toLocaleString()}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.stock >= 999999 ? "ตามกำลังศรัทธา": Results.stock}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.total_value}</td>
@@ -475,14 +476,14 @@
                                     class="px-4 py-2 bg-sky-300 text-black rounded hover:bg-sky-600">
                                         ดูรายการกองบุญ
                                 </a>
-                                <button
+                                        ${
+                                Results.status !== "ปิดกองบุญแล้ว"
+                                    ? `<button
                                     class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
                                     onclick="openModalpushmessage('/admin/pushmessage?campaign_id=${Results.id}')">
                                     pushmessage
                                 </button>
-                                        ${
-                                Results.status !== "ปิดกองบุญแล้ว"
-                                    ? `<button 
+                                    <button 
                                             class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
                                             onclick="confirmCloseCampaign(${Results.id})">
                                             ปิดกองบุญ
