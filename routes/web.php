@@ -29,8 +29,7 @@ use App\Http\Controllers\LineUsersController;
 
 // Route::get('/login', function () { return view('auth.login');});
 
-// Route::view('/test', 'test');
-
+Route::view('/liff/addfriend', 'liffadd');
 
 // Line App
 Route::post('/webhook', [WebhookController::class, 'handle']);
