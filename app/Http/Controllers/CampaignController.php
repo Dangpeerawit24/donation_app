@@ -78,6 +78,10 @@ class CampaignController extends Controller
 
             $imageUrl = asset('img/campaign/' . $campaign->campaign_img);
 
+            if ($request->broadcastOption === 'NOBroadcast') {
+                return redirect()->back()->with('success', 'เพิ่มกองบุญแล้ว.');
+            }
+
             $userIds = [];
 
             // ดึงข้อมูล user ตาม broadcastOption

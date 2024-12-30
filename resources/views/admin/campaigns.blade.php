@@ -95,6 +95,7 @@
                                 <option value="Broadcast">Broadcast ทั้งหมด</option>
                                 <option value="3months">ลูกบุญย้อนหลัง 3 เดือน</option>
                                 <option value="year">ลูกบุญย้อนหลัง 1 ปี</option>
+                                <option value="NOBroadcast">ไม่ส่งข้อความ</option>
                             </select>
                         </div>
                         <div class="col-sm-10">
