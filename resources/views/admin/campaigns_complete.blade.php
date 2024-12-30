@@ -17,14 +17,14 @@
 
 </style>
     <div class="flex flex-col md:flex-row gap-x-5">
-        <h3 class="text-3xl m-0 md:mb-10">จัดการข้อมูลกองบุญที่เปิดอยู่</h3>
+        <h3 class="text-3xl m-0 md:mb-10">จัดการข้อมูลกองบุญที่ปิดแล้ว</h3>
         <div>
             <button id="openModal" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                 เพิ่มกองบุญ
             </button>
-            <a href="{{ url('admin/campaign_complete') }}"
-                class="px-2 py-2 bg-red-500 text-center text-white rounded hover:bg-red-800">
-                กองบุญที่ปิดแล้ว
+            <a href="{{ url('admin/campaigns') }}"
+                class="px-2 py-2 bg-green-500 text-center text-white rounded hover:bg-green-800">
+                กองบุญที่เปิดอยู่
             </a>
         </div>
     </div>

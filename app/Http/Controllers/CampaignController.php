@@ -23,6 +23,7 @@ class CampaignController extends Controller
                 'ct.campaignsid'
             )
             ->select('campaigns.*', DB::raw('IFNULL(ct.total_value, 0) as total_value'))
+            ->where('campaigns.status', 'เปิดกองบุญ')
             ->orderByDesc('campaigns.created_at')
             ->get();
 
@@ -30,6 +31,30 @@ class CampaignController extends Controller
             return view('admin.campaigns', compact('categories', 'Results'));
         } elseif (Auth::user()->type === 'manager') {
             return view('manager.campaigns', compact('categories', 'Results'));
+        }
+    }
+
+    public function indexComplete()
+    {
+        $categories = DB::table('categories')->get();
+        $Results = DB::table('campaigns')
+            ->leftJoin(
+                DB::raw('(SELECT campaignsid, SUM(value) as total_value 
+                  FROM campaign_transactions 
+                  GROUP BY campaignsid) as ct'),
+                'campaigns.id',
+                '=',
+                'ct.campaignsid'
+            )
+            ->select('campaigns.*', DB::raw('IFNULL(ct.total_value, 0) as total_value'))
+            ->where('campaigns.status', 'ปิดกองบุญแล้ว')
+            ->orderByDesc('campaigns.created_at')
+            ->get();
+
+        if (Auth::user()->type === 'admin') {
+            return view('admin.campaigns_complete', compact('categories', 'Results'));
+        } elseif (Auth::user()->type === 'manager') {
+            return view('manager.campaigns_complete', compact('categories', 'Results'));
         }
     }
 

@@ -92,6 +92,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::put('/admin/categories/update/{id}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('/admin/categories/destroy/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     Route::get('/admin/campaigns', [CampaignController::class, 'index'])->name('campaigns');
+    Route::get('/admin/campaign_complete', [CampaignController::class, 'indexComplete'])->name('campaigns.indexComplete');
     Route::post('/admin/campaigns/store', [CampaignController::class, 'store'])->name('campaigns.store');
     Route::post('/admin/pushmessage', [CampaignController::class, 'pushmessage'])->name('campaigns.pushmessage');
     Route::post('/admin/broadcastall', [CampaignController::class, 'sendFlexMessageWithText'])->name('campaigns.broadcastall');
