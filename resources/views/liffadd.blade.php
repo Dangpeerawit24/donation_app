@@ -17,7 +17,7 @@
     <script>
         // LIFF Initialization
         document.addEventListener('DOMContentLoaded', () => {
-            const liffId = '165xxxxxxxxx-xxxxx'; // ใส่ LIFF ID ที่คุณได้จาก LINE Developers
+            const liffId = '2006463554-aWYA422R'; // ใส่ LIFF ID ที่คุณได้จาก LINE Developers
 
             liff.init({ liffId }).then(() => {
                 console.log('LIFF Initialized');
@@ -28,7 +28,7 @@
             document.getElementById('addFriendButton').addEventListener('click', () => {
                 // ใช้ addFriend API
                 liff.openWindow({
-                    url: 'https://line.me/R/ti/p/@YOUR_LINE_ID', // แทนที่ YOUR_LINE_ID ด้วย LINE Official ID ของคุณ
+                    url: 'https://line.me/R/ti/p/@kuanim_tungpichai', // แทนที่ YOUR_LINE_ID ด้วย LINE Official ID ของคุณ
                     external: true
                 });
             });
