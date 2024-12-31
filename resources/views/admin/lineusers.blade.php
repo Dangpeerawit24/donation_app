@@ -10,7 +10,7 @@
                 class="block w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-200">
                 <option value="month" selected>เดือนนี้</option>
                 <option value="3months">ย้อนหลัง 3 เดือน</option>
-                <option value="year">ปีนี้</option>
+                <option value="year">ย้อนหลัง 1 ปี</option>
                 <option value="all">ทั้งหมด</option>
             </select>
         </form>
