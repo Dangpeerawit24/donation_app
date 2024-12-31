@@ -24,8 +24,7 @@ class LineUsersController extends Controller
                     ->from('line_users')
                     ->groupBy('user_id')
                     ->when($filter === 'month', function ($query) {
-                        $query->whereMonth('created_at', now()->month)
-                            ->whereYear('created_at', now()->year);
+                        $query->where('created_at', '>=', now()->subMonths(1));
                     })
                     ->when($filter === '3months', function ($query) {
                         $query->where('created_at', '>=', now()->subMonths(3));
