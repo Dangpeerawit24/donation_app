@@ -31,7 +31,7 @@ class LineUsersController extends Controller
                         $query->where('created_at', '>=', now()->subMonths(3));
                     })
                     ->when($filter === 'year', function ($query) {
-                        $query->whereYear('created_at', now()->year);
+                        $query->where('created_at', '>=', now()->subYear());
                     });
             });
 
