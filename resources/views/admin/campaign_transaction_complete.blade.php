@@ -6,8 +6,6 @@
     <div class="flex flex-col">
         <h3 class="text-3xl m-0 md:mb-4">รายการผู้ร่วมบุญกองบุญ #{{ $name }}</h3>
         <div class="flex flex-row mb-0 md:mb-5 gap-2 ml-3">
-            <button class="px-2 py-2 bg-blue-600 text-center text-white rounded hover:bg-blue-800"
-                id="openModal">เพิ่มกองบุญจากดึงมือ</button>
             <a href="{{ url('admin/campaigns_transaction?campaign_id=' . $campaignId . '&name=' . $name) }}"
                 class="px-2 py-2 bg-blue-500 text-white rounded hover:bg-blue-800">
                 รายการที่ยังไม่ดำเนินการ
@@ -53,97 +51,6 @@
             <button id="next" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Next</button>
         </div>
     </div>
-
-    <!-- Modal Body -->
-    <div class="px-6 py-4 overflow-x-auto">
-        <form action="{{ route('campaigns_transaction.store') }}" id="usersForm" method="POST"
-            enctype="multipart/form-data">
-            @csrf
-            @method('POST')
-            <div class="grid grid-cols-1 overflow-x-auto  gap-4 ">
-                <div>
-                    <label for="value" class="block text-sm font-medium text-gray-700 mb-1">จำนวน</label>
-                    <input type="number" min="1" name="value" id="value" value="1"
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
-                        placeholder="กรอก จำนวน" required>
-                </div>
-                <div>
-                    <div>
-                        <label for="details" class="block text-sm font-medium text-gray-700 mb-1">ข้อมูลผู้ร่วมบุญ</label>
-                        <textarea name="details" id="details" rows="5"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
-                            placeholder="กรอกรายละเอียด..." required></textarea>
-                    </div>
-                    <button class="p-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                        onclick="addCommas()">เพิ่มเครื่องหมาย ','</button>
-                </div>
-                <div>
-                    <label for="lineName" class="block text-sm font-medium text-gray-700 mb-1">ชื่อที่แสดง</label>
-                    <input type="text" name="lineName" id="lineName"
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
-                        placeholder="ระบุชื่อที่แสดง" required>
-                </div>
-                <div class="col-sm-10">
-                    <label for="form" class="block text-sm font-medium text-gray-700 mb-1">ที่มา:</label>
-                    <select
-                        class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                        name="form" id="form" required>
-                        <option value="L">L</option>
-                        <option value="IB">IB</option>
-                        <option value="P">P</option>
-                    </select>
-                </div>
-                <!-- Hidden Fields -->
-                <input type="hidden" name="transactionID" value="TX-{{ now()->timestamp }}-{{ rand(1000, 9999) }}">
-                <input type="hidden" class="form-control" id="status" name="status" value="รอดำเนินการ" required>
-                <input type="hidden" class="form-control" id="campaignsid" name="campaignsid" value="{{ $campaignId }}"
-                    required>
-                <input type="hidden" class="form-control" id="campaignsname" name="campaignsname"
-                    value="{{ $name }}" required>
-            </div>
-        </form>
-    </div>
-
-    <!-- Modal Footer -->
-    <div class="px-6 py-4 bg-gray-100 flex justify-end items-center space-x-3">
-        <button id="closeModalFooter" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
-            Cancel
-        </button>
-        <button type="submit" form="usersForm" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-            Save
-        </button>
-    </div>
-    </div>
-    </div>
-
-    <script>
-        const modal = document.getElementById('modal');
-        const openModal = document.getElementById('openModal');
-        const closeModal = document.getElementById('closeModal');
-        const closeModalFooter = document.getElementById('closeModalFooter');
-
-        // เปิด Modal
-        openModal.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-        });
-
-        // ปิด Modal
-        closeModal.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-
-        closeModalFooter.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-
-        // ปิด Modal เมื่อคลิกนอก Modal
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
-            }
-        });
-    </script>
-
     <div id="imageModal"
         class="fixed inset-0 text-center bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
         <div class="bg-white text-center rounded-xl shadow-lg max-w-4xl w-auto">
