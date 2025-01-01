@@ -12,7 +12,10 @@ class CampaignController extends Controller
 {
     public function index()
     {
-        $categories = DB::table('categories')->get();
+        $categories = DB::table('categories')
+            ->where('status', 'อยู่ในช่วงงาน')
+            ->get();
+
         $Results = DB::table('campaigns')
             ->leftJoin(
                 DB::raw('(SELECT campaignsid, SUM(value) as total_value 
@@ -36,7 +39,9 @@ class CampaignController extends Controller
 
     public function indexWaitingOpen()
     {
-        $categories = DB::table('categories')->get();
+        $categories = DB::table('categories')
+            ->where('status', 'อยู่ในช่วงงาน')
+            ->get();
         $Results = DB::table('campaigns')
             ->leftJoin(
                 DB::raw('(SELECT campaignsid, SUM(value) as total_value 
@@ -60,7 +65,9 @@ class CampaignController extends Controller
 
     public function indexComplete()
     {
-        $categories = DB::table('categories')->get();
+        $categories = DB::table('categories')
+            ->where('status', 'อยู่ในช่วงงาน')
+            ->get();
         $Results = DB::table('campaigns')
             ->leftJoin(
                 DB::raw('(SELECT campaignsid, SUM(value) as total_value 
@@ -458,12 +465,12 @@ class CampaignController extends Controller
     public function sendFlexMessageWithText(Request $request)
     {
         $broadcastOption = $request->input('broadcastOption', 'Broadcast'); // ค่าเริ่มต้นเป็น Broadcast
-        
+
         $campaigns = Campaign::where('status', 'เปิดกองบุญ')->get();
         if ($campaigns->isEmpty()) {
             return redirect()->back()->with('error', 'ไม่มีแคมเปญที่สถานะเปิดกองบุญ');
         }
-        
+
         $lineToken = env('LINE_CHANNEL_ACCESS_TOKEN');
         $linkapp = env('Liff_App');
 

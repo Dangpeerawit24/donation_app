@@ -10,5 +10,5 @@ class Category extends Model
     use HasFactory;
 
     // กำหนดฟิลด์ที่อนุญาตให้ทำ Mass Assignment
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'status'];
 }

@@ -19,8 +19,7 @@
                 <button id="export-excel" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Export to
                     Excel</button>
             </div>
-            <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded"
-                placeholder="Search...">
+            <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded" placeholder="Search...">
         </div>
 
         <!-- Table -->
@@ -72,6 +71,15 @@
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
                                 placeholder="กรอก ชื่อ-สกุล" required>
                         </div>
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-700 mb-1">สถานะกองบุญ</label>
+                            <select
+                                class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                name="status" id="status" required>
+                                <option value="อยู่ในช่วงงาน">อยู่ในช่วงงาน</option>
+                                <option value="จบงานแล้ว">จบงานแล้ว</option>
+                            </select>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -111,6 +119,15 @@
                             <input type="text" name="name" id="name2" value="{{ old('name') }}"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
                                 placeholder="กรอก ชื่อ-สกุล" required>
+                        </div>
+                        <div>
+                            <label for="status2" class="block text-sm font-medium text-gray-700 mb-1">สถานะกองบุญ</label>
+                            <select
+                                class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                name="status" id="status2" required>
+                                <option value="อยู่ในช่วงงาน">อยู่ในช่วงงาน</option>
+                                <option value="จบงานแล้ว">จบงานแล้ว</option>
+                            </select>
                         </div>
                     </div>
                 </form>

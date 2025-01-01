@@ -112,7 +112,7 @@
                         </div>
                         <div class="col-sm-10">
                             <label for="categoriesID"
-                                class="block text-sm font-medium text-gray-700 mb-1">สถานะกองบุญ</label>
+                                class="block text-sm font-medium text-gray-700 mb-1">เลือกงาน</label>
                             <select
                                 class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 name="categoriesID" id="categoriesID" required>

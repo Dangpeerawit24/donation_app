@@ -39,6 +39,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'status' => 'required',
         ]);
         
         $data = $request->all();
@@ -52,12 +53,14 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'status' => 'required',
         ]);
 
         $category = Category::findOrFail($id);
         
         $category->update([
             'name' => $validated['name'],
+            'status' => $validated['status'],
         ]);
 
         return redirect()->back()->with('success', 'แก้ไขข้อมูล หัวข้อกองบุญ เรียบร้อยแล้ว.');
