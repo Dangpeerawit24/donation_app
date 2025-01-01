@@ -364,7 +364,11 @@
         // ฟังก์ชันการค้นหา
         function searchTable(query) {
             filteredData = transactions.filter((transactions) =>
-                transactions.lineName.toLowerCase().includes(query.toLowerCase())
+                (transactions.lineName.toLowerCase().includes(query.toLowerCase()) || false) ||
+                (transaction.details?.toLowerCase().includes(query.toLowerCase()) || false) ||
+                (transaction.details2?.toLowerCase().includes(query.toLowerCase()) || false) ||
+                (transaction.detailsbirthday?.toLowerCase().includes(query.toLowerCase()) || false) ||
+                (transaction.detailstext?.toLowerCase().includes(query.toLowerCase()) || false)
             );
             currentPage = 1;
             renderTable();
