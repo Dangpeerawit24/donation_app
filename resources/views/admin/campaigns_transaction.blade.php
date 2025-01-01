@@ -375,7 +375,7 @@
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700" style="white-space: pre-line;">${transactions.wish}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.value}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.lineName}</td>
-                   <td class="px-6 py-2 w-48 truncate lg:text-wrap text-center text-md text-gray-700">${transactions.qr_url}</td>
+                   <td class="px-6 py-2 w-20 truncate lg:text-wrap text-center text-md text-gray-700">${transactions.qr_url}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.form}</td>
                </tr>
            `;
