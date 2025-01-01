@@ -41,7 +41,7 @@
 
         <!-- Table -->
         <div class="overflow-hidden rounded-lg shadow-lg overflow-x-auto scrollbar-custom">
-            <table class="table-fixed min-w-full border-collapse bg-white">
+            <table class="table-fixed w-full border-collapse bg-white">
                 <thead>
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
                         <th class="px-6 py-3 w-[5%] text-center text-nowrap text-md font-semibold text-white">#</th>
