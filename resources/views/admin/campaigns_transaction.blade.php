@@ -107,7 +107,7 @@
                                     class="block text-sm font-medium text-gray-700 mb-1">คำขอพร</label>
                                 <textarea name="wish" id="wish" rows="5"
                                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
-                                    placeholder="กรอกรายละเอียด..." required></textarea>
+                                    placeholder="กรอกรายละเอียด..."></textarea>
                             </div>
                             <button class="p-1 bg-blue-500 text-white rounded hover:bg-blue-600"
                                 onclick="addCommaswish()">เพิ่มเครื่องหมาย ','</button>
