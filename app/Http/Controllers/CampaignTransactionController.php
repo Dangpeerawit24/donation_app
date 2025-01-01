@@ -260,7 +260,7 @@ class CampaignTransactionController extends Controller
             'lineName' => $request['lineName'],
             'value' => $request['value'],
             'details2' => $request['details'],
-            'wish' => $request['wish'] ?? null,
+            'wish' => $request['wish'] ?? 'null',
             'form' => $request['form'],
             'transactionID' => $request['transactionID'],
             'qr_url' => $qrUrl, // เก็บ path ของ QR Code (null ถ้าไม่มี user_id)
