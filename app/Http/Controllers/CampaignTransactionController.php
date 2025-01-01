@@ -209,7 +209,7 @@ class CampaignTransactionController extends Controller
             'value' => 'required|integer',
             'transactionID' => 'required',
             'details' => 'required',
-            'wish' => 'text',
+            'wish' => 'string',
             'lineName' => 'required',
             'form' => 'required',
             'status' => 'required',
