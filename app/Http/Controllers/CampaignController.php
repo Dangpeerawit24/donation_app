@@ -53,7 +53,7 @@ class CampaignController extends Controller
             )
             ->select('campaigns.*', DB::raw('IFNULL(ct.total_value, 0) as total_value'))
             ->where('campaigns.status', 'รอเปิด')
-            ->orderByDesc('campaigns.created_at')
+            ->orderByAsc('campaigns.created_at')
             ->get();
 
         if (Auth::user()->type === 'admin') {
