@@ -210,10 +210,10 @@
             // แสดงข้อมูลใน modal
             modalContent.innerHTML = `
         <ul class="list-decimal text-left ml-4 text-xl">
-            ${transaction.details ? transaction.details.split(',').map(detail => `<li>${detail}</li>`).join('') : ''}
-            ${transaction.details2 ? transaction.details2.split(',').map(detail => `<li>${detail}</li>`).join('') : ''}
-            ${transaction.detailsbirthday ? transaction.detailsbirthday.split(',').map(detail => `<li>${detail}</li>`).join('') : ''}
-            ${transaction.detailstext ? transaction.detailstext.split(',').map(detail => `<li>${detail}</li>`).join('') : ''}
+            ${transaction.details ? transaction.details.split(',').map(detail => `<li class="whitespace-pre-wrap">${detail}</li>`).join('') : ''}
+            ${transaction.details2 ? transaction.details2.split(',').map(detail => `<li class="whitespace-pre-wrap">${detail}</li>`).join('') : ''}
+            ${transaction.detailsbirthday ? transaction.detailsbirthday.split(',').map(detail => `<li class="whitespace-pre-wrap">${detail}</li>`).join('') : ''}
+            ${transaction.detailstext ? transaction.detailstext.split(',').map(detail => `<li class="whitespace-pre-wrap">${detail}</li>`).join('') : ''}
         </ul>
     `;
 
