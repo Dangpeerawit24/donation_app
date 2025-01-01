@@ -399,10 +399,10 @@
         function searchTable(query) {
             filteredData = transactions.filter((transactions) =>
                 (transactions.lineName.toLowerCase().includes(query.toLowerCase()) || false) ||
-                (transaction.details?.toLowerCase().includes(query.toLowerCase()) || false) ||
-                (transaction.details2?.toLowerCase().includes(query.toLowerCase()) || false) ||
-                (transaction.detailsbirthday?.toLowerCase().includes(query.toLowerCase()) || false) ||
-                (transaction.detailstext?.toLowerCase().includes(query.toLowerCase()) || false)
+                (transactions.details?.toLowerCase().includes(query.toLowerCase()) || false) ||
+                (transactions.details2?.toLowerCase().includes(query.toLowerCase()) || false) ||
+                (transactions.detailsbirthday?.toLowerCase().includes(query.toLowerCase()) || false) ||
+                (transactions.detailstext?.toLowerCase().includes(query.toLowerCase()) || false)
             );
             currentPage = 1;
             renderTable();
