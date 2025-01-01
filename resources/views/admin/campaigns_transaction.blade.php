@@ -102,6 +102,17 @@
                                 onclick="addCommas()">เพิ่มเครื่องหมาย ','</button>
                         </div>
                         <div>
+                            <div>
+                                <label for="wish"
+                                    class="block text-sm font-medium text-gray-700 mb-1">คำขอพร</label>
+                                <textarea name="wish" id="wish" rows="5"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
+                                    placeholder="กรอกรายละเอียด..." required></textarea>
+                            </div>
+                            <button class="p-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                onclick="addCommaswish()">เพิ่มเครื่องหมาย ','</button>
+                        </div>
+                        <div>
                             <label for="lineName" class="block text-sm font-medium text-gray-700 mb-1">ชื่อที่แสดง</label>
                             <input type="text" name="lineName" id="lineName"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
@@ -262,10 +273,33 @@
         });
     </script>
 
-
     <script>
         function addCommas() {
             const textarea = document.getElementById('details');
+            // แยกข้อความแต่ละบรรทัดออกมาเป็น array
+            const lines = textarea.value.split('\n');
+
+            // แปลงแต่ละบรรทัดให้มีเครื่องหมาย ',' ต่อท้าย (ยกเว้นบรรทัดสุดท้าย หรือบรรทัดว่าง)
+            const updatedLines = lines.map((line, index) => {
+                // trim() เอา white space ออกก่อนเช็คว่าบรรทัดว่างหรือไม่
+                return (line.trim() !== '' && index < lines.length - 1) ?
+                    `${line},` :
+                    line;
+            });
+
+            // รวมข้อความกลับเป็น string ด้วย \n
+            textarea.value = updatedLines.join('\n');
+
+            // นับจำนวนบรรทัด (รวมบรรทัดว่างด้วย ถ้าไม่ต้องการนับบรรทัดว่างต้องกรองก่อน)
+            const lineCount = lines.length;
+
+            // เปลี่ยนค่า value ของ input id="value" เป็นจำนวนบรรทัด
+            document.getElementById('value').value = lineCount;
+        }
+    </script>
+    <script>
+        function addCommaswish() {
+            const textarea = document.getElementById('wish');
             // แยกข้อความแต่ละบรรทัดออกมาเป็น array
             const lines = textarea.value.split('\n');
 
