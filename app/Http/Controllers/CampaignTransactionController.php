@@ -216,8 +216,6 @@ class CampaignTransactionController extends Controller
             'campaignsid' => 'required',
         ]);
 
-        dd($request);
-
         $lineName = $request['lineName'];
 
         // ค้นหา user_id จากตาราง line_users
