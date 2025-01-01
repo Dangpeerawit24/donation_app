@@ -3,19 +3,22 @@
     $manu = 'campaigns';
 @endphp
 @Section('content')
-<style>
-    /* ควบคุมความสูงของ Modal และทำให้เลื่อนได้ */
-.modal-content {
-    max-height: 100vh; /* ความสูงไม่เกิน 90% ของ viewport */
-    overflow-y: auto; /* เพิ่ม Scroll bar เมื่อเนื้อหาเกิน */
-}
+    <style>
+        /* ควบคุมความสูงของ Modal และทำให้เลื่อนได้ */
+        .modal-content {
+            max-height: 100vh;
+            /* ความสูงไม่เกิน 90% ของ viewport */
+            overflow-y: auto;
+            /* เพิ่ม Scroll bar เมื่อเนื้อหาเกิน */
+        }
 
-.modal-body {
-    max-height: 80vh; /* ความสูงสูงสุดของ body */
-    overflow-y: auto; /* เพิ่ม Scroll bar เฉพาะ body */
-}
-
-</style>
+        .modal-body {
+            max-height: 80vh;
+            /* ความสูงสูงสุดของ body */
+            overflow-y: auto;
+            /* เพิ่ม Scroll bar เฉพาะ body */
+        }
+    </style>
     <div class="flex flex-col md:flex-row gap-x-5">
         <h3 class="text-3xl m-0 md:mb-10">จัดการข้อมูลกองบุญที่เปิดอยู่</h3>
         <div>
@@ -36,12 +39,12 @@
         <!-- Search Box -->
         <div class="flex flex-col mt-2 md:mt-0 md:flex-row justify-between items-center mb-4">
             <div>
-                <button id="copy-table" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Copy Table</button>
+                <button id="copy-table" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Copy
+                    Table</button>
                 <button id="export-excel" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Export to
                     Excel</button>
             </div>
-            <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded"
-                placeholder="Search...">
+            <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded" placeholder="Search...">
         </div>
 
         <!-- Table -->
@@ -108,8 +111,7 @@
                             </select>
                         </div>
                         <div class="col-sm-10">
-                            <label for="categoriesID"
-                                class="block text-sm font-medium text-gray-700 mb-1">เลือกงาน</label>
+                            <label for="categoriesID" class="block text-sm font-medium text-gray-700 mb-1">เลือกงาน</label>
                             <select
                                 class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 name="categoriesID" id="categoriesID" required>
@@ -148,9 +150,8 @@
                         </div>
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-1">ชื่อกองบุญ</label>
-                            <input type="text" name="name" id="name" value="{{ old('name') }}"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
-                                placeholder="กรอก ชื่อกองบุญ" required>
+                            <textarea class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200" id="name"
+                                name="name" rows="2" maxlength="255" required></textarea>
                         </div>
                         <div>
                             <label for="description" class="block text-sm font-medium text-gray-700 mb-1">รายละเอียด
@@ -234,7 +235,8 @@
     </script>
 
     <!-- Modal -->
-    <div id="pushmessage" class="fixed inset-0 bg-gray-900 bg-opacity-50 px-2 flex items-center justify-center hidden z-50">
+    <div id="pushmessage"
+        class="fixed inset-0 bg-gray-900 bg-opacity-50 px-2 flex items-center justify-center hidden z-50">
         <!-- Modal Content -->
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md overflow-hidden">
             <!-- Header -->
@@ -488,10 +490,10 @@
                                         ${
                                 Results.status !== "ปิดกองบุญแล้ว"
                                     ? `<button 
-                                            class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
-                                            onclick="confirmCloseCampaign(${Results.id})">
-                                            ปิดกองบุญ
-                                        </button>`
+                                                class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
+                                                onclick="confirmCloseCampaign(${Results.id})">
+                                                ปิดกองบุญ
+                                            </button>`
                                     : ''
                                 }
                                

@@ -151,9 +151,8 @@
                         </div>
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-1">ชื่อกองบุญ</label>
-                            <input type="text" name="name" id="name" value="{{ old('name') }}"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
-                                placeholder="กรอก ชื่อกองบุญ" required>
+                            <textarea class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200" id="name"
+                                name="name" rows="2" maxlength="255" required></textarea>
                         </div>
                         <div>
                             <label for="description" class="block text-sm font-medium text-gray-700 mb-1">รายละเอียด
