@@ -3,21 +3,24 @@
     $manu = 'campaigns';
 @endphp
 @Section('content')
-<style>
-    /* ควบคุมความสูงของ Modal และทำให้เลื่อนได้ */
-.modal-content {
-    max-height: 100vh; /* ความสูงไม่เกิน 90% ของ viewport */
-    overflow-y: auto; /* เพิ่ม Scroll bar เมื่อเนื้อหาเกิน */
-}
+    <style>
+        /* ควบคุมความสูงของ Modal และทำให้เลื่อนได้ */
+        .modal-content {
+            max-height: 100vh;
+            /* ความสูงไม่เกิน 90% ของ viewport */
+            overflow-y: auto;
+            /* เพิ่ม Scroll bar เมื่อเนื้อหาเกิน */
+        }
 
-.modal-body {
-    max-height: 80vh; /* ความสูงสูงสุดของ body */
-    overflow-y: auto; /* เพิ่ม Scroll bar เฉพาะ body */
-}
-
-</style>
+        .modal-body {
+            max-height: 80vh;
+            /* ความสูงสูงสุดของ body */
+            overflow-y: auto;
+            /* เพิ่ม Scroll bar เฉพาะ body */
+        }
+    </style>
     <div class="flex flex-col md:flex-row gap-x-5">
-        <h3 class="text-3xl m-0 md:mb-10">จัดการข้อมูลกองบุญที่ปิดแล้ว</h3>
+        <h3 class="text-3xl m-0 md:mb-10">จัดการข้อมูลกองบุญที่รอเปิด</h3>
         <div>
             <button id="openModal" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                 เพิ่มกองบุญ
@@ -26,9 +29,9 @@
                 class="px-2 py-2 mr-2 bg-green-500 text-center text-white rounded hover:bg-green-800">
                 กองบุญที่เปิดอยู่
             </a>
-            <a href="{{ url('admin/campaignswaitingopen') }}"
-                class="px-2 py-2 bg-yellow-500 text-center text-white rounded hover:bg-yellow-800">
-                กองบุญที่รอเปิด
+            <a href="{{ url('admin/campaign_complete') }}"
+                class="px-2 py-2 bg-red-500 text-center text-white rounded hover:bg-red-800">
+                กองบุญที่ปิดแล้ว
             </a>
         </div>
     </div>
@@ -36,12 +39,12 @@
         <!-- Search Box -->
         <div class="flex flex-col mt-2 md:mt-0 md:flex-row justify-between items-center mb-4">
             <div>
-                <button id="copy-table" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Copy Table</button>
+                <button id="copy-table" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Copy
+                    Table</button>
                 <button id="export-excel" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Export to
                     Excel</button>
             </div>
-            <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded"
-                placeholder="Search...">
+            <input type="text" id="search" class="mt-5 md:mt-0 px-4 py-2 border rounded" placeholder="Search...">
         </div>
 
         <!-- Table -->
@@ -51,8 +54,8 @@
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">รูปกองบุญ</th>
-                        <th class="px-6 py-3 text-center text-nowrap md:text-wrap text-md font-semibold text-white">ชื่อกองบุญ</th>
-                        <th class="px-6 py-3 text-center text-wrap md:text-wrap text-md font-semibold text-white">รายละเอียด</th>
+                        <th class="px-6 py-3 text-center text-nowrap md:text-wrap text-md font-semibold text-white">
+                            ชื่อกองบุญ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ราคา</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">จำนวนที่เปิดรับ</th>
                         <th class="px-6 py-3 text-center text-nowrap text-md font-semibold text-white">ยอดร่วมบุญ</th>
@@ -234,7 +237,8 @@
     </script>
 
     <!-- Modal -->
-    <div id="pushmessage" class="fixed inset-0 bg-gray-900 bg-opacity-50 px-2 flex items-center justify-center hidden z-50">
+    <div id="pushmessage"
+        class="fixed inset-0 bg-gray-900 bg-opacity-50 px-2 flex items-center justify-center hidden z-50">
         <!-- Modal Content -->
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md overflow-hidden">
             <!-- Header -->
@@ -257,20 +261,6 @@
                             <option value="year">ลูกบุญย้อนหลัง 1 ปี</option>
                         </select>
                     </div>
-                    <div class="mt-3">
-                        <label for="campaign_imgpush" class="block text-sm font-medium text-gray-700">อัปโหลดไฟล์</label>
-                        <input type="file" id="campaign_imgpush" name="campaign_imgpush"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200">
-                    </div>
-
-                    <!-- Textarea -->
-                    <div class="mt-3">
-                        <label for="textareaInput" class="block text-sm font-medium text-gray-700">ข้อความ</label>
-                        <textarea id="textareaInput" name="textareaInput" rows="4"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
-                            placeholder="พิมพ์ข้อความของคุณที่นี่"></textarea>
-                    </div>
-                    <input type="hidden" name="pushmessage" value="pushmessage">
                 </form>
             </div>
 
@@ -471,7 +461,6 @@
                             <img src="${baseUrl}/${Results.campaign_img}" alt="Campaign Image" width="100px" height="100px">
                         </td>
                        <td class="px-6 py-2 text-nowrap md:text-wrap  text-center text-md text-gray-700">${Results.name}</td>
-                       <td class="px-6 py-2 text-nowrap md:text-wrap  text-center text-md text-gray-700">${Results.description}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.price <= 1 ? "ตามกำลังศรัทธา": Results.price.toLocaleString()}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.stock >= 999999 ? "ตามกำลังศรัทธา": Results.stock}</td>
                        <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${Results.total_value}</td>
@@ -481,21 +470,11 @@
                                     class="px-4 py-2 bg-sky-300 text-black rounded hover:bg-sky-600">
                                         ดูรายการกองบุญ
                                 </a>
-                                        ${
-                                Results.status !== "ปิดกองบุญแล้ว"
-                                    ? `<button
+                                <button
                                     class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                                    onclick="openModalpushmessage('/admin/pushmessage?campaign_id=${Results.id}')">
-                                    pushmessage
+                                    onclick="openModalpushmessage('/admin/campaignsopen?campaign_id=${Results.id}')">
+                                    เปิดกองบุญ
                                 </button>
-                                    <button 
-                                            class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
-                                            onclick="confirmCloseCampaign(${Results.id})">
-                                            ปิดกองบุญ
-                                        </button>`
-                                    : ''
-                                }
-                               
                            </div>
                        </td>
                    </tr>

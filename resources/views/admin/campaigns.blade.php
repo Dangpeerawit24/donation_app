@@ -22,6 +22,10 @@
             <button id="openModal" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                 เพิ่มกองบุญ
             </button>
+            <a href="{{ url('admin/campaignswaitingopen') }}"
+                class="px-2 py-2 bg-yellow-500 mr-2 text-center text-white rounded hover:bg-yellow-800">
+                กองบุญที่รอเปิด
+            </a>
             <a href="{{ url('admin/campaign_complete') }}"
                 class="px-2 py-2 bg-red-500 text-center text-white rounded hover:bg-red-800">
                 กองบุญที่ปิดแล้ว
@@ -88,6 +92,7 @@
                                 class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 name="status" id="status" required>
                                 <option value="เปิดกองบุญ">เปิดกองบุญ</option>
+                                <option value="รอเปิด">รอเปิด</option>
                                 <option value="ปิดกองบุญแล้ว">ปิดกองบุญแล้ว</option>
                             </select>
                         </div>

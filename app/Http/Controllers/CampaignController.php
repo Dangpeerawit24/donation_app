@@ -34,6 +34,30 @@ class CampaignController extends Controller
         }
     }
 
+    public function indexWaitingOpen()
+    {
+        $categories = DB::table('categories')->get();
+        $Results = DB::table('campaigns')
+            ->leftJoin(
+                DB::raw('(SELECT campaignsid, SUM(value) as total_value 
+                  FROM campaign_transactions 
+                  GROUP BY campaignsid) as ct'),
+                'campaigns.id',
+                '=',
+                'ct.campaignsid'
+            )
+            ->select('campaigns.*', DB::raw('IFNULL(ct.total_value, 0) as total_value'))
+            ->where('campaigns.status', 'รอเปิด')
+            ->orderByDesc('campaigns.created_at')
+            ->get();
+
+        if (Auth::user()->type === 'admin') {
+            return view('admin.campaignswaitingopen', compact('categories', 'Results'));
+        } elseif (Auth::user()->type === 'manager') {
+            return view('manager.campaignswaitingopen', compact('categories', 'Results'));
+        }
+    }
+
     public function indexComplete()
     {
         $categories = DB::table('categories')->get();
@@ -159,6 +183,95 @@ class CampaignController extends Controller
         }
 
         return redirect()->back()->with('success', 'เพิ่มกองบุญสำเร็จ');
+    }
+
+    public function openCampaign(Request $request)
+    {
+        $campaign_id = $request->query('campaign_id');
+        if (!$campaign_id) {
+            return redirect()->back()->with('error', 'ข้อมูลไม่ครบถ้วน');
+        }
+
+        $request->validate([
+
+            'broadcastOption' => 'required',
+
+        ]);
+
+        $campaign = Campaign::findOrFail($campaign_id);
+
+        $campaign->update([
+            'status' => "เปิดกองบุญ",
+        ]);
+
+        if ($campaign->status == "เปิดกองบุญ") {
+            $lineToken = env('LINE_CHANNEL_ACCESS_TOKEN');
+            $linkapp = env('Liff_App');
+            $priceMessage = ($campaign->price == 1) ? "ตามกำลังศรัทธา" : "{$campaign->price} บาท";
+
+            $message = "🎉 ขอเชิญร่วมกองบุญ 🎉\n" .
+                "✨ {$campaign->name}\n" .
+                "💰 ร่วมบุญ: {$priceMessage}\n" .
+                "📋 " . $campaign->description;
+
+            $message2 = "แสดงหลักฐานการร่วมบุญ\n" .
+                "💰 มูลนิธิเมตตาธรรมรัศมี\n" .
+                "ธ.กสิกรไทย เลขที่บัญชี 171-1-75423-3\n" .
+                "ธ.ไทยพาณิชย์ เลขที่บัญชี 649-242269-4\n\n" .
+                "📌 ร่วมบุญผ่านระบบกองบุญออนไลน์ได้ที่ : $linkapp";
+
+            $imageUrl = asset('img/campaign/' . $campaign->campaign_img);
+
+            $userIds = [];
+
+            // ดึงข้อมูล user ตาม broadcastOption
+            if ($request->broadcastOption === 'Broadcast') {
+                // ส่ง Broadcast API
+                Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Authorization' => "Bearer $lineToken",
+                ])->post('https://api.line.me/v2/bot/message/broadcast', [
+                    'messages' => [
+                        ['type' => 'image', 'originalContentUrl' => $imageUrl, 'previewImageUrl' => $imageUrl],
+                        ['type' => 'text', 'text' => $message],
+                        ['type' => 'text', 'text' => $message2],
+                    ],
+                ]);
+            } elseif ($request->broadcastOption === '3months') {
+                $userIds = DB::table('line_users')
+                    ->where('created_at', '>=', now()->subMonths(3))
+                    ->groupBy('user_id')
+                    ->orderByRaw('MAX(created_at) DESC')
+                    ->pluck('user_id');
+            } elseif ($request->broadcastOption === 'year') {
+                $userIds = DB::table('line_users')
+                    ->select('user_id', DB::raw('MAX(created_at) as latest_created_at'))
+                    ->where('created_at', '>=', now()->subYear()) // ย้อนหลัง 1 ปีเต็มจากวันนี้
+                    ->groupBy('user_id')
+                    ->orderBy('latest_created_at', 'desc')
+                    ->pluck('user_id');
+            }
+
+            // ส่งข้อความแบบ Multicast
+            if (!empty($userIds)) {
+                $userIdsChunk = array_chunk($userIds->toArray(), 500); // แบ่งชุดละ 500
+                foreach ($userIdsChunk as $chunk) {
+                    Http::withHeaders([
+                        'Content-Type' => 'application/json',
+                        'Authorization' => "Bearer $lineToken",
+                    ])->post('https://api.line.me/v2/bot/message/multicast', [
+                        'to' => $chunk,
+                        'messages' => [
+                            ['type' => 'image', 'originalContentUrl' => $imageUrl, 'previewImageUrl' => $imageUrl],
+                            ['type' => 'text', 'text' => $message],
+                            ['type' => 'text', 'text' => $message2],
+                        ],
+                    ]);
+                }
+            }
+
+            return redirect()->back()->with('success', 'เพิ่มกองบุญและส่งข้อความเรียบร้อยแล้ว.');
+        }
     }
 
     public function update(Request $request, $id)
