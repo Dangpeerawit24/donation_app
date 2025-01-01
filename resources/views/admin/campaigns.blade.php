@@ -129,6 +129,7 @@
                                 <option value="ชื่อสกุล">ชื่อสกุล</option>
                                 <option value="กล่องข้อความใหญ่">กล่องข้อความใหญ่</option>
                                 <option value="ชื่อวันเดือนปีเกิด">ชื่อวันเดือนปีเกิด</option>
+                                <option value="ผู้รับผู้ส่ง">ผู้รับผู้ส่ง</option>
                                 <option value="ตามศรัทธา">ตามศรัทธา</option>
                                 <option value="คำขอพร">คำขอพร</option>
                                 <option value="คำขอพรตามศรัทธา">คำขอพรตามศรัทธา</option>
