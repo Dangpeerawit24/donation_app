@@ -44,14 +44,14 @@
             <table class="table-fixed min-w-full border-collapse bg-white">
                 <thead>
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
-                        <th class="px-6 py-3 w-[5%] text-center text-nowrap text-md font-semibold text-white">#</th>
-                        <th class="px-6 py-3 w-[10%] text-center text-nowrap text-md font-semibold text-white">สลิป</th>
-                        <th class="px-6 py-3 w-[25%] text-center text-nowrap text-md font-semibold text-white">ข้อมูลผู้ร่วมบุญ</th>
-                        <th class="px-6 py-3 w-[25%] text-center text-nowrap text-md font-semibold text-white">คำขอพร</th>
-                        <th class="px-6 py-3 w-[5%] text-center text-nowrap text-md font-semibold text-white">จำนวน</th>
-                        <th class="px-6 py-3 w-[10%] text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
-                        <th class="px-6 py-3 w-[15%] text-center text-wrap text-md font-semibold text-white">QR Url</th>
-                        <th class="px-6 py-3 w-[5%] text-center text-nowrap text-md font-semibold text-white">ที่มา</th>
+                        <th class="px-6 py-3  text-center text-nowrap text-md font-semibold text-white">#</th>
+                        <th class="px-6 py-3  text-center text-nowrap text-md font-semibold text-white">สลิป</th>
+                        <th class="px-6 py-3 w-[30%] text-center text-nowrap text-md font-semibold text-white">ข้อมูลผู้ร่วมบุญ</th>
+                        <th class="px-6 py-3 w-[30%] text-center text-nowrap text-md font-semibold text-white">คำขอพร</th>
+                        <th class="px-6 py-3  text-center text-nowrap text-md font-semibold text-white">จำนวน</th>
+                        <th class="px-6 py-3  text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
+                        <th class="px-6 py-3  text-center text-nowrap text-md font-semibold text-white">QR Url</th>
+                        <th class="px-6 py-3  text-center text-nowrap text-md font-semibold text-white">ที่มา</th>
                     </tr>
                 </thead>
                 <tbody id="table-body" class="divide-y divide-gray-200">
@@ -375,7 +375,7 @@
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700" style="white-space: pre-line;">${transactions.wish}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.value}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.lineName}</td>
-                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.qr_url}</td>
+                   <td class="px-6 py-2 text-nowrap  lg:text-wrap text-center text-md text-gray-700">${transactions.qr_url}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.form}</td>
                </tr>
            `;
