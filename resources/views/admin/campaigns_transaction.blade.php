@@ -367,12 +367,12 @@
                             <img src="${baseUrl}/${transactions.evidence}" alt="หลักฐานการโอน" width="100px" class="inline-block">
                         </a>
                     </td>
-                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700" style="white-space: pre-line;">
+                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">
                         <a href="#" onclick="openDetailsModal(${JSON.stringify(transactions).replace(/"/g, '&quot;')})">
                             ${transactions.details || transactions.details2 || transactions.detailsbirthday || transactions.detailstext || 'ไม่มีข้อมูล'}
                         </a>
                     </td>
-                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700" style="white-space: pre-line;">${transactions.wish}</td>
+                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.wish}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.value}</td>
                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.lineName}</td>
                    <td class="px-6 py-2 text-nowrap  lg:text-wrap text-center text-md text-gray-700">${transactions.qr_url}</td>
