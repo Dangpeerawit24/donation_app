@@ -47,10 +47,10 @@
                         <th class="px-6 py-3 w-[5%] text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3 w-[10%] text-center text-nowrap text-md font-semibold text-white">สลิป</th>
                         <th class="px-6 py-3 w-[25%] text-center text-nowrap text-md font-semibold text-white">ข้อมูลผู้ร่วมบุญ</th>
-                        <th class="px-6 py-3 w-[20%] text-center text-nowrap text-md font-semibold text-white">คำขอพร</th>
+                        <th class="px-6 py-3 w-[25%] text-center text-nowrap text-md font-semibold text-white">คำขอพร</th>
                         <th class="px-6 py-3 w-[5%] text-center text-nowrap text-md font-semibold text-white">จำนวน</th>
                         <th class="px-6 py-3 w-[10%] text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
-                        <th class="px-6 py-3 w-[20%] text-center text-wrap text-md font-semibold text-white">QR Url</th>
+                        <th class="px-6 py-3 w-[15%] text-center text-wrap text-md font-semibold text-white">QR Url</th>
                         <th class="px-6 py-3 w-[5%] text-center text-nowrap text-md font-semibold text-white">ที่มา</th>
                     </tr>
                 </thead>
