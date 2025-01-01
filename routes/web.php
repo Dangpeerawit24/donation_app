@@ -24,6 +24,7 @@ use App\Http\Controllers\FormcampaignController;
 use App\Http\Controllers\PushevidenceController;
 use App\Http\Controllers\Formcampaighall2Controller;
 use App\Http\Controllers\Formcampaighall3Controller;
+use App\Http\Controllers\Formcampaighall4Controller;
 use App\Http\Controllers\LineUsersController;
 
 
@@ -47,7 +48,7 @@ Route::resource('/formcampaightext', FormcampaightextController::class);
 Route::get('/fetch_formcampaightext_details', [FormcampaightextController::class, 'fetchformcampaightextdetails'])->name('fetch.formcampaightext.details');
 Route::resource('/formcampaighall', FormcampaighallController::class);
 Route::resource('/formcampaighall2', Formcampaighall2Controller::class);
-Route::resource('/formcampaighall4', Formcampaighall2Controller::class);
+Route::resource('/formcampaighall4', Formcampaighall4Controller::class);
 Route::resource('/formcampaighall3', Formcampaighall3Controller::class);
 Route::get('/fetch_formcampaighall_details', [FormcampaighallController::class, 'fetchformcampaighalldetails'])->name('fetch.formcampaighall.details');
 Route::get('/fetch_formcampaighall2_details', [Formcampaighall2Controller::class, 'fetchformcampaighalldetails'])->name('fetch.formcampaighall.details');
