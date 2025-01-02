@@ -162,35 +162,6 @@
             document.getElementById('loader').classList.add('hidden');
         });
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const hasSeenMessage = localStorage.getItem(
-            'hasSeenLineFriendPrompt'); // ตรวจสอบว่าผู้ใช้เคยเห็นข้อความหรือยัง
-
-            if (!hasSeenMessage) {
-                // แสดงข้อความ Swal
-                Swal.fire({
-                    title: '<span class="text-lg">กรุณาเพิ่ม LINE OA เป็นเพื่อนก่อนใช้งาน</span>',
-                    text: 'ไม่เช่นนั้นทางเราจะไม่สามารถส่งภาพกองบุญให้ท่านได้',
-                    icon: 'info',
-                    showConfirmButton: true,
-                    confirmButtonText: 'เพิ่มเพื่อน',
-                    confirmButtonColor: '#0284c7', // สีฟ้า
-                    showCancelButton: true,
-                    cancelButtonText: 'เป็นเพื่อนอยู่แล้ว',
-                    cancelButtonColor: '#00e32a', // สีเขียว
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.open('https://line.me/R/ti/p/@kuanim_tungpichai', '_blank');
-                    }
-                });
-
-                // บันทึกสถานะว่าแสดงข้อความไปแล้ว
-                localStorage.setItem('hasSeenLineFriendPrompt', 'true');
-            }
-        });
-    </script>
-
 </body>
 
 </html>
