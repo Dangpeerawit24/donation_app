@@ -41,13 +41,13 @@
 
         <!-- Table -->
         <div class="overflow-hidden rounded-lg shadow-lg overflow-x-auto scrollbar-custom">
-            <table class="table-fixed min-w-full border-collapse bg-white">
+            <table class="table-fixed w-full border-collapse bg-white">
                 <thead>
                     <tr class="bg-gradient-to-r h-12 from-sky-600 to-sky-500">
                         <th class="px-6 py-3  text-center text-nowrap text-md font-semibold text-white">#</th>
                         <th class="px-6 py-3  text-center text-nowrap text-md font-semibold text-white">สลิป</th>
-                        <th class="px-6 py-3 w-[30%] text-center text-nowrap text-md font-semibold text-white">ข้อมูลผู้ร่วมบุญ</th>
-                        <th class="px-6 py-3 w-[30%] text-center text-nowrap text-md font-semibold text-white">คำขอพร</th>
+                        <th class="w-[30%] px-6 py-3  text-center text-nowrap text-md font-semibold text-white">ข้อมูลผู้ร่วมบุญ</th>
+                        <th class="w-[30%] px-6 py-3 text-center text-nowrap text-md font-semibold text-white">คำขอพร</th>
                         <th class="px-6 py-3  text-center text-nowrap text-md font-semibold text-white">จำนวน</th>
                         <th class="px-6 py-3  text-center text-nowrap text-md font-semibold text-white">ชื่อไลน์</th>
                         <th class="px-6 py-3  text-center text-nowrap text-md font-semibold text-white">QR Url</th>
@@ -360,23 +360,23 @@
             currentData.forEach((transactions, index) => {
                 const row = `
                 <tr>
-                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${startIndex + index + 1}</td>
-                    <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">
+                    <td class="px-6 py-2 text-center text-md text-gray-700">${startIndex + index + 1}</td>
+                    <td class="px-6 py-2 text-center text-md text-gray-700">
                         <a href="#" data-toggle="modal" data-target="#imageModal"
                          onclick="openImageModal('${baseUrl}/${transactions.evidence}')">
                             <img src="${baseUrl}/${transactions.evidence}" alt="หลักฐานการโอน" width="100px" class="inline-block">
                         </a>
                     </td>
-                   <td class="px-6 py-2 text-nowrap  lg:text-wrap text-center text-md text-gray-700">
+                   <td class="px-6 py-2  text-center text-md text-gray-700">
                         <a href="#" onclick="openDetailsModal(${JSON.stringify(transactions).replace(/"/g, '&quot;')})">
                             ${transactions.details || transactions.details2 || transactions.detailsbirthday || transactions.detailstext || 'ไม่มีข้อมูล'}
                         </a>
                     </td>
-                   <td class="px-6 py-2 text-nowrap  lg:text-wrap text-center text-md text-gray-700">${transactions.wish}</td>
-                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.value}</td>
-                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.lineName}</td>
-                   <td class="px-6 py-2 text-nowrap  lg:text-wrap text-center text-md text-gray-700">${transactions.qr_url}</td>
-                   <td class="px-6 py-2 text-nowrap  text-center text-md text-gray-700">${transactions.form}</td>
+                   <td class="px-6 py-2  text-center text-md text-gray-700">${transactions.wish}</td>
+                   <td class="px-6 py-2  text-center text-md text-gray-700">${transactions.value}</td>
+                   <td class="px-6 py-2  text-center text-md text-gray-700">${transactions.lineName}</td>
+                   <td class="px-6 py-2  text-center text-md text-gray-700">${transactions.qr_url}</td>
+                   <td class="px-6 py-2  text-center text-md text-gray-700">${transactions.form}</td>
                </tr>
            `;
                 tableBody.insertAdjacentHTML('beforeend', row);
