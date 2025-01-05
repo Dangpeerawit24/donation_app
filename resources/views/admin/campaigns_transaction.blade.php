@@ -183,7 +183,7 @@
 
     {{-- Modal รายชื่อ --}}
     <div id="detailsModal"
-        class="hidden px-2 fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+        class="hidden p-2 fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
             <h2 class="text-xl font-semibold mb-4">รายละเอียดข้อมูลผู้ร่วมบุญ</h2>
             <div id="modalContent" class="mb-4">
