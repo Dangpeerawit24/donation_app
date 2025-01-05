@@ -178,9 +178,9 @@
             countInput.value = count;
         }
 
-        if (count > 30) {
-            swal("ข้อจำกัด!", "คุณไม่สามารถกรอกจำนวนกองบุญเกิน 30 ได้", "warning");
-            count = 30;
+        if (count > 120) {
+            swal("ข้อจำกัด!", "คุณไม่สามารถกรอกจำนวนกองบุญเกิน 120 ได้", "warning");
+            count = 120;
             countInput.value = count;
         }
 

@@ -45,7 +45,7 @@
                         <div>
                             <input type="number" id="donationCount" name="value" required
                                 style="width: 100%; text-align: center; height: 45.4286px;" placeholder="0"
-                                min="0" max="30" onchange="updateDonationInputs()">
+                                min="0" max="120" onchange="updateDonationInputs()">
                         </div>
                         <div id="donationInputs" class="input-container"></div>
                         <div class="d-flex justify-content-start" style="margin-top: 9px;">
@@ -186,14 +186,14 @@
             countInput.value = count;
         }
 
-        if (count > 30) {
+        if (count > 120) {
             Swal.fire({
                 title: "ข้อจำกัด!",
-                text: "คุณไม่สามารถกรอกจำนวนกองบุญเกิน 30 ได้",
+                text: "คุณไม่สามารถกรอกจำนวนกองบุญเกิน 120 ได้",
                 icon: "warning",
                 confirmButtonText: "ตกลง"
             });
-            count = 30;
+            count = 120;
             countInput.value = count;
         }
 
