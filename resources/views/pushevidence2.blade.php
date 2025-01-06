@@ -65,7 +65,7 @@
         const addFileButton = document.getElementById('addFileButton');
 
         // กำหนดจำนวนช่องอัปโหลดไฟล์สูงสุด
-        const maxFileInputs = 4;
+        const maxFileInputs = 10;
 
         addFileButton.addEventListener('click', () => {
             // ตรวจสอบว่ามีช่องอัปโหลดไฟล์กี่ช่องแล้ว
@@ -89,7 +89,7 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'ข้อจำกัดในการเพิ่มไฟล์',
-                    text: 'คุณสามารถเพิ่มช่องอัปโหลดไฟล์ได้สูงสุด 4 ช่องเท่านั้น!',
+                    text: 'คุณสามารถเพิ่มช่องอัปโหลดไฟล์ได้สูงสุด 10 ช่องเท่านั้น!',
                     confirmButtonText: 'ตกลง',
                     timer: 3000,
                     timerProgressBar: true
