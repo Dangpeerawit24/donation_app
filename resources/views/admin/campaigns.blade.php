@@ -393,14 +393,40 @@
                 title: 'ยืนยันการปิดกองบุญ?',
                 text: 'คุณต้องการปิดกองบุญนี้หรือไม่?',
                 icon: 'warning',
-                showCancelButton: true,
+                showCancelButton: true, // แสดงปุ่ม Cancel
+                showDenyButton: true, // แสดงปุ่ม Deny เพิ่มเข้ามา
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'ใช่, ปิดเลย!',
-                cancelButtonText: 'ยกเลิก',
+                denyButtonColor: '#6c757d', // สามารถกำหนดสีของปุ่ม Deny ได้
+                confirmButtonText: 'ใช่, ปิดเลย!', // ปุ่ม Confirm
+                denyButtonText: 'ปิดแต่ไม่ส่งข้อความ', // ปุ่ม Deny
+                cancelButtonText: 'ยกเลิก' // ปุ่ม Cancel
             }).then((result) => {
                 if (result.isConfirmed) {
                     fetch(`/admin/campaigns/close/${campaignId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
+                            },
+                        })
+                        .then((response) => {
+                            if (response.ok) {
+                                return response.json();
+                            } else {
+                                throw new Error('Failed to close campaign');
+                            }
+                        })
+                        .then((data) => {
+                            Swal.fire('สำเร็จ!', data.message, 'success').then(() => location.reload());
+                        })
+                        .catch((error) => {
+                            Swal.fire('เกิดข้อผิดพลาด!', 'ไม่สามารถปิดกองบุญได้ กรุณาลองอีกครั้ง.', 'error');
+                            console.error(error);
+                        });
+                } else if (result.isDenied) {
+                    fetch(`/admin/campaigns/close2/${campaignId}`, {
                             method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -491,10 +517,10 @@
                                         ${
                                 Results.status !== "ปิดกองบุญแล้ว"
                                     ? `<button 
-                                                class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
-                                                onclick="confirmCloseCampaign(${Results.id})">
-                                                ปิดกองบุญ
-                                            </button>`
+                                                        class="px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-700"
+                                                        onclick="confirmCloseCampaign(${Results.id})">
+                                                        ปิดกองบุญ
+                                                    </button>`
                                     : ''
                                 }
                                

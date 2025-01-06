@@ -358,6 +358,17 @@ class CampaignController extends Controller
         return response()->json(['success' => true, 'message' => 'ปิดกองบุญเรียบร้อยแล้ว.']);
     }
 
+    public function Closed2($id)
+    {
+        $campaign = Campaign::findOrFail($id);
+
+        $campaign->update([
+            'status' => "ปิดกองบุญแล้ว"
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'ปิดกองบุญเรียบร้อยแล้ว.']);
+    }
+
     public function pushmessage(Request $request)
     {
         $campaign_id = $request->query('campaign_id');
