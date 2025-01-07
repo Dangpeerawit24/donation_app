@@ -10,13 +10,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
     <style>
         .spinner {
-            width: 200px; 
+            width: 200px;
             height: 200px;
-            animation: spin 2s linear infinite; 
+            animation: spin 2s linear infinite;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
@@ -38,24 +44,32 @@
     {{-- Main Content --}}
     <div class="grid row w-full h-full my-20 content-center justify-center">
         <h2 class="text-3xl text-center mb-4 mt-4">ติดตามสถานะกองบุญ</h2>
-        <div class="max-w-sm p-2 bg-white border border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-700">
+        <div
+            class="max-w-sm p-2 bg-white border border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-700">
             <h1 class="text-center text-2xl">ภาพจากกองบุญ</h1>
             <h2 class="text-center text-xl">{{ $campaignsname }}</h2>
 
             @php
-                // แปลง string เป็น array (ถ้าเป็นค่าว่างจะได้ [""] แต่เราจะเช็คด้านล่างอีกที)
+                // แปลง string เป็น array
                 $images = explode(',', $url_img);
-                // ลบค่าว่างที่อาจติดมาจากท้าย string หรือกรณีไม่มีรูป
                 $images = array_filter($images);
-                // จัด array ให้เป็น index ใหม่
                 $images = array_values($images);
             @endphp
 
-            {{-- ถ้ามีมากกว่า 1 รูป ให้โชว์เป็นสไลด์, ถ้ามี 1 รูป ก็โชว์รูปเดียว --}}
+            {{-- ซ่อนรูปทั้งหมดไว้ (force preload) --}}
+            @if (count($images) > 0)
+                <div style="display: none;">
+                    @foreach ($images as $img)
+                        <img src="{{ asset('img/pushimg/' . $img) }}" alt="Preload Image">
+                    @endforeach
+                </div>
+            @endif
+
+            {{-- เช็กว่ามีกี่รูป --}}
             @if (count($images) > 1)
-                <!-- สไลด์ (Next/Prev) -->
+                <!-- แสดงสไลด์ (Next/Prev) -->
                 <div id="slider" class="flex items-center justify-center flex-col my-3">
-                    <img id="slider-img" class="rounded img-fluid my-5" width="100%" alt="Campaign Image" />
+                    <img id="slider-img" class="rounded img-fluid my-3" width="100%" alt="Campaign Image" />
                     <div class="flex justify-between w-full max-w-sm">
                         <button id="prev-btn" class="bg-gray-300 text-gray-700 px-2 py-1 rounded-md">
                             <i class="fa-solid fa-chevron-left"></i> Prev
@@ -67,16 +81,42 @@
                 </div>
             @elseif (count($images) === 1)
                 <!-- มีรูปเดียว -->
-                <img 
-                    class="rounded img-fluid my-5" 
-                    src="{{ asset('img/pushimg/' . $images[0]) }}" 
-                    width="100%" 
-                    alt="Campaign Image" 
-                />
+                <img class="rounded img-fluid my-5" src="{{ asset('img/pushimg/' . $images[0]) }}" width="100%"
+                    alt="Campaign Image" />
             @else
                 <!-- ไม่มีรูป -->
                 <p class="text-center text-gray-500 my-5">ไม่พบภาพในระบบ</p>
             @endif
+
+            {{-- ถ้ามีหลายรูปให้มีโค้ด JS สำหรับสไลด์ --}}
+            @if (count($images) > 1)
+                <script>
+                    const images = @json($images);
+                    let currentIndex = 0;
+
+                    const sliderImg = document.getElementById('slider-img');
+                    const prevBtn = document.getElementById('prev-btn');
+                    const nextBtn = document.getElementById('next-btn');
+
+                    function showImage(index) {
+                        sliderImg.src = `{{ asset('img/pushimg') }}/${images[index]}`;
+                    }
+
+                    prevBtn.addEventListener('click', () => {
+                        currentIndex = (currentIndex - 1 + images.length) % images.length;
+                        showImage(currentIndex);
+                    });
+
+                    nextBtn.addEventListener('click', () => {
+                        currentIndex = (currentIndex + 1) % images.length;
+                        showImage(currentIndex);
+                    });
+
+                    // แสดงรูปแรกตอนโหลดหน้า
+                    showImage(currentIndex);
+                </script>
+            @endif
+
         </div>
     </div>
 
@@ -157,4 +197,5 @@
     @endif
 
 </body>
+
 </html>
