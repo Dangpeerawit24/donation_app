@@ -91,7 +91,6 @@
             {{-- ถ้ามีหลายรูปให้มีโค้ด JS สำหรับสไลด์ --}}
             @if (count($images) > 1)
                 <script>
-                    const images = @json($images);
                     let currentIndex = 0;
 
                     const sliderImg = document.getElementById('slider-img');
