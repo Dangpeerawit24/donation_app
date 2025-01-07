@@ -82,7 +82,9 @@
         });
     });
 
-    @if (session('success'))
+</script>
+@if (session('success'))
+    <script>
         Swal.fire({
             icon: 'success',
             title: 'สำเร็จ',
@@ -90,9 +92,9 @@
             timer: 2000,
             showConfirmButton: false
         });
-    @endif
-
-    @if (session('error'))
+    </script>
+@elseif (session('error'))
+    <script>
         Swal.fire({
             icon: 'error',
             title: 'เกิดข้อผิดพลาด',
@@ -100,8 +102,9 @@
             timer: 3000,
             showConfirmButton: false
         });
-    @endif
-</script>
+    </script>
+@endif
+
 {{-- <script>
     let logoutTimer;
 
