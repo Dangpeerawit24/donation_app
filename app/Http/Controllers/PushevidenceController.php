@@ -58,34 +58,49 @@ class PushevidenceController extends Controller
 
     public function pushevidencetouser(Request $request)
     {
-        // ตรวจสอบความถูกต้องของข้อมูล
         $validated = $request->validate([
             'transactionID' => 'required|string',
-            'userid' => 'required|string',
-            'campaignname' => 'required|string',
-            'url_img.*' => 'required|file|mimes:jpeg,png,jpg|max:10048', // รับหลายไฟล์
+            'userid'        => 'required|string',
+            'campaignname'  => 'required|string',
+            'url_img.*'     => 'required|file|mimes:jpeg,png,jpg|max:10048', // รับหลายไฟล์
         ]);
-
-        $campaignname = $validated['campaignname'];
-        $transactionID = $validated['transactionID'];
-        $userId = $validated['userid'];
-        $imageUrls = [];
-
+    
+        $campaignname   = $validated['campaignname'];
+        $transactionID  = $validated['transactionID'];
+        $userId         = $validated['userid'];
+        
+        // ตัวแปรสำหรับเก็บ URL รูปภาพ (ถ้าต้องการใช้ URL)
+        $imageUrls      = [];
+        // ตัวแปรสำหรับเก็บชื่อไฟล์
+        $fileNames      = [];
+    
         // จัดการไฟล์อัปโหลด
         if ($request->hasFile('url_img')) {
             foreach ($request->file('url_img') as $file) {
-                $fileName = time() . '_' . uniqid() . '.' . $file->extension(); // ตั้งชื่อไฟล์ไม่ซ้ำ
-                $file->move(public_path('img/pushimg/'), $fileName); // ย้ายไฟล์ไปยังโฟลเดอร์
-                $imageUrls[] = asset('img/pushimg/' . $fileName); // เก็บ URL รูปภาพ
+                // ตั้งชื่อไฟล์ใหม่ไม่ให้ซ้ำกัน
+                $fileName = time() . '_' . uniqid() . '.' . $file->extension();
+                
+                // ย้ายไฟล์ไปยังโฟลเดอร์ปลายทาง
+                $file->move(public_path('img/pushimg/'), $fileName);
+                
+                // เก็บ URL รูปภาพไว้ในอาเรย์ (ถ้าคุณต้องการใช้งาน URL ต่อ)
+                $imageUrls[] = asset('img/pushimg/' . $fileName);
+    
+                // เก็บ "ชื่อไฟล์" ไว้ในอาเรย์
+                $fileNames[] = $fileName;
             }
         }
-
-        // อัปเดตสถานะในตาราง campaign_transactions
+    
+        // แปลงอาเรย์ชื่อไฟล์ให้เป็น string โดยคั่นด้วยเครื่องหมาย ,
+        $fileNamesString = implode(',', $fileNames);
+    
+        // อัปเดตข้อมูลในตาราง โดยเก็บชื่อไฟล์ไว้ในคอลัมน์ url_img
         $updated = DB::table('campaign_transactions')
             ->where('transactionID', $transactionID)
             ->update([
-                'status' => "ส่งภาพกองบุญแล้ว",
-                'updated_at' => now(),
+                'status'    => "ส่งภาพกองบุญแล้ว",
+                'url_img'   => $fileNamesString, // เก็บชื่อไฟล์คั่นด้วย ,
+                'updated_at'=> now(),
             ]);
 
         if ($updated) {
