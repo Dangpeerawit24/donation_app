@@ -10,6 +10,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (session('success'))
+            Swal.fire({
+                imageUrl: '{{ asset('img/thank.png') }}',
+                customClass: {
+                    image: 'rounded-image' // ชื่อ class CSS
+                },
+                imageWidth: 300,
+                imageHeight: 300,
+                title: 'ขออนุโมทนาบุญกับ<br>คุณ{{ session('lineName') }}',
+                html: 'ที่ได้ร่วมกองบุญ{{ session('campaignname') }}',
+                timer: 5000,
+                showConfirmButton: false
+            });
+        @endif
+    </script>
     <style>
         .spinner {
             width: 200px;
@@ -129,22 +145,6 @@
             </a>
         </div>
     </div>
-    <script>
-        @if (session('success'))
-            Swal.fire({
-                imageUrl: '{{ asset('img/thank.png') }}',
-                customClass: {
-                    image: 'rounded-image' // ชื่อ class CSS
-                },
-                imageWidth: 300,
-                imageHeight: 300,
-                title: 'ขออนุโมทนาบุญกับ<br>คุณ{{ session('lineName') }}',
-                html: 'ที่ได้ร่วมกองบุญ{{ session('campaignname') }}',
-                timer: 5000,
-                showConfirmButton: false
-            });
-        @endif
-    </script>
     <script>
         document.querySelectorAll('a').forEach(function(link) {
             link.addEventListener('click', function() {
