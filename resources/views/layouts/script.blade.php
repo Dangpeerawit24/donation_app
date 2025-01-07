@@ -92,6 +92,15 @@
         });
     @endif
 
+    @if (session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: '{{ session('error') }}',
+            timer: 3000,
+            showConfirmButton: false
+        });
+    @endif
 </script>
 {{-- <script>
     let logoutTimer;
