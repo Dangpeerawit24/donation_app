@@ -63,7 +63,7 @@ class PushevidenceController extends Controller
             'transactionID' => 'required|string',
             'userid' => 'required|string',
             'campaignname' => 'required|string',
-            'url_img.*' => 'required|file|mimes:jpeg,png,jpg|max:7048', // รับหลายไฟล์
+            'url_img.*' => 'required|file|mimes:jpeg,png,jpg|max:10048', // รับหลายไฟล์
         ]);
 
         $campaignname = $validated['campaignname'];
