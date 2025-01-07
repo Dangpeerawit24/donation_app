@@ -133,7 +133,7 @@
     @if (session('success'))
         <script>
             Swal.fire({
-                imageUrl: '{{ asset('img/ขออนุโมทนาบุญ.png') }}',
+                imageUrl: '{{ asset('img/thank.png') }}',
                 customClass: {
                     image: 'rounded-image' // ชื่อ class CSS
                 },
