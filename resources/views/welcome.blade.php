@@ -129,6 +129,7 @@
             </a>
         </div>
     </div>
+    @dd($session->profile)
     <script>
         @if (session('success'))
             Swal.fire({
@@ -138,8 +139,8 @@
                 },
                 imageWidth: 300,
                 imageHeight: 300,
-                title: 'ขออนุโมทนาบุญกับ<br>คุณ{{ session('lineName') }}',
-                html: 'ที่ได้ร่วมกองบุญ{{ session('campaignname') }}',
+                title: 'ขออนุโมทนาบุญครับ',
+                html: 'รายการที่ท่านร่วมบุญสำเร็จแล้ว',
                 timer: 5000,
                 showConfirmButton: false
             });
