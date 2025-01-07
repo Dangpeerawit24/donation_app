@@ -82,9 +82,7 @@
         });
     });
 
-</script>
-@if (session('success'))
-    <script>
+    @if (session('success'))
         Swal.fire({
             icon: 'success',
             title: 'สำเร็จ',
@@ -92,19 +90,9 @@
             timer: 2000,
             showConfirmButton: false
         });
-    </script>
-@elseif (session('error'))
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: '{{ session('error') }}',
-            timer: 3000,
-            showConfirmButton: false
-        });
-    </script>
-@endif
+    @endif
 
+</script>
 {{-- <script>
     let logoutTimer;
 
