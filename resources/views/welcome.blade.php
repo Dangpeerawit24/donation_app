@@ -129,9 +129,8 @@
             </a>
         </div>
     </div>
-
-    @if (session('success'))
-        <script>
+    <script>
+        @if (session('success'))
             Swal.fire({
                 imageUrl: '{{ asset('img/thank.png') }}',
                 customClass: {
@@ -144,8 +143,8 @@
                 timer: 5000,
                 showConfirmButton: false
             });
-        </script>
-    @endif
+        @endif
+    </script>
     <script>
         document.querySelectorAll('a').forEach(function(link) {
             link.addEventListener('click', function() {
