@@ -129,7 +129,6 @@
             </a>
         </div>
     </div>
-    @dd($session->profile)
     <script>
         @if (session('success'))
             Swal.fire({
