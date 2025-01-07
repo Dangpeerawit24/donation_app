@@ -82,40 +82,16 @@
             @elseif (count($images) === 1)
                 <!-- มีรูปเดียว -->
                 <img class="rounded img-fluid my-5" src="{{ asset('img/pushimg/' . $images[0]) }}" width="100%"
-                    alt="Campaign Image" />
+                     alt="Campaign Image" />
             @else
                 <!-- ไม่มีรูป -->
                 <p class="text-center text-gray-500 my-5">ไม่พบภาพในระบบ</p>
             @endif
 
-            {{-- ถ้ามีหลายรูปให้มีโค้ด JS สำหรับสไลด์ --}}
-            @if (count($images) > 1)
-                <script>
-                    let currentIndex = 0;
-
-                    const sliderImg = document.getElementById('slider-img');
-                    const prevBtn = document.getElementById('prev-btn');
-                    const nextBtn = document.getElementById('next-btn');
-
-                    function showImage(index) {
-                        sliderImg.src = `{{ asset('img/pushimg') }}/${images[index]}`;
-                    }
-
-                    prevBtn.addEventListener('click', () => {
-                        currentIndex = (currentIndex - 1 + images.length) % images.length;
-                        showImage(currentIndex);
-                    });
-
-                    nextBtn.addEventListener('click', () => {
-                        currentIndex = (currentIndex + 1) % images.length;
-                        showImage(currentIndex);
-                    });
-
-                    // แสดงรูปแรกตอนโหลดหน้า
-                    showImage(currentIndex);
-                </script>
-            @endif
-
+            {{-- 
+                *** ลบสคริปต์สไลด์ที่ซ้ำ (ถ้ามี) ออกไป ***
+                ตอนนี้เหลือสคริปต์สไลด์เพียงอันเดียวด้านล่าง (ท้ายไฟล์)
+            --}}
         </div>
     </div>
 
