@@ -71,8 +71,6 @@ class PushevidenceController extends Controller
         
         // ตัวแปรสำหรับเก็บ URL รูปภาพ (ถ้าต้องการใช้ URL)
         $imageUrls      = [];
-        // ตัวแปรสำหรับเก็บชื่อไฟล์
-        $fileNames      = [];
     
         // จัดการไฟล์อัปโหลด
         if ($request->hasFile('url_img')) {
@@ -86,13 +84,11 @@ class PushevidenceController extends Controller
                 // เก็บ URL รูปภาพไว้ในอาเรย์ (ถ้าคุณต้องการใช้งาน URL ต่อ)
                 $imageUrls[] = asset('img/pushimg/' . $fileName);
     
-                // เก็บ "ชื่อไฟล์" ไว้ในอาเรย์
-                $fileNames[] = $fileName;
             }
         }
     
         // แปลงอาเรย์ชื่อไฟล์ให้เป็น string โดยคั่นด้วยเครื่องหมาย ,
-        $fileNamesString = implode(',', $fileNames);
+        $fileNamesString = implode(',', $imageUrls);
     
         // อัปเดตข้อมูลในตาราง โดยเก็บชื่อไฟล์ไว้ในคอลัมน์ url_img
         $updated = DB::table('campaign_transactions')
