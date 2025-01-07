@@ -54,7 +54,7 @@
             {{-- ถ้ามีมากกว่า 1 รูป ให้โชว์เป็นสไลด์, ถ้ามี 1 รูป ก็โชว์รูปเดียว --}}
             @if (count($images) > 1)
                 <!-- สไลด์ (Next/Prev) -->
-                <div id="slider" class="flex items-center justify-center flex-col mt-5">
+                <div id="slider" class="flex items-center justify-center flex-col my-3">
                     <img id="slider-img" class="rounded img-fluid my-5" width="100%" alt="Campaign Image" />
                     <div class="flex justify-between w-full max-w-sm">
                         <button id="prev-btn" class="bg-gray-300 text-gray-700 px-2 py-1 rounded-md">
