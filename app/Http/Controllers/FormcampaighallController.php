@@ -85,7 +85,7 @@ class FormcampaighallController extends Controller
         // อัปโหลดไฟล์หลักฐานการโอนเงิน
         $fileName = null;
         if ($request->hasFile('evidence')) {
-            $fileName = time() . '.' . $request->evidence->extension();
+            $fileName = time() . '_' . uniqid() . '.' . $request->evidence->extension();
             $request->evidence->move(public_path('img/evidence/'), $fileName);
         }
 
@@ -97,7 +97,7 @@ class FormcampaighallController extends Controller
             mkdir($qrFolder, 0777, true);
         }
 
-        $qrFileName = 'qrcode_' . time() . '.png';
+        $qrFileName = 'qrcode_' . time() . '_' . uniqid() . '.png';
         $qrFilePath = $qrFolder . $qrFileName;
 
         // ใช้ Endroid\QrCode สร้าง QR Code
