@@ -64,6 +64,9 @@
                                 @elseif ($Data->status == 'ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว')
                                     <span
                                         class="inline-flex text-center items-center rounded-md bg-green-700 px-2 py-1 text-sm font-medium text-white ring-1 ring-inset ring-green-600/20">รายนาม<br>เข้าระบบแล้ว</span>
+                                @elseif ($Data->status == 'หลักฐานการโอนไม่ถูกต้อง')
+                                    <span
+                                        class="inline-flex text-center items-center rounded-md bg-red-700 px-2 py-1 text-sm font-medium text-white ring-1 ring-inset ring-red-600/20">หลักฐานการโอน<br>ไม่ถูกต้อง</span>
                                 @else
                                     <span
                                         class="inline-flex text-center items-center rounded-md bg-yellow-500 px-2 py-1 text-sm font-medium text-black ring-1 ring-inset ring-green-600/20">รอ<br>ดำเนินการ</span>
