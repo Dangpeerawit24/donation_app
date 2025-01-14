@@ -9,7 +9,7 @@
         <!-- Menu Button (เฉพาะมือถือ) -->
         <div class="xl:hidden flex flex-row items-center">
             <a href="#" id="open-modal-button"
-                class="relative flex items-center gap-2 p-2 mr-3 rounded bg-green-500 text-white hover:bg-green-600">
+                class="relative flex items-center gap-2 p-2 mr-3 rounded-full bg-green-500 text-white hover:bg-green-600">
                 <!-- ไอคอน Notification -->
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
@@ -49,7 +49,7 @@
             </div>
 
             <a href="#" id="open-modal-button2"
-                class="relative flex items-center gap-2 p-2 mr-3 rounded bg-green-500 text-white hover:bg-green-600">
+                class="relative flex items-center gap-2 p-2 mr-3 rounded-full bg-green-500 text-white hover:bg-green-600">
                 <!-- ไอคอน Notification -->
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
