@@ -10,21 +10,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
     <style>
         .spinner {
-            width: 200px; 
+            width: 200px;
             height: 200px;
-            animation: spin 2s linear infinite; 
+            animation: spin 2s linear infinite;
         }
-    
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
 
 <body class="bg-gray-300	">
     <div id="loader" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
-        <img src="{{asset('img/loading.png')}}" alt="Loading..." class="spinner">
+        <img src="{{ asset('img/loading.png') }}" alt="Loading..." class="spinner">
     </div>
     <div class="row w-full h-20 fixed top-0 bg-red-950 content-center justify-items-center">
         <nav class="flex items-center	">
@@ -34,8 +39,8 @@
     </div>
     <div class=" grid row w-full h-full my-20 content-center justify-center">
         <h2 class=" text-3xl text-center mb-4 mt-4">ติดตามสถานะกองบุญ</h2>
-        <div
-            class=" w-11/12 p-2 bg-white border border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-700" style="justify-self: center;">
+        <div class=" w-11/12 p-2 bg-white border border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-700"
+            style="justify-self: center;">
             <table class="min-w-full text-left text-sm font-light text-surface dark:text-white">
                 <thead class="border-b border-neutral-200 font-medium dark:border-white/10">
                     <tr>
@@ -54,6 +59,9 @@
                                         class="btn btn-link" target=""><span
                                             class="inline-flex text-center items-center rounded-md bg-green-700 px-2 py-1 text-sm font-medium text-white ring-1 ring-inset ring-green-600/20">ส่งภาพ<br>กองบุญแล้ว</span></a>
                                 @elseif ($Data->status == 'รายนามเข้าระบบเรียบร้อยแล้ว')
+                                    <span
+                                        class="inline-flex text-center items-center rounded-md bg-green-700 px-2 py-1 text-sm font-medium text-white ring-1 ring-inset ring-green-600/20">รายนาม<br>เข้าระบบแล้ว</span>
+                                @elseif ($Data->status == 'ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว')
                                     <span
                                         class="inline-flex text-center items-center rounded-md bg-green-700 px-2 py-1 text-sm font-medium text-white ring-1 ring-inset ring-green-600/20">รายนาม<br>เข้าระบบแล้ว</span>
                                 @else
@@ -90,7 +98,7 @@
         });
 
         window.addEventListener('pageshow', function(event) {
-           
+
             document.getElementById('loader').classList.add('hidden');
         });
 
