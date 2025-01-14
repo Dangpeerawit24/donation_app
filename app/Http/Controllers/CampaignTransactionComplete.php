@@ -24,7 +24,7 @@ class CampaignTransactionComplete extends Controller
 
         // ดึงข้อมูลที่ต้องการ
         $transactions = campaign_transaction::where('campaignsid', $campaignId)
-            ->whereIn('status', ['ส่งภาพกองบุญแล้ว', 'รายนามเข้าระบบเรียบร้อยแล้ว'])
+            ->whereIn('status', ['ส่งภาพกองบุญแล้ว', 'รายนามเข้าระบบเรียบร้อยแล้ว', 'ข้อมูลของท่านเข้าระบบเรียบร้อยแล้ว'])
             ->get();
 
         if (Auth::user()->type === 'admin') {
