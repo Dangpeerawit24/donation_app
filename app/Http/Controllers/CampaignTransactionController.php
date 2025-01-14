@@ -278,6 +278,7 @@ class CampaignTransactionController extends Controller
         $transactions = Campaign_transaction::join('campaigns', 'campaign_transactions.campaignsid', '=', 'campaigns.id')
             ->where('campaigns.status', 'เปิดกองบุญ')
             ->where('campaign_transactions.status', 'รอดำเนินการ')
+            ->orWhere('campaign_transactions.status', 'แอดมินจะส่งภาพกองบุญให้ท่านได้อนุโมทนาอีกครั้ง')
             ->select(
                 'campaigns.name as campaign_name',
                 'campaigns.id as campaign_id',
