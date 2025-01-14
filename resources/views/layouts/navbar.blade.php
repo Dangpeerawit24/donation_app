@@ -93,7 +93,7 @@
 
 
         <!-- ใส่ div เปล่าสำหรับแสดงข้อมูล -->
-        <div id="modal-body" class="my-4 text-xl bg-gray-100 overflow-y-auto max-h-[calc(100vh-8rem)]">
+        <div id="modal-body" class="my-4 text-xl bg-gray-100 overflow-y-auto max-h-[calc(100vh-16rem)]">
             <!-- จะถูก JS อัปเดตเนื้อหาให้โดย fetchPendingTransactions() -->
         </div>
 
