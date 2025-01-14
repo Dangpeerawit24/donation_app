@@ -276,6 +276,7 @@ class CampaignTransactionController extends Controller
     {
         // ดึงรายการที่ status = 'รอดำเนินการ'
         $transactions = Campaign_transaction::join('campaigns', 'campaign_transactions.campaignsid', '=', 'campaigns.id')
+            ->where('campaigns.status', 'เปิดกองบุญ')
             ->where('campaign_transactions.status', 'รอดำเนินการ')
             ->select(
                 'campaigns.name as campaign_name',
