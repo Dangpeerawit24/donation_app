@@ -1,4 +1,76 @@
 <script>
+    const modalBody = document.getElementById('modal-body');
+    const notificationCountSpan = document.querySelector('#open-modal-button span');
+    const notificationCountSpan2 = document.querySelector('#open-modal-button2 span');
+
+    function fetchPendingTransactions() {
+        fetch('/pending-transactions')
+            .then(response => response.json())
+            .then(data => {
+                // อัปเดตตัวเลขแจ้งเตือน (Badge) ที่ไอคอน
+                // สมมติว่าเราต้องการได้ยอดรวม total_transactions ใน data ทั้งหมด
+                const totalPending = data.reduce((sum, item) => sum + item.total_transactions, 0);
+                notificationCountSpan.innerText = totalPending;
+                notificationCountSpan2.innerText = totalPending;
+
+                // ล้างเนื้อหาเก่าใน modalBody
+                modalBody.innerHTML = '';
+
+                if (data.length === 0) {
+                    modalBody.innerHTML = '<p class="text-gray-500">ไม่มีรายการค้าง</p>';
+                } else {
+                    // สร้าง list หรือ table
+                    const ul = document.createElement('ul');
+
+                    data.forEach(item => {
+                        // สร้าง <li>
+                        const li = document.createElement('li');
+                        li.classList.add(
+                            'px-4',
+                            'py-3',
+                            'flex',
+                            'items-center',
+                            'hover:bg-gray-50',
+                            'border-b'
+                        );
+
+                        // สร้าง <a> สำหรับลิงก์ไปยังหน้า
+                        const a = document.createElement('a');
+                        a.href = `/admin/campaigns_transaction?campaign_id=${item.campaign_id}&name=${item.campaign_name}`;
+                        a.classList.add('flex', 'items-start', 'w-full');
+
+                        // สร้าง div สำหรับเก็บข้อความ
+                        const textContainer = document.createElement('div');
+                        textContainer.innerHTML = `
+                            <p class="text-sm font-semibold text-gray-900">
+                                กองบุญ: ${item.campaign_name}
+                            </p>
+                            <p class="text-xs text-gray-500 mt-0.5">
+                                จำนวน: ${item.total_transactions}
+                            </p>
+                        `;
+
+                        a.appendChild(textContainer);
+                        li.appendChild(a);
+                        ul.appendChild(li);
+                    });
+
+                    modalBody.appendChild(ul);
+                }
+            })
+            .catch(err => {
+                console.error('Error fetching pending transactions:', err);
+            });
+    }
+
+    // เรียกครั้งแรกเมื่อหน้าโหลด
+    fetchPendingTransactions();
+
+    // ตั้ง interval เรียกทุก 5 วินาที
+    setInterval(fetchPendingTransactions, 5000);
+</script>
+
+<script>
     const toggle = document.querySelector('#menu-toggle');
     const menu = document.querySelector('#menu');
     const closeMenu = document.querySelector('#close-menu');
@@ -21,7 +93,8 @@
 <script>
     document.querySelectorAll('a').forEach(function(link) {
         link.addEventListener('click', function() {
-            if (link.id !== 'pos') {
+            if (link.id !== 'pos' && link.id !== 'open-modal-button' && link.id !==
+                'open-modal-button2') {
                 document.getElementById('loader').classList.remove('hidden');
             }
         });

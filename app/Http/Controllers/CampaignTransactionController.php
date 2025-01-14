@@ -272,6 +272,23 @@ class CampaignTransactionController extends Controller
         return redirect()->back()->with('success', 'เพิ่มข้อมูล เรียบร้อยแล้ว.');
     }
 
+    public function getPendingTransactions()
+    {
+        // ดึงรายการที่ status = 'รอดำเนินการ'
+        $transactions = Campaign_transaction::join('campaigns', 'campaign_transactions.campaignsid', '=', 'campaigns.id')
+            ->where('campaign_transactions.status', 'รอดำเนินการ')
+            ->select(
+                'campaigns.name as campaign_name',
+                'campaigns.id as campaign_id',
+                DB::raw('COUNT(campaign_transactions.id) as total_transactions')
+            )
+            ->groupBy('campaigns.name', 'campaigns.id')
+            ->get();
+
+        // ส่งกลับเป็น JSON
+        return response()->json($transactions);
+    }
+
     /**
      * Display the specified resource.
      */
