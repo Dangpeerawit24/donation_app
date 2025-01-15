@@ -103,28 +103,28 @@
 <script>
     const openBtn = document.getElementById('open-modal-button');
     const openBtn2 = document.getElementById('open-modal-button2');
-    const modal = document.getElementById('notification-modal');
+    const modalnoti = document.getElementById('notification-modal');
     const closeBtn = document.getElementById('close-modal-button');
 
     // กดปุ่ม Notification แล้วเปิด Modal
     openBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        modal.classList.remove('hidden'); // เอา hidden ออกเพื่อให้ Modal แสดง
+        modalnoti.classList.remove('hidden'); // เอา hidden ออกเพื่อให้ Modal แสดง
     });
     openBtn2.addEventListener('click', (e) => {
         e.preventDefault();
-        modal.classList.remove('hidden'); // เอา hidden ออกเพื่อให้ Modal แสดง
+        modalnoti.classList.remove('hidden'); // เอา hidden ออกเพื่อให้ Modal แสดง
     });
 
     // กดปุ่ม Close ใน Modal แล้วปิด Modal
     closeBtn.addEventListener('click', () => {
-        modal.classList.add('hidden'); // ใส่ hidden กลับเพื่อปิด Modal
+        modalnoti.classList.add('hidden'); // ใส่ hidden กลับเพื่อปิด Modal
     });
 
     // ถ้าต้องการให้คลิกพื้นที่นอก Modal แล้วปิด
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
-            modal.classList.add('hidden');
+            modalnoti.classList.add('hidden');
         }
     });
 </script>
