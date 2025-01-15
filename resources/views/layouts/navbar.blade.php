@@ -123,7 +123,7 @@
 
     // ถ้าต้องการให้คลิกพื้นที่นอก Modal แล้วปิด
     window.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        if (e.target === modalnoti) {
             modalnoti.classList.add('hidden');
         }
     });
