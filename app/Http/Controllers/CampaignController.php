@@ -384,7 +384,7 @@ class CampaignController extends Controller
 
         // ตรวจสอบข้อมูลที่ส่งมา
         $validated = $request->validate([
-            'textareaInput' => 'required',
+            'textareaInput' => 'nullable|string',
             'broadcastOption' => 'required',
             'campaign_imgpush' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:7048',
         ]);
