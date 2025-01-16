@@ -17,7 +17,7 @@ class WelcomeController extends Controller
             ->where('campaigns.status', 'เปิดกองบุญ')
             ->groupBy('campaigns.campaign_id')
             ->havingRaw('campaigns.stock - COALESCE(SUM(t.value), 0) >= 0')
-            ->orderByDesc('campaigns.campaign_id')
+            ->orderBy('campaigns.created_at', 'DESC')
             ->get();
 
         // ส่งข้อมูลไปยัง View

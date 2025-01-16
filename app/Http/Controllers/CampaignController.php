@@ -209,6 +209,7 @@ class CampaignController extends Controller
 
         $campaign->update([
             'status' => "เปิดกองบุญ",
+            'created_at' => now(),
         ]);
 
         if ($campaign->status == "เปิดกองบุญ") {
