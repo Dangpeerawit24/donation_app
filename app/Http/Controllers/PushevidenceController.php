@@ -64,43 +64,53 @@ class PushevidenceController extends Controller
             'campaignname'  => 'required|string',
             'url_img.*'     => 'required|file|mimes:jpeg,png,jpg|max:10048', // รับหลายไฟล์
         ]);
-    
+
         $campaignname   = $validated['campaignname'];
         $transactionID  = $validated['transactionID'];
         $userId         = $validated['userid'];
-        
+
         // ตัวแปรสำหรับเก็บ URL รูปภาพ (ถ้าต้องการใช้ URL)
         $imageUrls      = [];
         // ตัวแปรสำหรับเก็บชื่อไฟล์
         $fileNames      = [];
-    
+
         // จัดการไฟล์อัปโหลด
         if ($request->hasFile('url_img')) {
             foreach ($request->file('url_img') as $file) {
                 // ตั้งชื่อไฟล์ใหม่ไม่ให้ซ้ำกัน
                 $fileName = time() . '_' . uniqid() . '.' . $file->extension();
-                
+
                 // ย้ายไฟล์ไปยังโฟลเดอร์ปลายทาง
                 $file->move(public_path('img/pushimg/'), $fileName);
-                
+
                 // เก็บ URL รูปภาพไว้ในอาเรย์ (ถ้าคุณต้องการใช้งาน URL ต่อ)
                 $imageUrls[] = asset('img/pushimg/' . $fileName);
-    
+
                 // เก็บ "ชื่อไฟล์" ไว้ในอาเรย์
                 $fileNames[] = $fileName;
             }
         }
-    
+
         // แปลงอาเรย์ชื่อไฟล์ให้เป็น string โดยคั่นด้วยเครื่องหมาย ,
         $fileNamesString = implode(',', $fileNames);
-    
+
+        // ดึง url_img ปัจจุบันจากฐานข้อมูล
+        $existingFiles = DB::table('campaign_transactions')
+            ->where('transactionID', $transactionID)
+            ->value('url_img'); // ดึงค่าเดียว (string)
+
+        // ถ้ามีค่าเก่าอยู่แล้ว ให้ต่อข้อมูลใหม่โดยคั่นด้วย ,
+        if (!empty($existingFiles)) {
+            $fileNamesString = $existingFiles . ',' . $fileNamesString;
+        }
+
         // อัปเดตข้อมูลในตาราง โดยเก็บชื่อไฟล์ไว้ในคอลัมน์ url_img
         $updated = DB::table('campaign_transactions')
             ->where('transactionID', $transactionID)
             ->update([
                 'status'    => "ส่งภาพกองบุญแล้ว",
                 'url_img'   => $fileNamesString, // เก็บชื่อไฟล์คั่นด้วย ,
-                'updated_at'=> now(),
+                'updated_at' => now(),
             ]);
 
         if ($updated) {
