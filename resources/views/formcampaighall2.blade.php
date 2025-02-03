@@ -163,11 +163,11 @@
 
         // สร้าง textarea สำหรับชื่อ
         const nameTextarea = `
-        <textarea name="newName[]" id="newDonorName${index}" class="mt-2 mb-1" style="width: 100%; text-align: center; height: 100px; align-content: center;" placeholder="กรอก ชื่อ - สกุล วันเดือนปีเกิด  ชุดที่ ${index + 1}"></textarea>`;
+        <textarea name="newName[]" id="newDonorName${index}" class="mt-2 mb-1" style="width: 100%; text-align: center; height: 80px; align-content: center;" placeholder="กรอก ชื่อ - สกุล วันเดือนปีเกิด  ชุดที่ ${index + 1}"></textarea>`;
 
         // สร้าง textarea สำหรับคำอธิษฐาน
         const wishTextarea = `
-        <textarea name="newWish[]" id="newDonorWish${index}" class="mt-2 mb-1" style="width: 100%; text-align: center; height: 200px; align-content: center; " placeholder="กรอก คำอธิฐานขอพร ชุดที่ ${index + 1}"></textarea>`;
+        <textarea name="newWish[]" id="newDonorWish${index}" class="mt-2 mb-1" style="width: 100%; text-align: center; height: 150px; align-content: center; " placeholder="กรอก ที่อยู่ ชุดที่ ${index + 1}"></textarea>`;
 
         // ใส่ textarea ลงใน div
         inputDiv.innerHTML = `
